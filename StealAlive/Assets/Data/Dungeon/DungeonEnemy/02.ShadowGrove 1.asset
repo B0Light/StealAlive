@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e451fadd03abe2f46ae56bf96de0bd9b, type: 3}
+  m_Name: 02.ShadowGrove 1
+  m_EditorClassIdentifier: 
+  spawnData:
+  - characterPrefab: {fileID: 3340740303744810474, guid: d415dfba29d6711479faabeabbbd96f1, type: 3}
+    maxHealth: 50
+    spawnWeight: 6
+  - characterPrefab: {fileID: 2571348981534630296, guid: 3f5f68993b1a4714b9db86b88c40c6dd, type: 3}
+    maxHealth: 50
+    spawnWeight: 6
+  - characterPrefab: {fileID: 2054929950107820691, guid: 670eba0520599ce41beceb2e664000ee, type: 3}
+    maxHealth: 50
+    spawnWeight: 6
+  stageBossData:
+    characterPrefab: {fileID: 5796733502999314878, guid: b7636a7cf7f484440a1c30808f4e9313, type: 3}
+    maxHealth: 350
+    spawnWeight: 1

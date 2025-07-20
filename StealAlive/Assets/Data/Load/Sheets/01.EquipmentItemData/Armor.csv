@@ -1,0 +1,21 @@
+Category,ItemCode,ItemName,ItemTier,Item Description,PurchaseCost,Height,Width,Weight,extraHealth,backpackX,backpackY
+ID_0_Armor,200,BaseArmor,0,,100,2,2,10,50,0,0
+ID_0_Armor,201,BaseArmor,1,,1000,3,3,30,100,2,2
+ID_0_Armor,202,BaseArmor,2,,10000,3,3,50,200,4,4
+,203,,,,,,,,,,
+,204,,,,,,,,,,
+,205,,,,,,,,,,
+,206,,,,,,,,,,
+,207,,,,,,,,,,
+,208,,,,,,,,,,
+,209,,,,,,,,,,
+ID_1_Backpack,210,BaseBackpack,0,,1000,2,2,10,10,4,4
+ID_1_Backpack,211,BaseBackpack,1,,4000,3,3,20,20,5,5
+ID_1_Backpack,212,BaseBackpack,2,,10000,4,4,40,40,6,6
+ID_1_Backpack,213,BaseBackpack,3,,5000,2,2,10,10,6,3
+,214,,,,,,,,,,
+,215,,,,,,,,,,
+,216,,,,,,,,,,
+,217,,,,,,,,,,
+,218,,,,,,,,,,
+,219,,,,,,,,,,
