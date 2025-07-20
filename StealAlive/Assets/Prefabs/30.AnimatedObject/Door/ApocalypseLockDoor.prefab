@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5361441797280162619}
   - component: {fileID: 3556075079671444764}
   - component: {fileID: 6460619082146530278}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Bld_Bunker_Wall_Caution_Door_Opening_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,8 +123,7 @@ GameObject:
   - component: {fileID: 2854612838228389902}
   - component: {fileID: 5381544597705443590}
   - component: {fileID: 4758933705335924658}
-  - component: {fileID: 756916507956055074}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ApocalypseLockDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,25 +283,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 0.35653067, z: 0.37481934}
   m_Center: {x: -1.25, y: 0.17826533, z: 0}
---- !u!95 &756916507956055074
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7725497535640076889}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b5d6f6c319e246041a65b3e2595eeed7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

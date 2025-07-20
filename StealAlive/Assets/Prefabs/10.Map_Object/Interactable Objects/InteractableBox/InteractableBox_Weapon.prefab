@@ -73,6 +73,39 @@ MonoBehaviour:
   boxType: 0
   boxTier: 0
   itemIdList: 01000000
+  openType: 0
+  animationDuration: 1
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  slideDistance: 1
+  rotationAngle: 90
+  lidOpenAngle: -120
+  lidRotationAxis: 2
+  lid: {fileID: 2034383445104784427}
+  leftDoor: {fileID: 0}
+  rightDoor: {fileID: 0}
   _itemCount: 0
 --- !u!1001 &8726432348882572362
 PrefabInstance:
@@ -82,17 +115,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1855835444410025611}
     m_Modifications:
-    - target: {fileID: 190240983348177651, guid: 48edc20b3649ea042bf1d006d5039566, type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 5734116884964393359, guid: 48edc20b3649ea042bf1d006d5039566, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Music_Acoustic_Guitar_Case_01
-      objectReference: {fileID: 0}
-    - target: {fileID: 5734116884964393359, guid: 48edc20b3649ea042bf1d006d5039566, type: 3}
-      propertyPath: m_Layer
-      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7545371474890713079, guid: 48edc20b3649ea042bf1d006d5039566, type: 3}
       propertyPath: m_LocalPosition.x
@@ -142,5 +167,10 @@ PrefabInstance:
 --- !u!4 &1273402267401614269 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7545371474890713079, guid: 48edc20b3649ea042bf1d006d5039566, type: 3}
+  m_PrefabInstance: {fileID: 8726432348882572362}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2034383445104784427 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7287131005422952545, guid: 48edc20b3649ea042bf1d006d5039566, type: 3}
   m_PrefabInstance: {fileID: 8726432348882572362}
   m_PrefabAsset: {fileID: 0}

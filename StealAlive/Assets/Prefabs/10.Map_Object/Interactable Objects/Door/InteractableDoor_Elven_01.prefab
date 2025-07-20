@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3804186431204684041}
-  - component: {fileID: 2482334632215777853}
   m_Layer: 12
   m_Name: Door
   m_TagString: Untagged
@@ -30,32 +29,10 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5252171349471767442}
   - {fileID: 3864450079132097437}
+  - {fileID: 5252171349471767442}
   m_Father: {fileID: 4046399337273722683}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &2482334632215777853
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1273708316717431025}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 70686eab946e3804093e1e606fe1b137, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4293650496670999522
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,8 +101,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableText: Open Door
-  interactableCollider: {fileID: 2805157584396944121}
-  animator: {fileID: 2482334632215777853}
+  doorType: 0
+  animationDuration: 1
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  slideDistance: 2
+  rotationAngle: 90
+  leftDoor: {fileID: 3864450079132097437}
+  rightDoor: {fileID: 5252171349471767442}
   keyItemCode: 0
 --- !u!1001 &313704144575075576
 PrefabInstance:

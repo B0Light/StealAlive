@@ -98,7 +98,6 @@ GameObject:
   - component: {fileID: 2170424801529046527}
   - component: {fileID: 3659628783622197562}
   - component: {fileID: 5819103646134285781}
-  - component: {fileID: 1536820649094263021}
   m_Layer: 12
   m_Name: Scifi_Door
   m_TagString: Untagged
@@ -197,28 +196,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 833509ad9b0d9e943885257470d33b68, type: 3}
---- !u!95 &1536820649094263021
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3405688549467705320}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f02add82db1464f43a1eb1ecee855ad4, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3720197006935460178
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,8 +264,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableText: Open Door
-  interactableCollider: {fileID: 9183205160105757781}
-  animator: {fileID: 1536820649094263021}
+  doorType: 0
+  animationDuration: 1
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  slideDistance: 2
+  rotationAngle: 90
+  leftDoor: {fileID: 5255330072382097395}
+  rightDoor: {fileID: 0}
   keyItemCode: 0
 --- !u!1 &3818297079829558945
 GameObject:

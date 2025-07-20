@@ -7,13 +7,12 @@ public class InteractableShareBox : InteractableBox
     // isOpened : 현재 오브젝트의 문이 열여있는지 확인
     protected override void Start()
     {
+        base.Awake();
         itemIdList = new List<int>();
-        isOpen = true;
     }
 
     protected override void PerformInteraction()
     {
-        OpenDoor();
         itemIdList.Clear();
         
         foreach (var pair in WorldSaveGameManager.Instance.currentGameData.shareInventoryItems) 

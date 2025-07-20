@@ -5,7 +5,7 @@ public class InteractableShredder : Interactable
 {
     private int _girdWidth = 3;
     private int _gridHeight = 4;
-    [SerializeField] private List<int> onCrusherItem;
+    private List<int> onCrusherItem = new List<int>();
     public override void Interact(PlayerManager player)
     {
         base.Interact(player);

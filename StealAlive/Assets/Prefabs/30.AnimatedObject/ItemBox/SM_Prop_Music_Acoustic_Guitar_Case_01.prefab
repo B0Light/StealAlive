@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7287131005422952545}
   - component: {fileID: 4473158690760735225}
   - component: {fileID: 893683296606450599}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Music_Acoustic_Guitar_Case_01_Lid_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,8 +98,7 @@ GameObject:
   - component: {fileID: 734851328967486856}
   - component: {fileID: 8523270698008386544}
   - component: {fileID: 8931282440166957327}
-  - component: {fileID: 4823300125076306373}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Music_Acoustic_Guitar_Case_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,25 +196,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43580731432678896, guid: 4615035f13cf24c4387b838267d52362, type: 2}
---- !u!95 &4823300125076306373
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5734116884964393359}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 19a8afb8a22da2042a1fc1db4b9f3454, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

@@ -47,6 +47,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableText: "\uBB38 \uC5F4\uAE30"
+  doorType: 1
+  animationDuration: 1
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  slideDistance: 2
+  rotationAngle: 90
+  leftDoor: {fileID: 9188166042229654210}
+  rightDoor: {fileID: 9195647653279088984}
   keyItemCode: 1299
 --- !u!65 &1825503982549311845
 BoxCollider:
@@ -192,40 +222,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1280633574475702, guid: 4ff40d720daca1343be2d17c79b68285, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1035424043294932641}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ff40d720daca1343be2d17c79b68285, type: 3}
 --- !u!4 &9188099640112533580 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4646949039078772, guid: 4ff40d720daca1343be2d17c79b68285, type: 3}
   m_PrefabInstance: {fileID: 9192459890395589944}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &9193712898437114510 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1280633574475702, guid: 4ff40d720daca1343be2d17c79b68285, type: 3}
+--- !u!4 &9188166042229654210 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4716649725423610, guid: 4ff40d720daca1343be2d17c79b68285, type: 3}
   m_PrefabInstance: {fileID: 9192459890395589944}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1035424043294932641
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!4 &9195647653279088984 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4412618904497248, guid: 4ff40d720daca1343be2d17c79b68285, type: 3}
+  m_PrefabInstance: {fileID: 9192459890395589944}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9193712898437114510}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3c3479d64be161f45bd8f899d67bd49d, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

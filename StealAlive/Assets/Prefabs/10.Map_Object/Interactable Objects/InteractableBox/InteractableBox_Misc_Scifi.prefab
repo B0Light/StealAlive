@@ -98,7 +98,6 @@ GameObject:
   - component: {fileID: 8921144771243910666}
   - component: {fileID: 4835273461726021560}
   - component: {fileID: 6909948874046836707}
-  - component: {fileID: 7249423593393707829}
   m_Layer: 12
   m_Name: SM_Prop_Crate_04
   m_TagString: Untagged
@@ -197,28 +196,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43269378414968630, guid: 6422f437a36f6314aa45ca146587390b, type: 2}
---- !u!95 &7249423593393707829
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3093565066192680233}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cf43a102a77b8f94190540160f97dda6, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5657102569678608471
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,5 +268,38 @@ MonoBehaviour:
   boxHeight: 10
   boxType: 3
   boxTier: 0
-  itemIdList: 
+  itemIdList: 13050000
+  openType: 0
+  animationDuration: 1
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  slideDistance: 1
+  rotationAngle: 90
+  lidOpenAngle: -120
+  lidRotationAxis: 0
+  lid: {fileID: 139212331869679387}
+  leftDoor: {fileID: 0}
+  rightDoor: {fileID: 0}
   _itemCount: 5

@@ -73,6 +73,39 @@ MonoBehaviour:
   boxType: 0
   boxTier: 0
   itemIdList: 
+  openType: 2
+  animationDuration: 1
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  slideDistance: 1
+  rotationAngle: 90
+  lidOpenAngle: -120
+  lidRotationAxis: 0
+  lid: {fileID: 0}
+  leftDoor: {fileID: 1742027151679575275}
+  rightDoor: {fileID: 6386559062234775212}
 --- !u!1001 &7070858157725711773
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145,7 +178,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5211503016431580380, guid: c1f3c054d4b365b46873e2950086b1cc, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -153,5 +187,15 @@ PrefabInstance:
 --- !u!4 &1547806278512913026 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8600280533089933087, guid: c1f3c054d4b365b46873e2950086b1cc, type: 3}
+  m_PrefabInstance: {fileID: 7070858157725711773}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1742027151679575275 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8794492678480570742, guid: c1f3c054d4b365b46873e2950086b1cc, type: 3}
+  m_PrefabInstance: {fileID: 7070858157725711773}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6386559062234775212 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4215687736967283505, guid: c1f3c054d4b365b46873e2950086b1cc, type: 3}
   m_PrefabInstance: {fileID: 7070858157725711773}
   m_PrefabAsset: {fileID: 0}

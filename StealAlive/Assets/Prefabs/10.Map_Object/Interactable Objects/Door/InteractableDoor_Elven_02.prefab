@@ -68,7 +68,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableText: OpenDoor
-  interactableCollider: {fileID: 7766008971552370295}
+  doorType: 0
+  animationDuration: 1
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  slideDistance: 2
+  rotationAngle: 90
+  leftDoor: {fileID: 5700437234180897045}
+  rightDoor: {fileID: 0}
   keyItemCode: 0
 --- !u!1001 &8618513251246570211
 PrefabInstance:
@@ -130,7 +159,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6009163117429857397, guid: dc73bd3d01813cd4f970a6716967aa00, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

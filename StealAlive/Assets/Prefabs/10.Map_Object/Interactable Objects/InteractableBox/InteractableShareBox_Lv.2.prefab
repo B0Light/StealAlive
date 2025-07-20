@@ -70,9 +70,42 @@ MonoBehaviour:
   interactableText: Open Box
   boxWidth: 6
   boxHeight: 10
-  boxType: 0
+  boxType: 4
   boxTier: 0
   itemIdList: 
+  openType: 0
+  animationDuration: 1
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  slideDistance: 1
+  rotationAngle: 90
+  lidOpenAngle: 120
+  lidRotationAxis: 1
+  lid: {fileID: 8783842898865937663}
+  leftDoor: {fileID: 0}
+  rightDoor: {fileID: 0}
 --- !u!1001 &2890673796346765348
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137,11 +170,21 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5907533123238411483, guid: 0bce58cffeb7cd643b972a1eabbb8dea, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.0000005662441
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5472682553391297220, guid: 0bce58cffeb7cd643b972a1eabbb8dea, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bce58cffeb7cd643b972a1eabbb8dea, type: 3}
+--- !u!4 &8783842898865937663 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5907533123238411483, guid: 0bce58cffeb7cd643b972a1eabbb8dea, type: 3}
+  m_PrefabInstance: {fileID: 2890673796346765348}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8788814987464311205 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5901290196732207489, guid: 0bce58cffeb7cd643b972a1eabbb8dea, type: 3}
