@@ -24,7 +24,7 @@ public class BossAICombatManager : AICharacterCombatManager
     {
         UnifiedProjectilePoolManager.Instance.FireInDirection(
             aiCharacter,
-            ProjectileType.Smash, 
+            ProjectileType.BossSmash, 
             smashPoint.position, 
             Vector3.up,
             smashPoint
@@ -35,7 +35,7 @@ public class BossAICombatManager : AICharacterCombatManager
     {
         UnifiedProjectilePoolManager.Instance.FireInDirection(
             aiCharacter,
-            ProjectileType.JumpAttack, 
+            ProjectileType.BossJumpAttack, 
             transform.position, 
             Vector3.zero,
             transform

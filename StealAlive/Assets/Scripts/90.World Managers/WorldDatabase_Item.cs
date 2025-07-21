@@ -236,7 +236,6 @@ public class WorldDatabase_Item : Singleton<WorldDatabase_Item>
             // 아이템이 존재하면 무작위로 반환
             if (baseItems != null && baseItems.Count > 0)
             {
-                Debug.LogWarning("get item tier : " + tier);
                 return baseItems[Random.Range(0, baseItems.Count)];
             }
 
@@ -250,7 +249,6 @@ public class WorldDatabase_Item : Singleton<WorldDatabase_Item>
         
         if (baseItems != null && baseItems.Count > 0)
         {
-            Debug.LogWarning("Select Default Common");
             return baseItems[Random.Range(0, baseItems.Count)];
         }
         // 오류가 아닌 이상 null 반환은 불가 

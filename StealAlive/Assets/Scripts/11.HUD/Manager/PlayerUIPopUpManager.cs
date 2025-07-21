@@ -39,6 +39,13 @@ public class PlayerUIPopUpManager : MonoBehaviour
 
     public void SendYouDiedPopUp()
     {
+        StartCoroutine(ShowYouDiedPopUpWithDelay());
+    }
+
+    private IEnumerator ShowYouDiedPopUpWithDelay()
+    {
+        yield return new WaitForSeconds(1f);
+    
         youDiedPopUpGameObject.SetActive(true);
         backToTitleButton.onClick.RemoveAllListeners();
         backToTitleButton.onClick.AddListener(()=>youDiedPopUpGameObject.SetActive(false));

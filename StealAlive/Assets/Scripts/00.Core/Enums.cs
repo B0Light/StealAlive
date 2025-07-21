@@ -223,10 +223,13 @@ public enum ProjectileType
     Grenade,        // 투척형 수류탄
     
     // 보스공격
-    JumpAttack,
-    Smash,
-    ShockWave,
+    BossJumpAttack,
+    BossSmash,
+    BossShockWave,
     MutantBoom,
+    
+    // 지면강타
+    BDY_GroundSlam,
 }
 
 public enum StatusEffectType

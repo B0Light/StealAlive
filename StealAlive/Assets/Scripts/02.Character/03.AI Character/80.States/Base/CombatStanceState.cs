@@ -69,7 +69,6 @@ public class CombatStanceState : AIState
 
     private AIState ExecuteAttack(AICharacterManager aiCharacter)
     {
-        Debug.Log("ATTACK");
         aiCharacter.stateAttack.currentAttack = _selectedAttack;
         aiCharacter.stateAttack.willPerformCombo = _canPerformCombo;
         return SwitchState(aiCharacter, aiCharacter.stateAttack);

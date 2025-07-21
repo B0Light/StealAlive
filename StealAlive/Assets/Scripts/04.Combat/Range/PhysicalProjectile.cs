@@ -385,29 +385,4 @@ public class PhysicalProjectile : BaseProjectile
         maxRicochets = maxRico;
         ricochetAngleThreshold = angleThreshold;
     }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (!Application.isPlaying) return;
-        
-        // 범위 공격 시각화
-        if (isStaticEffect && _config.areaOfEffect > 0)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, _config.areaOfEffect);
-            
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, _config.areaOfEffect * 0.6f);
-            
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, _config.areaOfEffect * 0.3f);
-        }
-        
-        // 발사체 궤적 시각화
-        if (_isActive && !isStaticEffect)
-        {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawRay(transform.position, _velocity.normalized * 2f);
-        }
-    }
 }

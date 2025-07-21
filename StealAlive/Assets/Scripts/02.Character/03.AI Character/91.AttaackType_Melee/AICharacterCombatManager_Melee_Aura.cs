@@ -4,56 +4,91 @@ using UnityEngine.Serialization;
 
 public class AICharacterCombatManager_Melee_Aura : AICharacterCombatManager_Melee
 {
-    [SerializeField] private AuraVFXDamageCollider auraVFXDamageCollider01;
-    [SerializeField] private AuraVFXDamageCollider auraVFXDamageCollider02;
+    [System.Serializable]
+    public class AuraAttackData
+    {
+        public AuraVFXDamageCollider collider;
+        [Range(0.1f, 5f)] public float damageModifier = 1.0f;
+        [Range(0f, 10f)] public float poiseDamage = 20f;
+        [Range(0f, 5f)] public float delayTime = 0f;
+        [Range(0f, 5f)] public float returnTime = 0f;
+        
+        public bool IsValid => collider != null;
+    }
 
-    [SerializeField] private float auraAttack01Mod = 1.1f;
-    [SerializeField] private float auraAttack02Mod = 1.3f;
+    [SerializeField] private AuraAttackData[] auraAttacks = new AuraAttackData[2]
+    {
+        new AuraAttackData { damageModifier = 1.1f, poiseDamage = 20f, delayTime = 0f, returnTime = 3f},
+        new AuraAttackData { damageModifier = 1.3f, poiseDamage = 20f, delayTime = 0f, returnTime = 3f }
+    };
+
+    [SerializeField] private ProjectileType projectileType;
+
     private void Start()
     {
-        if(auraVFXDamageCollider01)
-            SetDamageAura01();
-        if (auraVFXDamageCollider02)
-            SetDamageAura02();
+        InitializeAuraAttacks();
     }
 
     public override void OpenLeftHandDamageCollider()
     {
         base.OpenLeftHandDamageCollider();
-
-        AttackAura01();
     }
 
     public override void OpenRightHandDamageCollider()
     {
         base.OpenRightHandDamageCollider();
-
-        AttackAura02();
     }
 
-    private void SetDamageAura01()
+    private void InitializeAuraAttacks()
     {
-        auraVFXDamageCollider01.physicalDamage = baseDamage * auraAttack01Mod;
-        auraVFXDamageCollider01.poiseDamage = 20;
+        for (int i = 0; i < auraAttacks.Length; i++)
+        {
+            if (auraAttacks[i].IsValid)
+            {
+                SetupAuraDamage(auraAttacks[i]);
+            }
+        }
+    }
+
+    private void SetupAuraDamage(AuraAttackData auraData)
+    {
+        auraData.collider.physicalDamage = baseDamage * auraData.damageModifier;
+        auraData.collider.poiseDamage = auraData.poiseDamage;
+    }
+
+    // ANIMATIONS
+    public void ExecuteAuraAttack(int auraIndex)
+    {
+        if (!IsValidAuraIndex(auraIndex)) return;
+        
+        var auraData = auraAttacks[auraIndex];
+        if (!auraData.IsValid) return;
+
+        auraData.collider.ownerCharacter = character;
+        auraData.collider.EnableDamageColliderAfterDelay(auraData.delayTime);
+        
+        Invoke(nameof(ResetAction), auraData.returnTime);
+    }
+
+    private void ResetAction()
+    {
+        aiCharacter.animator.SetTrigger("EndAction");
+    }
+
+    private bool IsValidAuraIndex(int index)
+    {
+        return index >= 0 && index < auraAttacks.Length;
     }
     
-    private void SetDamageAura02()
+    public void MeleeAttack_Ground()
     {
-        auraVFXDamageCollider02.physicalDamage = baseDamage * auraAttack02Mod;
-        auraVFXDamageCollider02.poiseDamage = 20;
+        UnifiedProjectilePoolManager.Instance.FireInDirection(
+            aiCharacter,
+            projectileType, 
+            transform.position, 
+            Vector3.zero,
+            transform
+        );
     }
     
-    public void AttackAura01()
-    {
-        if(auraVFXDamageCollider01 == null) return;
-        auraVFXDamageCollider01.ownerCharacter = character; 
-        auraVFXDamageCollider01.EnableDamageCollider(); 
-    }
-    
-    public void AttackAura02()
-    {
-        if(auraVFXDamageCollider02 == null) return;
-        auraVFXDamageCollider02.ownerCharacter = character; 
-        auraVFXDamageCollider02.EnableDamageCollider(); 
-    }
 }

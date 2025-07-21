@@ -14,9 +14,11 @@ public class ContinuousDamageCollider : DamageCollider
 
     protected override void Start()
     {
-        damageCollider.enabled = true;
-        damageCollider.isTrigger = true;
-
+        foreach (var damageCollider in damageColliders)
+        {
+            damageCollider.enabled = true;
+            damageCollider.isTrigger = true;
+        }
         magicalDamage = damageValue;
     }
 

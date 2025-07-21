@@ -2,17 +2,20 @@ using UnityEngine;
 
 public class DamageCollider : DamageLogic
 {
-    protected Collider damageCollider;
+    protected Collider[] damageColliders;
 
     protected override void Awake()
     {
         base.Awake();
-        damageCollider = GetComponent<Collider>();
+        damageColliders = GetComponents<Collider>();
     }
     
     protected virtual void Start()
     {
-        damageCollider.enabled = false;
+        foreach (var damageCollider in damageColliders)
+        {
+            damageCollider.enabled = false;
+        }
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -33,12 +36,18 @@ public class DamageCollider : DamageLogic
     public virtual void EnableDamageCollider()
     {
         charactersDamaged.Clear();
-        damageCollider.enabled = true;
+        foreach (var damageCollider in damageColliders)
+        {
+            damageCollider.enabled = true;
+        }
     }
 
     public virtual void DisableDamageCollider()
     {
-        damageCollider.enabled = false;
+        foreach (var damageCollider in damageColliders)
+        {
+            damageCollider.enabled = false;
+        }
         charactersDamaged.Clear();
     }
     #endregion
