@@ -63,6 +63,9 @@ public class SaveGameData
 
     [Header("Dungeon")] 
     public SerializableDictionary<int, bool> availableDungeon;
+
+    [Header("Shelter")] 
+    public bool isVisitedToday;
     
     // default Value 
     public SaveGameData()
@@ -111,6 +114,7 @@ public class SaveGameData
         
         balance = 10000;
         secondsPlayed = 0;
+        isVisitedToday = false;
     }
     
     // JSON 저장 전 데이터 변환

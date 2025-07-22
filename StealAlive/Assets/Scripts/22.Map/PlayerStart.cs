@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class PlayerStart : MonoBehaviour
 {
+    [Header("Spawn Settings")] 
+    [SerializeField] private GameObject spawnVisual;
     private void Start()
     {
+        if (spawnVisual != null)
+            spawnVisual.SetActive(false);
+        
         PlayerManager playerManager = GameManager.Instance.SpawnPlayer(gameObject.transform);
         playerManager.LoadGameDataFromCurrentCharacterDataSceneChange(ref WorldSaveGameManager.Instance.currentGameData);
         

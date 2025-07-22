@@ -78,6 +78,7 @@ public class PlayerManager : CharacterManager
         
         //Control
         playerVariableManager.canControl.OnValueChanged += playerVariableManager.OnControlChange;
+        
         //equip
         playerVariableManager.currentEquippedWeaponID.OnValueChanged += playerVariableManager.CurrentEquippedWeaponIDChange;
         playerVariableManager.currentHelmetID.OnValueChanged += playerVariableManager.CurrentEquippedHelmetIDChange;

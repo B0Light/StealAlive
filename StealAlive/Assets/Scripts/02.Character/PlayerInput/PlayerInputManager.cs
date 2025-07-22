@@ -58,7 +58,11 @@ public class PlayerInputManager : Singleton<PlayerInputManager>
     [Header("GUI")] 
     [ReadOnly] private bool _escapeInput = false;
     [ReadOnly] private bool _guiInput = false;
-    [ReadOnly] private bool _opnenMapInput = false; 
+    [ReadOnly] private bool _openMapInput = false; 
+    [ReadOnly] private bool _guiClickInput = false; 
+    [ReadOnly] private bool _guiDoubleClickInput = false;
+    [ReadOnly] private bool _guiRightClickInput = false;
+    [ReadOnly] private bool _guiRotateInput = false;
     private void Start()
     {
         SceneManager.activeSceneChanged += OnSceneChange;
@@ -129,7 +133,11 @@ public class PlayerInputManager : Singleton<PlayerInputManager>
             // Menu Actions
             _playerControls.UI.ToggleOption.performed += i => _escapeInput = true;
             _playerControls.UI.NextGUI.performed += i => _guiInput = true;
-            _playerControls.UI.OpenMap.performed += i => _opnenMapInput = true;
+            _playerControls.UI.OpenMap.performed += i => _openMapInput = true;
+            _playerControls.UI.Click.performed += i => _guiClickInput = true;
+            _playerControls.UI.DoubleClick.performed += i => _guiDoubleClickInput = true;
+            _playerControls.UI.RightClick.performed += i => _guiRightClickInput = true;
+            _playerControls.UI.Rotate.performed += i => _guiRotateInput = true;
         }
 
         _playerControls.Enable();
@@ -167,7 +175,7 @@ public class PlayerInputManager : Singleton<PlayerInputManager>
         HandleEscape();
         HandleToggleInventory();
         HandleGUI();
-        
+        HandleInventoryGUIInput();
         if (playerManager.playerVariableManager.canControl.Value)
         {
             HandleToggleQuickSlot();
@@ -267,17 +275,17 @@ public class PlayerInputManager : Singleton<PlayerInputManager>
         }
     }
     
-    private void HandleSkillInput() => HandleInput(_skillInput, AttackType.Skill);
-    private void HandleLightAttackInput() => HandleInput(_lightAttackInput, AttackType.LightAttack01);
-    private void HandleHeavyAttackInput() => HandleInput(_heavyAttackInput, AttackType.HeavyAttack01);
-    private void HandleChargingAttackInput() => HandleInput(_chargeAttackInput, AttackType.ChargeAttack01);
-    private void HandleParryInput() => HandleInput(_parryInput, AttackType.Parry);
+    private void HandleSkillInput() => HandleInputAttack(_skillInput, AttackType.Skill);
+    private void HandleLightAttackInput() => HandleInputAttack(_lightAttackInput, AttackType.LightAttack01);
+    private void HandleHeavyAttackInput() => HandleInputAttack(_heavyAttackInput, AttackType.HeavyAttack01);
+    private void HandleChargingAttackInput() => HandleInputAttack(_chargeAttackInput, AttackType.ChargeAttack01);
+    private void HandleParryInput() => HandleInputAttack(_parryInput, AttackType.Parry);
     private void HandleBlockInput()
     {
        playerManager.playerVariableManager.isBlock.Value = _blockInput;
     }
     
-    private void HandleInput(bool input, AttackType actionType)
+    private void HandleInputAttack(bool input, AttackType actionType)
     {
         if (!input) return;
 
@@ -371,9 +379,9 @@ public class PlayerInputManager : Singleton<PlayerInputManager>
 
     private void HandleOpenMap()
     {
-        if (_opnenMapInput)
+        if (_openMapInput)
         {
-            _opnenMapInput = false;
+            _openMapInput = false;
             
             GUIController.Instance.OpenMap();
         }
@@ -404,6 +412,68 @@ public class PlayerInputManager : Singleton<PlayerInputManager>
         {
             _toggleInventory = false;
             GUIController.Instance.HandleTab();
+        }
+    }
+
+    private void HandleInventoryGUIInput()
+    {
+        InventoryController inventoryController = GetInventoryController();
+        if (inventoryController != null)
+        {
+            HandleInventoryGUIRightClick(inventoryController);
+            //HandleInventoryGUIDoubleClick(inventoryController);
+            HandleInventoryGUIClick(inventoryController);
+            HandleInventoryGUIRotate(inventoryController);
+        }
+    }
+
+    private InventoryController GetInventoryController()
+    {
+        if (GUIController.Instance != null && GUIController.Instance.inventoryGUIManager != null &&
+            GUIController.Instance.inventoryGUIManager.inventoryController != null)
+        {
+            return GUIController.Instance.inventoryGUIManager.inventoryController;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private void HandleInventoryGUIRightClick(InventoryController inventoryController)
+    {
+        if (inventoryController.isActive &&_guiRightClickInput)
+        {
+            _guiRightClickInput = false;
+            inventoryController.RightMouseButtonPress();
+        }
+    }
+
+    private void HandleInventoryGUIDoubleClick(InventoryController inventoryController)
+    {
+        if (inventoryController.isActive && _guiDoubleClickInput)
+        {
+            _guiDoubleClickInput = false;
+            _guiClickInput = false;
+            inventoryController.RightMouseButtonPress();
+        }
+    }
+    
+    private void HandleInventoryGUIClick(InventoryController inventoryController)
+    {
+        if (inventoryController.isActive && _guiClickInput)
+        {
+            _guiClickInput = false;
+            inventoryController.LeftMouseButtonPress();
+        }
+    }
+
+    private void HandleInventoryGUIRotate(InventoryController inventoryController)
+    {
+        if (inventoryController.isActive && _guiRotateInput)
+        {
+            _guiRotateInput = false;
+            inventoryController.RotateItem();
         }
     }
 

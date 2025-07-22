@@ -104,23 +104,10 @@ public class InventoryController : MonoBehaviour
             }
         
             HandleHighlight();
-        
-            if(Input.GetKeyDown(KeyCode.R)){
-                RotateItem();
-            }
-        
-            if (Input.GetMouseButtonDown(0))
-            {
-                LeftMouseButtonPress();
-            }
-            else if (Input.GetMouseButtonDown(1))
-            {
-                RightMouseButtonPress();
-            }
         }
     }
 
-    private void RotateItem()
+    public void RotateItem()
     {
         if(SelectedItem == null) return;
         SelectedItem.Rotate();
@@ -185,7 +172,7 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    private void LeftMouseButtonPress()
+    public void LeftMouseButtonPress()
     {
         if (SelectedItemGrid)
         {
@@ -208,7 +195,7 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    private void RightMouseButtonPress()
+    public void RightMouseButtonPress()
     {
         if (_selectedItemGrid == null) return;
         if (SelectedItem)

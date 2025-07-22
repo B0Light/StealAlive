@@ -149,8 +149,7 @@ public class TutorialNpc : Interactable
                 CompleteTutorialStep("build_04");
             }
             
-            bool visitResult = FindFirstObjectByType<ShelterManager>()?.CheckVisit() ?? false;
-            if (visitResult)
+            if (WorldSaveGameManager.Instance.currentGameData.isVisitedToday)
             {
                 CompleteTutorialStep("visit");
             }

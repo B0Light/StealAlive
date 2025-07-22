@@ -12,8 +12,8 @@ public class ShelterManager : MonoBehaviour
 
     public int visitorCapacity = 30;
     public float visitCycle = 3f;
-    private object _lockObject = new object();
-    private List<ShelterVisitor> _shelterVisitorList = new List<ShelterVisitor>();
+    private readonly object _lockObject = new object();
+    private readonly List<ShelterVisitor> _shelterVisitorList = new List<ShelterVisitor>();
     
     public void RemoveVisitor(ShelterVisitor visitor)
     {
@@ -21,32 +21,23 @@ public class ShelterManager : MonoBehaviour
         {
             _shelterVisitorList.Remove(visitor);
         }
-            
     }
-
-    private Variable<bool> _isBusinessOpenToday = new Variable<bool>(false);
 
     private void OnEnable()
     {
         WorldTimeManager.Instance.day.OnValueChanged += ResetDailyOperation;
-        _isBusinessOpenToday.OnValueChanged += SetOpenShelterButton;
-    }
-    
-    private void OnDisable()
-    {
-        _isBusinessOpenToday.OnValueChanged -= SetOpenShelterButton;
     }
 
     private void ResetDailyOperation(int newValue)
     {
-        _isBusinessOpenToday.Value = false;
+        SetVisit(false);
     }
 
     public void OpenShelter()
     {
-        if(_isBusinessOpenToday.Value) return;
+        if(WorldSaveGameManager.Instance.currentGameData.isVisitedToday) return;
         
-        _isBusinessOpenToday.Value = true;
+        SetVisit(true);
         StartCoroutine(VisitEnumerator());
     }
 
@@ -75,18 +66,18 @@ public class ShelterManager : MonoBehaviour
         }
     }
 
-    private void SetOpenShelterButton(bool value)
+    private void SetVisit(bool value)
     {
+        WorldSaveGameManager.Instance.currentGameData.isVisitedToday = value;
         openShelterButton.interactable = !value;
     }
 
     public bool IsVisitorInShelter()
     {
-        return _shelterVisitorList.Count > 0;
+        lock (_lockObject)
+        {
+            return _shelterVisitorList.Count > 0;
+        }
     }
-
-    public bool CheckVisit()
-    {
-        return _isBusinessOpenToday.Value;
-    }
+    
 } 

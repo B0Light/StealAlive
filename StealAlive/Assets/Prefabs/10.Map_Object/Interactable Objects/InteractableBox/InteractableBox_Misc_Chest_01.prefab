@@ -102,6 +102,7 @@ MonoBehaviour:
   slideDistance: 1
   rotationAngle: 90
   lidOpenAngle: -120
+  lidRotationAxis: 0
   lid: {fileID: 1184114308852371924}
   leftDoor: {fileID: 0}
   rightDoor: {fileID: 0}
@@ -158,11 +159,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3831125712540828366, guid: 6e31ff907ccdfdf4591c0f0e3007af6d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 363858115470870317, guid: 6e31ff907ccdfdf4591c0f0e3007af6d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8032603077546200703}
   m_SourcePrefab: {fileID: 100100000, guid: 6e31ff907ccdfdf4591c0f0e3007af6d, type: 3}
+--- !u!1 &90120349637404863 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 363858115470870317, guid: 6e31ff907ccdfdf4591c0f0e3007af6d, type: 3}
+  m_PrefabInstance: {fileID: 309768693227925394}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &8032603077546200703
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90120349637404863}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 6d5859c4da3ecba408b2b266d3b9d102, type: 3}
 --- !u!4 &1184114308852371924 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1450815817204203078, guid: 6e31ff907ccdfdf4591c0f0e3007af6d, type: 3}
