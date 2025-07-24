@@ -23,7 +23,7 @@ MonoBehaviour:
   height: 1
   itemType: 3
   saleCost: 9000
-  purChaseWithItem: 1
+  purChaseWithItem: 0
   itemModel: {fileID: 0}
   itemAbilities:
   - itemEffect: 9

@@ -20,8 +20,8 @@ MonoBehaviour:
     \uB9CC\uB4E0 \uD5EC\uBA67. \uBC29\uC5B4\uAC00 \uB420\uC9C0\uB294 \uC758\uBB38\uC2A4\uB7FD\uB2E4 "
   purchaseCost: 50
   costItemList: 
-  width: 1
-  height: 1
+  width: 2
+  height: 2
   itemType: 2
   saleCost: 30
   purChaseWithItem: 0

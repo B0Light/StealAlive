@@ -20,8 +20,8 @@ MonoBehaviour:
     \uCC9C \uBA38\uB9AC \uC7A5\uC2DD "
   purchaseCost: 1000
   costItemList: 
-  width: 1
-  height: 2
+  width: 2
+  height: 1
   itemType: 2
   saleCost: 600
   purChaseWithItem: 0

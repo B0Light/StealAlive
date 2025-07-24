@@ -26,9 +26,9 @@ MonoBehaviour:
   purChaseWithItem: 0
   itemModel: {fileID: 0}
   itemAbilities:
-  - itemEffect: 6
-    value: 15
   - itemEffect: 5
+    value: 15
+  - itemEffect: 6
     value: 25
   weight: 7
   immediateEffectValue: 0

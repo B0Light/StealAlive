@@ -131,7 +131,7 @@ public class ItemShopUIManager : ShopUIManager
     private void BuyWithItem(ItemInfo itemInfo)
     {
         // 아이템 구매를 위한 전체 프로세스 관리
-        if (!WorldPlayerInventory.Instance.CheckItemInInventory(itemInfo))
+        if (!WorldPlayerInventory.Instance.CheckItemInInventoryToChangeItem(itemInfo))
         {
             notEnoughItemsComment.SetActive(true);
             Debug.LogWarning($"구매 실패: 아이템 부족 (이름: {itemInfo.itemName})");
@@ -150,7 +150,7 @@ public class ItemShopUIManager : ShopUIManager
         if (!WorldPlayerInventory.Instance.SpendItemInInventory(itemInfo))
         {
             Debug.LogError($"심각한 오류: 비용 지불 중 문제 발생 (이름: {itemInfo.itemName})");
-            WorldPlayerInventory.Instance.RemoveItemInInventory(itemInfo.itemCode, 1);
+            WorldPlayerInventory.Instance.RemoveItemInInventory(itemInfo.itemCode);
             return;
         }
 

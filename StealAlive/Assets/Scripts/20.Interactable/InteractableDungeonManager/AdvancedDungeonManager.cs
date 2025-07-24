@@ -148,8 +148,6 @@ public class AdvancedDungeonManager : InteractableNpc
             dungeonButton.button.onClick.RemoveAllListeners();
             dungeonButton.button.interactable = false;
         }
-        // 버튼 이벤트 설정
-        
     }
 
     private void OnDungeonButtonClick(DungeonData dungeon)
@@ -182,20 +180,13 @@ public class AdvancedDungeonManager : InteractableNpc
 
     private bool CheckRequirements(DungeonData dungeonAvailable)
     {
-        var item = WorldDatabase_Item.Instance.GetItemByID(dungeonAvailable.dungeonKey);
-        if (item == null)
-        {
-            Debug.LogError($"아이템 ID {dungeonAvailable.dungeonKey}를 찾을 수 없습니다.");
-            return false;
-        }
-
-        return WorldPlayerInventory.Instance.CheckItemInInventory(item);
+        return WorldPlayerInventory.Instance.CheckItemInInventory(dungeonAvailable.dungeonKey);
     }
 
     private void ConsumeRequirements(DungeonData dungeonAvailable)
     {
         var item = WorldDatabase_Item.Instance.GetItemByID(dungeonAvailable.dungeonKey);
-        WorldPlayerInventory.Instance.SpendItemInInventory(item);
+        WorldPlayerInventory.Instance.RemoveItemInInventory(dungeonAvailable.dungeonKey);
     }
 
     private void UnlockDungeon(DungeonData dungeonAvailable)

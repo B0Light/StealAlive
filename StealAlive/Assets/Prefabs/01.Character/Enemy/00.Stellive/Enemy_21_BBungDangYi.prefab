@@ -41431,7 +41431,7 @@ MonoBehaviour:
   meshTrail: {fileID: 0}
   characterGroup: 1
   isPerformingAction: 0
-  characterID: 0
+  characterID: 21
   characterName: "\uC815\uC608 \uBFE1\uB315\uC774"
   aiCharacterVariableManager: {fileID: 0}
   aiCharacterCombatManager: {fileID: 0}

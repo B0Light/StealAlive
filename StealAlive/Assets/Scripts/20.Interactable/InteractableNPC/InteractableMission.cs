@@ -27,7 +27,7 @@ public class InteractableMission : InteractableNpc
     [Header("미션 설정")]
     [SerializeField] private List<MissionDialogueStep> dialogueSteps = new List<MissionDialogueStep>();
     [SerializeField] private bool resetAfterCompletion = false;
-    [SerializeField] private string completionMessage = "미션을 완료했습니다!";
+    [SerializeField] private string completionMessage = "수고했어!";
     
     [Header("현재 상태")]
     [SerializeField] private int currentStepIndex = 0;
@@ -74,13 +74,6 @@ public class InteractableMission : InteractableNpc
         GUIController.Instance.dialogueGUIManager.SetDialogueText(step.dialogueText);
         GUIController.Instance.dialogueGUIManager.ClearButtons();
         
-        // 조건 확인
-        if (step.requiresItem && !CheckItemRequirement(step))
-        {
-            CreateRetryButton();
-            return;
-        }
-        
         // 다음 단계 버튼 생성
         CreateNextStepButton(step);
     }
@@ -92,19 +85,20 @@ public class InteractableMission : InteractableNpc
             step.buttonIcon
         );
         
-        nextButton.button.onClick.AddListener(() => OnNextStepClick(step));
+        bool canProceed = !step.requiresItem || CheckItemRequirement(step);
+
+        nextButton.button.onClick.RemoveAllListeners();
+        nextButton.button.interactable = canProceed;
+
+        if (canProceed)
+            nextButton.button.onClick.AddListener(() => OnNextStepClick(step));
     }
     
-    private void CreateRetryButton()
+    private bool CheckItemRequirement(MissionDialogueStep step)
     {
-        var retryButton = GUIController.Instance.dialogueGUIManager.CreateDialogueButton(
-            "다시 시도", 
-            null
-        );
+        if (!step.requiresItem) return true;
         
-        retryButton.button.onClick.AddListener(() => {
-            GUIController.Instance.dialogueGUIManager.SetDialogueText("필요한 아이템이 없습니다.");
-        });
+        return WorldPlayerInventory.Instance.CheckItemInInventory(step.requiredItemID);
     }
     
     private void OnNextStepClick(MissionDialogueStep step)
@@ -112,7 +106,7 @@ public class InteractableMission : InteractableNpc
         // 아이템 소모
         if (step.requiresItem && step.consumeItem)
         {
-            ConsumeRequiredItem(step);
+            WorldPlayerInventory.Instance.RemoveItemInInventory(step.requiredItemID);
         }
         
         // 이벤트 실행 (오브젝트 제어)
@@ -129,29 +123,6 @@ public class InteractableMission : InteractableNpc
     private void RefreshMissionUI()
     {
         HandleMissionInteraction();
-    }
-    
-    private bool CheckItemRequirement(MissionDialogueStep step)
-    {
-        if (!step.requiresItem) return true;
-        
-        var requiredItem = WorldDatabase_Item.Instance.GetItemByID(step.requiredItemID);
-        if (requiredItem == null)
-        {
-            Debug.LogError($"아이템 ID {step.requiredItemID}를 찾을 수 없습니다.");
-            return false;
-        }
-        
-        return WorldPlayerInventory.Instance.CheckItemInInventory(requiredItem);
-    }
-    
-    private void ConsumeRequiredItem(MissionDialogueStep step)
-    {
-        var requiredItem = WorldDatabase_Item.Instance.GetItemByID(step.requiredItemID);
-        if (requiredItem != null)
-        {
-            WorldPlayerInventory.Instance.SpendItemInInventory(requiredItem);
-        }
     }
     
     private void CompleteMission()

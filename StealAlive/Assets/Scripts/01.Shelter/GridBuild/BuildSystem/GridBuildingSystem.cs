@@ -299,7 +299,7 @@ public class GridBuildingSystem : MonoBehaviour
 
     private bool CheckItemInInventory(ItemData buyObject)
     {
-        return WorldPlayerInventory.Instance.CheckItemInInventory(buyObject);
+        return WorldPlayerInventory.Instance.CheckItemInInventoryToChangeItem(buyObject);
     }
 
 

@@ -21,7 +21,7 @@ MonoBehaviour:
     \uD558\uB2E4"
   purchaseCost: 500
   costItemList: 
-  width: 1
+  width: 2
   height: 1
   itemType: 2
   saleCost: 300

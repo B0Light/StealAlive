@@ -9,7 +9,8 @@ public enum MissionObjectType
     Elevator,       // 엘리베이터 이동
     Platform,       // 플랫폼 이동
     Bridge,         // 다리 펼치기/접기
-    Barrier         // 장벽 활성화/비활성화
+    Barrier,        // 장벽 활성화/비활성화
+    Person,         // 대화 애니메이션 
 }
 
 public enum DoorAnimationType
@@ -48,6 +49,15 @@ public class MissionObject : MonoBehaviour
     [SerializeField] private Transform movableObject;
     [SerializeField] private Vector3 targetPosition;          // 목표 위치 (로컬)
     [SerializeField] private Vector3 targetRotation;          // 목표 회전
+
+    [Header("캐릭터 애니메이션 설정 (Person Type Only)")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private string activatedAnimationName = "Talk";     // 활성화 시 재생할 애니메이션 이름
+    [SerializeField] private string deactivatedAnimationName = "Idle";   // 비활성화 시 재생할 애니메이션 이름
+    [SerializeField] private float crossfadeDuration = 0.2f;             // 크로스페이드 지속시간
+    [SerializeField] private bool useAnimationTriggers = false;          // 트리거 사용 여부
+    [SerializeField] private string activatedTrigger = "StartTalk";      // 활성화 트리거 이름
+    [SerializeField] private string deactivatedTrigger = "StopTalk";     // 비활성화 트리거 이름
     
     [Header("이벤트")]
     [SerializeField] private UnityEvent onActivated;
@@ -135,6 +145,9 @@ public class MissionObject : MonoBehaviour
                 break;
             case MissionObjectType.Barrier:
                 ControlBarrier(activate);
+                break;
+            case MissionObjectType.Person:
+                ControlPersonAnimation(activate);
                 break;
         }
     }
@@ -344,8 +357,125 @@ public class MissionObject : MonoBehaviour
     }
     #endregion
     
+    #region Person Animation Control
+    private void ControlPersonAnimation(bool activate)
+    {
+        if (animator == null)
+        {
+            Debug.LogWarning($"[MissionObject] Person 타입이지만 Animator가 할당되지 않았습니다: {gameObject.name}");
+            return;
+        }
+        
+        if (useAnimationTriggers)
+        {
+            // 트리거 방식 사용
+            string triggerName = activate ? activatedTrigger : deactivatedTrigger;
+            
+            if (!string.IsNullOrEmpty(triggerName))
+            {
+                animator.SetTrigger(triggerName);
+                Debug.Log($"[MissionObject] Person 애니메이션 트리거 실행: {triggerName}");
+            }
+            else
+            {
+                Debug.LogWarning($"[MissionObject] 트리거 이름이 비어있습니다. activate: {activate}");
+            }
+        }
+        else
+        {
+            // CrossFade 방식 사용
+            string animationName = activate ? activatedAnimationName : deactivatedAnimationName;
+            
+            if (!string.IsNullOrEmpty(animationName))
+            {
+                // 애니메이션 상태가 존재하는지 확인
+                if (HasAnimationState(animationName))
+                {
+                    animator.CrossFade(animationName, crossfadeDuration);
+                    Debug.Log($"[MissionObject] Person 애니메이션 CrossFade 실행: {animationName} (duration: {crossfadeDuration})");
+                }
+                else
+                {
+                    Debug.LogWarning($"[MissionObject] 애니메이션 상태를 찾을 수 없습니다: {animationName}");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"[MissionObject] 애니메이션 이름이 비어있습니다. activate: {activate}");
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Animator에 특정 애니메이션 상태가 존재하는지 확인
+    /// </summary>
+    /// <param name="stateName">확인할 상태 이름</param>
+    /// <returns>상태 존재 여부</returns>
+    private bool HasAnimationState(string stateName)
+    {
+        if (animator == null || animator.runtimeAnimatorController == null)
+            return false;
+        
+        // 모든 레이어에서 상태 이름 검색
+        for (int layer = 0; layer < animator.layerCount; layer++)
+        {
+            if (animator.HasState(layer, Animator.StringToHash(stateName)))
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /// <summary>
+    /// 현재 재생 중인 애니메이션 이름 가져오기 (디버깅용)
+    /// </summary>
+    /// <param name="layer">레이어 인덱스 (기본값: 0)</param>
+    /// <returns>현재 애니메이션 이름</returns>
+    public string GetCurrentAnimationName(int layer = 0)
+    {
+        if (animator == null) return "";
+        
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(layer);
+        return stateInfo.IsName("") ? "Unknown" : "Current Animation Playing";
+    }
+    
+    /// <summary>
+    /// Person 타입 전용: 특정 애니메이션을 즉시 재생
+    /// </summary>
+    /// <param name="animationName">재생할 애니메이션 이름</param>
+    /// <param name="fadeDuration">페이드 지속시간 (기본값: crossfadeDuration 사용)</param>
+    public void PlayPersonAnimation(string animationName, float? fadeDuration = null)
+    {
+        if (objectType != MissionObjectType.Person)
+        {
+            Debug.LogWarning("[MissionObject] PlayPersonAnimation은 Person 타입에서만 사용할 수 있습니다.");
+            return;
+        }
+        
+        if (animator == null)
+        {
+            Debug.LogWarning("[MissionObject] Animator가 할당되지 않았습니다.");
+            return;
+        }
+        
+        float duration = fadeDuration ?? crossfadeDuration;
+        
+        if (HasAnimationState(animationName))
+        {
+            animator.CrossFade(animationName, duration);
+            Debug.Log($"[MissionObject] 수동 애니메이션 재생: {animationName}");
+        }
+        else
+        {
+            Debug.LogWarning($"[MissionObject] 애니메이션 상태를 찾을 수 없습니다: {animationName}");
+        }
+    }
+    #endregion
+    
     // 상태 확인 메서드들
     public bool IsActivated() => isActivated;
     public bool IsAnimating() => _isAnimating;
     public MissionObjectType GetObjectType() => objectType;
-} 
+}

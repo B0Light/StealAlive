@@ -19,8 +19,8 @@ MonoBehaviour:
   itemDescription: "\uAE30\uBCF8 \uB450\uAC74"
   purchaseCost: 100
   costItemList: 
-  width: 1
-  height: 1
+  width: 2
+  height: 2
   itemType: 2
   saleCost: 60
   purChaseWithItem: 0

@@ -69,6 +69,9 @@ public class HUD_SelectedItemAbility : MonoBehaviour
             
             case ItemEffect.Resource:
                 return " 분명 어딘가 쓸모가 있을 것입니다.";
+            
+            case ItemEffect.StorageSpace:
+                return $"<color=#95a5a6><b>+{value}</b></color> 배낭 공간"; // 회색 계열
         
             default:
                 return "분명 어딘가 쓸모가 있을 것입니다.";

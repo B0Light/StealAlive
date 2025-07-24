@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ public class ArmorDataImporter : MonoBehaviour
             return;
         }
 
-        string[] lines = File.ReadAllLines(filePath);
+        string[] lines = File.ReadAllLines(filePath, Encoding.GetEncoding("euc-kr"));
 
         for (int i = 1; i < lines.Length; i++) // 1부터 시작해서 헤더를 건너뜁니다.
         {
@@ -49,14 +50,18 @@ public class ArmorDataImporter : MonoBehaviour
             
             item.itemAbilities.Add(ability); 
 
-            
-            
             // backpackSize는 Vector2Int로 설정 (x, y 값을 CSV에서 읽어온다고 가정)
             int backpackSizeX = int.Parse(values[10]);
             int backpackSizeY = int.Parse(values[11]);
             item.backpackSize = new Vector2Int(backpackSizeX, backpackSizeY);
-            
 
+            if (item.backpackSize != Vector2Int.zero)
+            {
+                ItemAbility abilityCapacity = new ItemAbility(ItemEffect.StorageSpace, backpackSizeX * backpackSizeY);
+                item.itemAbilities.Add(abilityCapacity); 
+            }
+            
+            item.itemName = values[12]; // 한국어 이름 으로 저장 
             // ScriptableObject를 애셋으로 저장
             string assetPath = "Assets/Resources/Items/A_Items_Equipment/Items_02xx_Armor/" + itemInfoPath + ".asset";
             AssetDatabase.CreateAsset(item, assetPath);

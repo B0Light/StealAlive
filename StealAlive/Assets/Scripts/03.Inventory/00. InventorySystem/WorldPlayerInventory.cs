@@ -145,6 +145,7 @@ public class WorldPlayerInventory : Singleton<WorldPlayerInventory>
         return true;
     }
     
+    // buyObject에 대한 requireItem을 제거 
     public bool SpendItemInInventory(ItemData buyObject)
     {
         // 인벤토리와 백팩 참조 가져오기
@@ -152,7 +153,7 @@ public class WorldPlayerInventory : Singleton<WorldPlayerInventory>
         ItemGrid backpack = GetBackpackInventory();
         
         // 먼저 필요한 모든 아이템이 있는지 확인
-        if (!CheckItemInInventory(buyObject))
+        if (!CheckItemInInventoryToChangeItem(buyObject))
         {
             return false;
         }
@@ -210,13 +211,16 @@ public class WorldPlayerInventory : Singleton<WorldPlayerInventory>
         }
     }
 
-    public int RemoveItemInInventory(int itemId, int requiredCount)
+    // itemId에 해당하는 아이템을 requiredCount 만큼 제거
+    public bool RemoveItemInInventory(int itemId, int requiredCount = 1)
     {
         ItemGrid inventory = GetInventory();
         ItemGrid backpack = GetBackpackInventory();
         
-        int remainingToRemove = requiredCount;
-                
+        // 아이템이 충분히 있는지 확인 
+        if (inventory.GetItemCountById(itemId) + backpack.GetItemCountById(itemId) < requiredCount) return false;
+        
+        int remainingToRemove = requiredCount;  
         // 먼저 주 인벤토리에서 제거
         int removedFromInventory = inventory.RemoveItemById(itemId, remainingToRemove);
         if (removedFromInventory > 0)
@@ -234,11 +238,11 @@ public class WorldPlayerInventory : Singleton<WorldPlayerInventory>
             }
         }
 
-        return remainingToRemove;
+        return true;
     }
 
     // 인벤토리와 백팩에 필요한 모든 아이템이 있는지 확인
-    public bool CheckItemInInventory(ItemData buyObject)
+    public bool CheckItemInInventoryToChangeItem(ItemData buyObject)
     {
         ItemGrid inventory = GetInventory();
         ItemGrid backpack = GetBackpackInventory();
@@ -259,8 +263,18 @@ public class WorldPlayerInventory : Singleton<WorldPlayerInventory>
                 return false;
             }
         }
-
         return true;
+    }
+    
+    public bool CheckItemInInventory(int itemCode)
+    {
+        ItemGrid inventory = GetInventory();
+        ItemGrid backpack = GetBackpackInventory();
+        
+        int countInInventory = inventory.GetItemCountById(itemCode);
+        int countInBackpack = backpack.GetItemCountById(itemCode);
+        
+        return countInInventory + countInBackpack > 0;
     }
 
     // 트랜잭션 롤백 헬퍼 메서드
