@@ -20,6 +20,10 @@ public class WorldCharacterEffectsManager : Singleton<WorldCharacterEffectsManag
     [HideInInspector] public TakeBlockDamageEffect takeBlockDamageEffect;
     [HideInInspector] public RestoreHealthEffect restoreHealthEffect;
     [HideInInspector] public EatingFoodEffect eatingFoodEffectEffect;
+    [HideInInspector] public BuffAttackEffect buffAttackEffect;
+    [HideInInspector] public BuffDefenseEffect buffDefenseEffect;
+    [HideInInspector] public UtilitySpeedEffect utilitySpeedEffect;
+    [HideInInspector] public UtilityWeightEffect utilityWeightEffect;
     [SerializeField] List<IInstantCharacterEffect> instantEffects;
 
     protected override void Awake()
@@ -29,6 +33,10 @@ public class WorldCharacterEffectsManager : Singleton<WorldCharacterEffectsManag
         takeBlockDamageEffect = ScriptableObject.CreateInstance<TakeBlockDamageEffect>();
         restoreHealthEffect = ScriptableObject.CreateInstance<RestoreHealthEffect>();
         eatingFoodEffectEffect = ScriptableObject.CreateInstance<EatingFoodEffect>();
+        buffAttackEffect = ScriptableObject.CreateInstance<BuffAttackEffect>();
+        buffDefenseEffect = ScriptableObject.CreateInstance<BuffDefenseEffect>();
+        utilitySpeedEffect = ScriptableObject.CreateInstance<UtilitySpeedEffect>();
+        utilityWeightEffect = ScriptableObject.CreateInstance<UtilityWeightEffect>();
     }
 
     private void Start()

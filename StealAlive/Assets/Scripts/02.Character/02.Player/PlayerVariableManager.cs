@@ -132,9 +132,12 @@ public class PlayerVariableManager : CharacterVariableManager
     public void UpdatePlayerWeight(float newValue)
     {
         playerWeight = newValue;
-        
-        
-        float ratio = playerWeight /  WorldPlayerInventory.Instance.itemWeight.MaxValue;
+        CalculateWeightCoefficient();
+    }
+
+    public void CalculateWeightCoefficient()
+    {
+        float ratio = playerWeight / WorldPlayerInventory.Instance.itemWeight.MaxValue;
 
         float value = (ratio <= 0.7f) 
             ? 1f 

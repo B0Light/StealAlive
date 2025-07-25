@@ -7,6 +7,10 @@ public class AICharacterLocomotionManager : CharacterLocomotionManager
     [Header("AI Components")]
     private AICharacterManager _aiCharacterManager;
     protected NavMeshAgent navAgent;
+
+    [SerializeField] private bool isHumanoid = true;
+    
+    private readonly int _isMove = Animator.StringToHash("isMove");
     
     [Header("AI Movement Settings")]
     [SerializeField] private float destinationChangeThreshold = 1.0f;
@@ -24,6 +28,18 @@ public class AICharacterLocomotionManager : CharacterLocomotionManager
     private Vector3 lastTargetPosition;
     private float lastSpeed2D = -1f;
     private GaitState lastGaitState = GaitState.Idle;
+
+    protected override void UpdateAnimatorController()
+    {
+        if (isHumanoid)
+        {
+            base.UpdateAnimatorController();
+        }
+        else
+        {
+            characterManager.animator.SetBool(_isMove, CLVM.movementInputHeld);
+        }
+    }
 
     #region Unity Lifecycle & Initialization
     

@@ -106,26 +106,47 @@ public class PlayerItemConsumeManager : MonoBehaviour
 
     private void HandleBuffAttackEffect(ItemInfoConsumable itemInfo, ItemAbility ability)
     {
-        // TODO: 공격력 버프 효과 구현
-        Debug.Log("공격력 버프 효과 처리 예정");
+        var buffAttackEffect = Instantiate(WorldCharacterEffectsManager.Instance.buffAttackEffect);
+        
+        var buffAmount = (int)(ability?.value ?? itemInfo.immediateEffectValue);
+        var duration = itemInfo.continuousEffectDuration;
+        
+        buffAttackEffect.SetBuffAmount(buffAmount, duration);
+        _playerManager.characterEffectsManager.ProcessInstantEffect(buffAttackEffect);
     }
 
     private void HandleBuffDefenseEffect(ItemInfoConsumable itemInfo, ItemAbility ability)
     {
-        // TODO: 방어력 버프 효과 구현
-        Debug.Log("방어력 버프 효과 처리 예정");
+        var buffDefenseEffect = Instantiate(WorldCharacterEffectsManager.Instance.buffDefenseEffect);
+        
+        var buffAmount = ability?.value ?? itemInfo.immediateEffectValue;
+        var duration = itemInfo.continuousEffectDuration;
+        
+        // 물리와 마법 방어력을 동일하게 적용 (필요시 분리 가능)
+        buffDefenseEffect.SetDefenseBuff(buffAmount, buffAmount, duration);
+        _playerManager.characterEffectsManager.ProcessInstantEffect(buffDefenseEffect);
     }
 
     private void HandleUtilitySpeedEffect(ItemInfoConsumable itemInfo, ItemAbility ability)
     {
-        // TODO: 속도 유틸리티 효과 구현
-        Debug.Log("속도 유틸리티 효과 처리 예정");
+        var utilitySpeedEffect = Instantiate(WorldCharacterEffectsManager.Instance.utilitySpeedEffect);
+        
+        var speedMultiplier = (ability?.value ?? itemInfo.immediateEffectValue) / 100f + 1f; // 100% = 2배 속도
+        var duration = itemInfo.continuousEffectDuration;
+        
+        utilitySpeedEffect.SetSpeedBuff(speedMultiplier, duration);
+        _playerManager.characterEffectsManager.ProcessInstantEffect(utilitySpeedEffect);
     }
 
     private void HandleUtilityWeightEffect(ItemInfoConsumable itemInfo, ItemAbility ability)
     {
-        // TODO: 무게 유틸리티 효과 구현
-        Debug.Log("무게 유틸리티 효과 처리 예정");
+        var utilityWeightEffect = Instantiate(WorldCharacterEffectsManager.Instance.utilityWeightEffect);
+        
+        var weightReduction = ability?.value ?? itemInfo.immediateEffectValue;
+        var duration = itemInfo.continuousEffectDuration;
+        
+        utilityWeightEffect.SetWeightReduction(weightReduction, duration);
+        _playerManager.characterEffectsManager.ProcessInstantEffect(utilityWeightEffect);
     }
 
     #endregion

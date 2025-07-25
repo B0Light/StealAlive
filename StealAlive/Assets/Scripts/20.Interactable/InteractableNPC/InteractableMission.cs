@@ -14,6 +14,7 @@ public class MissionDialogueStep
     public Sprite buttonIcon;
     
     [Header("이벤트")]
+    public UnityEvent onStepEnter;
     public UnityEvent onStepCompleted;
     
     [Header("조건")]
@@ -73,6 +74,8 @@ public class InteractableMission : InteractableNpc
         // 대화 텍스트 설정
         GUIController.Instance.dialogueGUIManager.SetDialogueText(step.dialogueText);
         GUIController.Instance.dialogueGUIManager.ClearButtons();
+        
+        step.onStepEnter?.Invoke();
         
         // 다음 단계 버튼 생성
         CreateNextStepButton(step);

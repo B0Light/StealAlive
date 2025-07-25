@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public enum MissionObjectType
 {
@@ -11,6 +13,7 @@ public enum MissionObjectType
     Bridge,         // 다리 펼치기/접기
     Barrier,        // 장벽 활성화/비활성화
     Person,         // 대화 애니메이션 
+    Camera,         // vCam 활성화 
 }
 
 public enum DoorAnimationType
@@ -54,10 +57,13 @@ public class MissionObject : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private string activatedAnimationName = "Talk";     // 활성화 시 재생할 애니메이션 이름
     [SerializeField] private string deactivatedAnimationName = "Idle";   // 비활성화 시 재생할 애니메이션 이름
-    [SerializeField] private float crossfadeDuration = 0.2f;             // 크로스페이드 지속시간
+    [SerializeField] private float crossFadeDuration = 0.2f;             // 크로스페이드 지속시간
     [SerializeField] private bool useAnimationTriggers = false;          // 트리거 사용 여부
     [SerializeField] private string activatedTrigger = "StartTalk";      // 활성화 트리거 이름
     [SerializeField] private string deactivatedTrigger = "StopTalk";     // 비활성화 트리거 이름
+
+    [Header("가상 카메라 설정 ")] 
+    [SerializeField] private CinemachineVirtualCameraBase vCam;
     
     [Header("이벤트")]
     [SerializeField] private UnityEvent onActivated;
@@ -99,6 +105,12 @@ public class MissionObject : MonoBehaviour
             _movableObjectInitialPosition = movableObject.localPosition;
             _movableObjectInitialRotation = movableObject.localRotation;
         }
+        
+        // 가상 카메라 초기 상태 설정
+        if (vCam != null)
+        {
+            vCam.Priority = 0;
+        }
     }
     
     // 외부에서 호출할 수 있는 공개 메서드들
@@ -118,6 +130,29 @@ public class MissionObject : MonoBehaviour
         isActivated = false;
         ExecuteObjectAction(false);
         onDeactivated?.Invoke();
+    }
+
+    public void PlayAnimation(int code)
+    {
+        string animationName = "G_0" + code;
+        
+        if (!string.IsNullOrEmpty(animationName))
+        {
+            // 애니메이션 상태가 존재하는지 확인
+            if (HasAnimationState(animationName))
+            {
+                animator.CrossFade(animationName, crossFadeDuration);
+                Debug.Log($"[MissionObject] Person 애니메이션 CrossFade 실행: {animationName} (duration: {crossFadeDuration})");
+            }
+            else
+            {
+                Debug.LogWarning($"[MissionObject] 애니메이션 상태를 찾을 수 없습니다: {animationName}");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"[MissionObject] 애니메이션 이름이 비어있습니다. activate: {animationName}");
+        }
     }
     
     public void ToggleObject()
@@ -148,6 +183,9 @@ public class MissionObject : MonoBehaviour
                 break;
             case MissionObjectType.Person:
                 ControlPersonAnimation(activate);
+                break;
+            case MissionObjectType.Camera:
+                ControlCamera(activate);
                 break;
         }
     }
@@ -391,8 +429,8 @@ public class MissionObject : MonoBehaviour
                 // 애니메이션 상태가 존재하는지 확인
                 if (HasAnimationState(animationName))
                 {
-                    animator.CrossFade(animationName, crossfadeDuration);
-                    Debug.Log($"[MissionObject] Person 애니메이션 CrossFade 실행: {animationName} (duration: {crossfadeDuration})");
+                    animator.CrossFade(animationName, crossFadeDuration);
+                    Debug.Log($"[MissionObject] Person 애니메이션 CrossFade 실행: {animationName} (duration: {crossFadeDuration})");
                 }
                 else
                 {
@@ -460,7 +498,7 @@ public class MissionObject : MonoBehaviour
             return;
         }
         
-        float duration = fadeDuration ?? crossfadeDuration;
+        float duration = fadeDuration ?? crossFadeDuration;
         
         if (HasAnimationState(animationName))
         {
@@ -472,6 +510,39 @@ public class MissionObject : MonoBehaviour
             Debug.LogWarning($"[MissionObject] 애니메이션 상태를 찾을 수 없습니다: {animationName}");
         }
     }
+    #endregion
+
+    #region virtual Camera
+
+    private void ControlCamera(bool activate)
+    {
+        if (vCam != null)
+        {
+            if (activate)
+            {
+                StartCoroutine(CameraActivationCoroutine());
+            }
+            else
+            {
+                vCam.Priority = 0; // 또는 비활성화하는 다른 방법
+            }
+        }
+    }
+
+    private IEnumerator CameraActivationCoroutine()
+    {
+        // 카메라 활성화
+        vCam.Priority = 30; // Cinemachine Virtual Camera의 경우
+        // 또는 vCam.gameObject.SetActive(true); // 일반적인 GameObject 활성화
+    
+        // 3초 대기
+        yield return new WaitForSeconds(3f);
+    
+        // 카메라 비활성화
+        vCam.Priority = 0; // Cinemachine Virtual Camera의 경우
+        // 또는 vCam.gameObject.SetActive(false); // 일반적인 GameObject 비활성화
+    }
+
     #endregion
     
     // 상태 확인 메서드들

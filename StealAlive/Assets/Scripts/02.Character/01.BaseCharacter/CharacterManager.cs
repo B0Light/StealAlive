@@ -88,7 +88,7 @@ public class CharacterManager : MonoBehaviour, IDamageable
         _rigidbody = GetComponent<Rigidbody>();
         meshTrail = GetComponent<MeshTrail>();
         
-        characterAnimatorManager.Spawn();
+        characterAnimatorManager?.Spawn();
     }
     
     private void SubscribeToEvents()
