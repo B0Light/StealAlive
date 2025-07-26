@@ -33,7 +33,7 @@ public class PursueTargetState : AIState
             aiCharacter.navMeshAgent.enabled = true;
         
         aiCharacter.aiCharacterLocomotionManager.RotateTowardAgent(aiCharacter);
-
+        
         // 타겟과의 거리 확인
         if (aiCharacter.aiCharacterCombatManager.distanceFromTarget <=
             aiCharacter.navMeshAgent.stoppingDistance)

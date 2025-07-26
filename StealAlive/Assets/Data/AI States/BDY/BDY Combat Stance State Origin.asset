@@ -14,7 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aiCharacterAttacks:
   - {fileID: 11400000, guid: 1c2553bd9cc75244aafb9a69766c8ee1, type: 2}
-  - {fileID: 11400000, guid: 91831537c456e1c478791b17263c5ecf, type: 2}
-  - {fileID: 11400000, guid: 40ef8bb5e452e6e47a943bf80ce5dca4, type: 2}
-  chanceToPerformCombo: 25
-  maximumEngagementDistance: 20
+  chanceToPerformCombo: 0
+  maximumEngagementDistance: 7

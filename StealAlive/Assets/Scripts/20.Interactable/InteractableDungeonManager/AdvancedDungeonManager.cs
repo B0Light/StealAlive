@@ -57,7 +57,7 @@ public class AdvancedDungeonManager : InteractableNpc
             }
             else
             {
-                GUIController.Instance.dialogueGUIManager.SetDialogueText(welcomeMessage);
+                GUIController.Instance.dialogueGUIManager.SetDialogueText(interactionMsg);
                 CreateSingleDungeonButton(dungeon);
             }
         }
@@ -69,12 +69,12 @@ public class AdvancedDungeonManager : InteractableNpc
         
         if (availableDungeons.Count == 0)
         {
-            GUIController.Instance.dialogueGUIManager.SetDialogueText(HasAnyUnlockedDungeons() ? alreadyUnlockedMessage : welcomeMessage);
+            GUIController.Instance.dialogueGUIManager.SetDialogueText(HasAnyUnlockedDungeons() ? alreadyUnlockedMessage : interactionMsg);
             GUIController.Instance.dialogueGUIManager.ClearButtons();
         }
         else
         {
-            GUIController.Instance.dialogueGUIManager.SetDialogueText(welcomeMessage);
+            GUIController.Instance.dialogueGUIManager.SetDialogueText(interactionMsg);
             CreateMultipleDungeonButtons();
         }
     }
@@ -90,7 +90,7 @@ public class AdvancedDungeonManager : InteractableNpc
         }
         else
         {
-            GUIController.Instance.dialogueGUIManager.SetDialogueText(welcomeMessage);
+            GUIController.Instance.dialogueGUIManager.SetDialogueText(interactionMsg);
             CreateSingleDungeonButton(nextDungeon);
         }
     }

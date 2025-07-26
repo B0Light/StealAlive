@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Unity.Cinemachine;
 
 [Serializable]
 public class TutorialDialogue
@@ -15,7 +16,7 @@ public class TutorialNpc : Interactable
     [SerializeField] protected string npcName = "가이드";
     
     [Header("VCam")] 
-    [SerializeField] protected GameObject vCam;
+    [SerializeField] protected CinemachineVirtualCameraBase vCam;
     
     [Header("Tutorial Dialogues")]
     [SerializeField] protected List<TutorialDialogue> tutorialDialogues = new List<TutorialDialogue>();
@@ -25,7 +26,7 @@ public class TutorialNpc : Interactable
     
     private void Start()
     {
-        vCam.SetActive(false);
+        vCam.Priority = 0;
         
         // 기본 튜토리얼 대화들 설정 (예시)
         SetupDefaultTutorialDialogues();
@@ -90,7 +91,7 @@ public class TutorialNpc : Interactable
         
         // 각 단계 튜토리얼 진행여부 확인하기
         CheckTutorial();
-        vCam.SetActive(true);
+        vCam.Priority = 20;
         GUIController.Instance.OpenDialogue(npcName, ResetInteraction);
         
         string messageToShow = GetCurrentTutorialMessage();
@@ -116,7 +117,7 @@ public class TutorialNpc : Interactable
     public override void ResetInteraction()
     { 
         Debug.LogWarning("Reset Interaction");
-        vCam.SetActive(false);
+        vCam.Priority = 0;
         
         PlayerInputManager.Instance.SetControlActive(true);
         

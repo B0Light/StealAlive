@@ -5118,7 +5118,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 25
+      scalar: 10
       minScalar: 4
       maxCurve:
         serializedVersion: 2
@@ -10139,7 +10139,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -10192,7 +10192,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -10245,7 +10245,7 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.95
+      scalar: 0.45
       minScalar: 1.4
       maxCurve:
         serializedVersion: 2
@@ -70398,6 +70398,7 @@ GameObject:
   - component: {fileID: 4327034846034810273}
   - component: {fileID: 68564668251996782}
   - component: {fileID: 6071896299637817734}
+  - component: {fileID: 810660247321507311}
   - component: {fileID: 4052553739093425084}
   - component: {fileID: 5403873055307167425}
   - component: {fileID: 7245012321742661284}
@@ -70451,7 +70452,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7849182909692586022}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: bc4d4385d6c70aa498e54c427f75ed39, type: 3}
   m_Controller: {fileID: 9100000, guid: 6d1094de722319f4d8100ee9717db694, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -70592,6 +70593,18 @@ MonoBehaviour:
   showDebugInfo: 0
   debugNavMeshPath: 0
   debugCLVMValues: 0
+--- !u!114 &810660247321507311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7849182909692586022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e48835929d55fe54b8c51a8ccc279628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4052553739093425084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70620,7 +70633,7 @@ MonoBehaviour:
   detectionRadius: 15
   minimumFOV: -35
   maximumFOV: 35
-  attackRange: 2
+  attackRange: 5
   attackRotationSpeed: 25
   leftHandDamageColliders:
   - {fileID: 2939838414509930041}
@@ -70635,9 +70648,9 @@ MonoBehaviour:
   - collider: {fileID: 9188938538201141442}
     damageModifier: 1.1
     poiseDamage: 10
-    delayTime: 0
+    delayTime: 1
     returnTime: 3
-  projectileType: 0
+  projectileType: 21
 --- !u!114 &5403873055307167425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70651,9 +70664,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alwaysStrafe: 0
-  walkSpeed: 3
-  runSpeed: 3
-  sprintSpeed: 10
+  walkSpeed: 0.5
+  runSpeed: 1
+  sprintSpeed: 2
   speedChangeDamping: 10
   rotationSmoothing: 10
   shuffleDirectionX: 0
@@ -76645,7 +76658,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -76698,7 +76711,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -76751,7 +76764,7 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.9
+      scalar: 0.4
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -81690,7 +81703,7 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 6
+      scalar: 3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -86253,8 +86266,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 2, y: 1, z: 25}
-  m_Center: {x: 0, y: 0.5, z: 13}
+  m_Size: {x: 2, y: 1, z: 8}
+  m_Center: {x: 0, y: 0.5, z: 4}
 --- !u!114 &9188938538201141442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86271,7 +86284,7 @@ MonoBehaviour:
   physicalDamage: 30
   magicalDamage: 0
   poiseDamage: 0
-  activeTime: 0.5
+  activeTime: 4
 --- !u!1001 &823078358453078954
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -86372,7 +86385,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 95.358
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: bc4d4385d6c70aa498e54c427f75ed39, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

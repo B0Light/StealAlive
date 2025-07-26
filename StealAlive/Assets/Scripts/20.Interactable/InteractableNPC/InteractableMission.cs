@@ -36,7 +36,7 @@ public class InteractableMission : InteractableNpc
     
     private void Start()
     {
-        vCam.SetActive(false);
+        vCam.Priority = 0;
         LoadMissionProgress();
     }
     
@@ -44,7 +44,7 @@ public class InteractableMission : InteractableNpc
     {
         base.Interact(player);
 
-        vCam.SetActive(true);
+        vCam.Priority = 20;
         GUIController.Instance.OpenDialogue(npcName, ResetInteraction);
         
         HandleMissionInteraction();
@@ -188,7 +188,7 @@ public class InteractableMission : InteractableNpc
     public override void ResetInteraction()
     { 
         Debug.LogWarning("Reset Interaction");
-        vCam.SetActive(false);
+        vCam.Priority = 0;
         
         PlayerInputManager.Instance.SetControlActive(true);
         
