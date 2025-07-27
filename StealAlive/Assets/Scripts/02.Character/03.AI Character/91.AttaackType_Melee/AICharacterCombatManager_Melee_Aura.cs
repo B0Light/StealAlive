@@ -65,7 +65,7 @@ public class AICharacterCombatManager_Melee_Aura : AICharacterCombatManager_Mele
         if (!auraData.IsValid) return;
 
         auraData.collider.ownerCharacter = character;
-        auraData.collider.EnableDamageColliderAfterDelay(auraData.delayTime);
+        auraData.collider.EnableDamageColliderAfterDelay(auraData.delayTime, auraData.returnTime);
     }
 
     

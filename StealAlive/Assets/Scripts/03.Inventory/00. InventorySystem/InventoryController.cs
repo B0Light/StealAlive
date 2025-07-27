@@ -261,7 +261,7 @@ public class InventoryController : MonoBehaviour
             case ItemGridType.ShareInventory:
                 if (!inventory.AddItem(pickUpItem.gameObject, false) && !backpack.AddItem(pickUpItem.gameObject, false))
                 {
-                    _selectedItemGrid.AddItem(pickUpItem.gameObject);
+                    _selectedItemGrid.AddItem(pickUpItem.gameObject, false);
                 }
                 break;
             case ItemGridType.EquipmentInventory:

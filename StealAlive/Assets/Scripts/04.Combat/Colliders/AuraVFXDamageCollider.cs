@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,19 +20,21 @@ public class AuraVFXDamageCollider : DamageCollider
         _effectPlayer.PlayAllParticles();
     }
 
-    public void EnableDamageColliderAfterDelay(float delayTime)
+    public void EnableDamageColliderAfterDelay(float delayTime, float returnTime)
     {
         // 먼저 이펙트를 실행
         _effectPlayer.PlayAllParticles();
-        
-        // delayTime 후에 DamageCollider 활성화
-        Invoke(nameof(EnableDamageColliderDelayed), delayTime);
-    }
     
-    private void EnableDamageColliderDelayed()
+        // 코루틴으로 지연 실행
+        StartCoroutine(EnableDamageColliderCoroutine(delayTime, returnTime));
+    }
+
+    private IEnumerator EnableDamageColliderCoroutine(float delayTime, float returnTime)
     {
-        // DamageCollider만 활성화 (이펙트는 이미 실행됨)
+        yield return new WaitForSeconds(delayTime);
         base.EnableDamageCollider();
+        yield return new WaitForSeconds(returnTime-delayTime);
+        base.DisableDamageCollider();
     }
     
 }

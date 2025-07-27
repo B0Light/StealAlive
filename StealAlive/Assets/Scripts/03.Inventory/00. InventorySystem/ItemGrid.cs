@@ -21,6 +21,8 @@ public class ItemGrid : MonoBehaviour
     private Vector2 _positionOnTheGrid = new Vector2();  //Inventory상의 기준점 설정
     private Vector2Int _tileGridPosition = new Vector2Int();
 
+    private List<int> _interactObjectList;
+
     private OneToManyMap<ItemInfo, Vector2> _itemPosDict; 
     // 문 상호작용 등 인벤토리에서 직접 아이템을 제거하는 경우  
     
@@ -51,7 +53,8 @@ public class ItemGrid : MonoBehaviour
     {
         Init(width,height);
         if(setItemList == null || setItemList.Count == 0) return;
-        PlaceItemsAuto(new List<int>(setItemList));
+        _interactObjectList = setItemList;
+        PlaceItemsAuto(_interactObjectList);
     }
 
     //Set Inventory size

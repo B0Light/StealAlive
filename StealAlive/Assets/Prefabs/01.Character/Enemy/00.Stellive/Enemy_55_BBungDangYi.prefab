@@ -41493,7 +41493,7 @@ MonoBehaviour:
     _minValue: 0
   isTrailActive:
     _value: 0
-  initialMaxHealth: 100
+  initialMaxHealth: 150
   initialActionPoint: 4
   health:
     _value: 0
