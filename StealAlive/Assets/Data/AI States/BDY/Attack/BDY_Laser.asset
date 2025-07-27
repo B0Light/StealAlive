@@ -16,7 +16,7 @@ MonoBehaviour:
   comboAction: {fileID: 0}
   attackType: 6
   attackWeight: 50
-  actionRecoverTime: 1.5
+  actionRecoverTime: 4
   minimumAttackAngle: -35
   maximumAttackAngle: 35
   minimumAttackDistance: 1

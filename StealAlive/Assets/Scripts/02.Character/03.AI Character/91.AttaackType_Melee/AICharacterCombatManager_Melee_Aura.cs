@@ -66,14 +66,9 @@ public class AICharacterCombatManager_Melee_Aura : AICharacterCombatManager_Mele
 
         auraData.collider.ownerCharacter = character;
         auraData.collider.EnableDamageColliderAfterDelay(auraData.delayTime);
-        
-        Invoke(nameof(ResetAction), auraData.returnTime);
     }
 
-    private void ResetAction()
-    {
-        aiCharacter.animator.SetTrigger("EndAction");
-    }
+    
 
     private bool IsValidAuraIndex(int index)
     {

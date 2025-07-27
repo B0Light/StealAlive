@@ -294,6 +294,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5085209258748299265}
     m_Modifications:
+    - target: {fileID: 1263741587517818760, guid: 5b14166f698c58b4785abbbfc4f6a763, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1263741587517818760, guid: 5b14166f698c58b4785abbbfc4f6a763, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1263741587517818760, guid: 5b14166f698c58b4785abbbfc4f6a763, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1263741587517818760, guid: 5b14166f698c58b4785abbbfc4f6a763, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9659258
+      objectReference: {fileID: 0}
+    - target: {fileID: 1263741587517818760, guid: 5b14166f698c58b4785abbbfc4f6a763, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.2588191
+      objectReference: {fileID: 0}
+    - target: {fileID: 1263741587517818760, guid: 5b14166f698c58b4785abbbfc4f6a763, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1263741587517818760, guid: 5b14166f698c58b4785abbbfc4f6a763, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293702231754221909, guid: 5b14166f698c58b4785abbbfc4f6a763, type: 3}
+      propertyPath: field of view
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 1371677229073721488, guid: 5b14166f698c58b4785abbbfc4f6a763, type: 3}
       propertyPath: m_Name
       value: PlayerCamera
@@ -834,6 +866,82 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5085209258748299265}
     m_Modifications:
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].damage
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].behavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].maxRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].piercing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].extraDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].poiseDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].areaOfEffect
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].damageModifier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].maxPierceCount
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].projectileType
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].staticDuration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].initialPoolSize
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].projectileSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].projectilePrefab
+      value: 
+      objectReference: {fileID: 8609369864921962491, guid: c984ffb3fda675040821304ab9e4d1a3, type: 3}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].magicalDamageRatio
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].physicalDamageRatio
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].collisionMask.m_Bits
+      value: 193
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995244172814336243, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
+      propertyPath: projectileConfigurations.Array.data[7].particleSystemPrefab
+      value: 
+      objectReference: {fileID: 6050720479863014631, guid: c984ffb3fda675040821304ab9e4d1a3, type: 3}
     - target: {fileID: 5408949194594484007, guid: 0d7e4d733271d2e4a871a073eca450f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7aee4254c41c4e539da07830762a178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modelSlot: {fileID: 3580092039268810369}
+  exitDir: 0
+  entrancePos: 0
+  exitPos: 0
   defaultPrefab: {fileID: 1593622924028346, guid: 3222b28643104234bae076b4e36510dc, type: 3}
   straightPrefab: {fileID: 1214461412346908, guid: 9e7829e2c198d894ab228a264cbc5d9d, type: 3}
   cornerPrefab: {fileID: 1767584490360036, guid: dedc3a45428c9614089ce95778deb926, type: 3}
@@ -149,7 +151,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d906c091ff8fb854ba970209226cd22b, type: 2}
+  - {fileID: 2100000, guid: ee84646ef8e27804680c367d45ae2432, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -5,7 +5,8 @@ public enum DoorType
 {
     Horizontal,    // 가로 미닫이 문
     Vertical,      // 세로 미닫이 문  
-    Rotate         // 회전하는 문
+    Rotate,        // 회전하는 문
+    Brake,         // 파괴되는 문
 }
 
 public class InteractableDoor : Interactable
@@ -34,6 +35,8 @@ public class InteractableDoor : Interactable
     private Vector3 _rightDoorInitialPosition;
     private Quaternion _leftDoorInitialRotation;
     private Quaternion _rightDoorInitialRotation;
+
+    [SerializeField] private EffectPlayer effectPlayer;
     
     protected override void Awake()
     {
@@ -111,6 +114,9 @@ public class InteractableDoor : Interactable
                 break;
             case DoorType.Rotate:
                 StartCoroutine(AnimateRotate());
+                break;
+            case DoorType.Brake:
+                StartCoroutine(AnimateExplosion());
                 break;
         }
         
@@ -280,5 +286,24 @@ public class InteractableDoor : Interactable
         
         _isAnimating = false;
         ResetInteraction();
+    }
+
+    private IEnumerator AnimateExplosion()
+    {
+        _isAnimating = true;
+        
+        effectPlayer?.PlayAllParticles();
+        yield return new WaitForSeconds(1f);
+        if (leftDoor != null)
+        {
+            leftDoor.gameObject.SetActive(false);
+        }
+        
+        // 오른쪽 문 설정
+        if (rightDoor != null)
+        {
+            rightDoor.gameObject.SetActive(false);
+        }
+        
     }
 }

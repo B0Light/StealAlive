@@ -38,13 +38,15 @@ public class AttackState : AIState
         if (aiCharacter.isPerformingAction)
             return this;
 
+        if (!aiCharacter.isActionRecover)
+        {
+            aiCharacter.StartActionRecovery(currentAttack.actionRecoverTime);
+            return this;
+        }
+        
         if (!_hasPerformedAttack)
         {
-            if (aiCharacter.aiCharacterCombatManager.actionRecoveryTimer > 0)
-                return this;
-
             PerformAttack(aiCharacter);
-
             return this;
         }
 
@@ -55,7 +57,7 @@ public class AttackState : AIState
     {
         _hasPerformedAttack = true;
         currentAttack.AttemptToPerformAction(aiCharacter);
-        aiCharacter.aiCharacterCombatManager.actionRecoveryTimer = currentAttack.actionRecoverTime;
+        aiCharacter.StartActionRecovery(currentAttack.actionRecoverTime);
     }
 
     protected override void ResetStateFlags(AICharacterManager aiCharacter)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class AICharacterCombatManager : CharacterCombatManager
     {
@@ -6,10 +7,9 @@ public class AICharacterCombatManager : CharacterCombatManager
         
         private readonly int _maxDetectionCount = 10;
         private Collider[] _colliderBuffer;
-
-        [Header("Action Recovery")]
-        public float actionRecoveryTimer = 0;
-
+        
+        
+        
         [Header("Target Information")]
         public float distanceFromTarget;
         public float viewableAngle;
@@ -198,17 +198,6 @@ public class AICharacterCombatManager : CharacterCombatManager
 
             target.transform.rotation = Quaternion.Slerp(target.transform.rotation, targetRotation, attackRotationSpeed * Time.deltaTime);
 
-        }
-
-        public void HandleActionRecovery(AICharacterManager target)
-        {
-            if (actionRecoveryTimer > 0)
-            {
-                if (!target.isPerformingAction)
-                {
-                    actionRecoveryTimer -= Time.deltaTime;
-                }
-            }
         }
         
         public override void SetTarget(CharacterManager newTarget)

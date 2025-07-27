@@ -16,6 +16,14 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
     [SerializeField] private TextMeshProUGUI loadingText;
     private CanvasGroup _canvasGroup;
     
+    [Header("Cross Fade Settings")]
+    [SerializeField] private bool useCrossFade = true;
+    [SerializeField] private float fadeInDuration = 1.0f;
+    [SerializeField] private float fadeOutDuration = 1.0f;
+    [SerializeField] private Color fadeColor = Color.black;
+    [SerializeField] private Image fadeImage;
+    [SerializeField] private Canvas fadeCanvas;
+    
     [Header("Loading Progress Control")]
     [SerializeField] private float maxProgressSpeed = 0.5f; // 초당 최대 진행 속도 (0.5 = 50%/초)
     [SerializeField] private float minProgressSpeed = 0.1f; // 초당 최소 진행 속도 (0.1 = 10%/초)
@@ -24,7 +32,9 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
     private float _currentDisplayProgress = 0f; // 현재 표시되는 진행률
     
     public static event Action OnSceneChanged;
-    
+
+    [Header("SceneIndex")] 
+    [SerializeField] private int shelterSceneIndex = 3;
     /*
      * Scene Index
      * 0. Title
@@ -39,6 +49,7 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
     {
         base.Awake();
         _canvasGroup = GetComponent<CanvasGroup>();
+        SetupCrossFadeUI();
     }
 
     private void Start()
@@ -48,6 +59,52 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
         _canvasGroup.alpha = 0;
         _canvasGroup.interactable = false;
         _canvasGroup.blocksRaycasts = false;
+        
+        // 게임 시작 시 페이드 인
+        if (useCrossFade)
+        {
+            StartCoroutine(FadeIn());
+        }
+    }
+    
+    /// <summary>
+    /// Cross Fade UI 설정
+    /// </summary>
+    private void SetupCrossFadeUI()
+    {
+        if (fadeCanvas == null)
+        {
+            // 페이드 캔버스 생성
+            GameObject canvasObj = new GameObject("CrossFadeCanvas");
+            canvasObj.transform.SetParent(transform);
+            
+            fadeCanvas = canvasObj.AddComponent<Canvas>();
+            fadeCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            fadeCanvas.sortingOrder = 999; // 로딩 화면보다 낮지만 다른 UI보다는 높게
+            
+            CanvasScaler scaler = canvasObj.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1920, 1080);
+            
+            canvasObj.AddComponent<GraphicRaycaster>();
+        }
+        
+        if (fadeImage == null)
+        {
+            // 페이드 이미지 생성
+            GameObject imageObj = new GameObject("FadeImage");
+            imageObj.transform.SetParent(fadeCanvas.transform, false);
+            
+            fadeImage = imageObj.AddComponent<Image>();
+            fadeImage.color = new Color(fadeColor.r, fadeColor.g, fadeColor.b, 0f);
+            
+            // 전체 화면 크기로 설정
+            RectTransform rectTransform = fadeImage.rectTransform;
+            rectTransform.anchorMin = Vector2.zero;
+            rectTransform.anchorMax = Vector2.one;
+            rectTransform.sizeDelta = Vector2.zero;
+            rectTransform.anchoredPosition = Vector2.zero;
+        }
     }
 
     public void LoadSceneAsync(string sceneName)
@@ -60,7 +117,35 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
 
     public void LoadSceneAsync(int sceneCode)
     {
-        StartCoroutine(LoadSceneCoroutine(sceneCode));
+        if (useCrossFade)
+        {
+            StartCoroutine(LoadSceneWithCrossFade(sceneCode));
+        }
+        else
+        {
+            StartCoroutine(LoadSceneCoroutine(sceneCode));
+        }
+    }
+    
+    /// <summary>
+    /// Cross Fade를 사용한 씬 로딩
+    /// </summary>
+    private IEnumerator LoadSceneWithCrossFade(int sceneCode)
+    {
+        // 1. 페이드 아웃 시작
+        yield return StartCoroutine(FadeOut());
+        
+        // 2. 씬 로딩 시작
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneCode);
+        yield return StartCoroutine(HandleSceneLoading(asyncOperation, sceneCode));
+        
+        // 3. 사용자가 Continue 버튼을 눌렀는지 대기 (Cross Fade에서도 유지)
+        yield return new WaitUntil(() => !continueText.activeInHierarchy);
+        
+        // 4. 페이드 인으로 마무리
+        yield return StartCoroutine(FadeIn());
+        
+        OnSceneChanged?.Invoke();
     }
 
     private IEnumerator LoadSceneCoroutine(int sceneCode)
@@ -125,6 +210,8 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
                 // 씬 활성화 허용
                 asyncOperation.allowSceneActivation = true;
                 yield return new WaitForSeconds(0.5f); // 씬 전환 대기
+                
+                // Continue 텍스트 표시 (Cross Fade 사용 여부와 관계없이)
                 continueText.SetActive(true);
             }
             
@@ -132,6 +219,79 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
         }
         
         PlayerInputManager.Instance.SetControlActive(!IsMenuScene());
+    }
+    
+    /// <summary>
+    /// 페이드 아웃 (화면이 어두워짐)
+    /// </summary>
+    private IEnumerator FadeOut()
+    {
+        if (fadeImage == null) yield break;
+        
+        fadeImage.gameObject.SetActive(true);
+        fadeCanvas.sortingOrder = 1001; // 로딩 화면보다 위에 표시
+        
+        float elapsedTime = 0f;
+        Color startColor = new Color(fadeColor.r, fadeColor.g, fadeColor.b, 0f);
+        Color endColor = new Color(fadeColor.r, fadeColor.g, fadeColor.b, 1f);
+        
+        while (elapsedTime < fadeOutDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Clamp01(elapsedTime / fadeOutDuration);
+            fadeImage.color = Color.Lerp(startColor, endColor, alpha);
+            yield return null;
+        }
+        
+        fadeImage.color = endColor;
+    }
+    
+    /// <summary>
+    /// 페이드 인 (화면이 밝아짐)
+    /// </summary>
+    private IEnumerator FadeIn()
+    {
+        if (fadeImage == null) yield break;
+        
+        fadeImage.gameObject.SetActive(true);
+        fadeCanvas.sortingOrder = 999; // 로딩 화면보다는 낮게
+        
+        float elapsedTime = 0f;
+        Color startColor = new Color(fadeColor.r, fadeColor.g, fadeColor.b, 1f);
+        Color endColor = new Color(fadeColor.r, fadeColor.g, fadeColor.b, 0f);
+        
+        while (elapsedTime < fadeInDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Clamp01(elapsedTime / fadeInDuration);
+            fadeImage.color = Color.Lerp(startColor, endColor, alpha);
+            yield return null;
+        }
+        
+        fadeImage.color = endColor;
+        fadeImage.gameObject.SetActive(false);
+    }
+    
+    /// <summary>
+    /// 즉시 페이드 아웃 설정 (애니메이션 없이)
+    /// </summary>
+    public void SetFadeOut()
+    {
+        if (fadeImage == null) return;
+        
+        fadeImage.gameObject.SetActive(true);
+        fadeImage.color = new Color(fadeColor.r, fadeColor.g, fadeColor.b, 1f);
+    }
+    
+    /// <summary>
+    /// 즉시 페이드 인 설정 (애니메이션 없이)
+    /// </summary>
+    public void SetFadeIn()
+    {
+        if (fadeImage == null) return;
+        
+        fadeImage.color = new Color(fadeColor.r, fadeColor.g, fadeColor.b, 0f);
+        fadeImage.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -221,21 +381,41 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
     {
         useProgressSpeedLimit = use;
     }
+    
+    /// <summary>
+    /// Cross Fade 설정 변경
+    /// </summary>
+    public void SetCrossFadeSettings(bool enable, float fadeInTime = 1.0f, float fadeOutTime = 1.0f, Color? color = null)
+    {
+        useCrossFade = enable;
+        fadeInDuration = fadeInTime;
+        fadeOutDuration = fadeOutTime;
+        
+        if (color.HasValue)
+        {
+            fadeColor = color.Value;
+            if (fadeImage != null)
+            {
+                Color currentColor = fadeImage.color;
+                fadeImage.color = new Color(fadeColor.r, fadeColor.g, fadeColor.b, currentColor.a);
+            }
+        }
+    }
 
     public bool IsMenuScene() =>
-        SceneManager.GetActiveScene().buildIndex == 0;
+        SceneManager.GetActiveScene().buildIndex == 1;
 
-    public bool IsExtractionMap() => SceneManager.GetActiveScene().buildIndex >= 3;
+    public bool IsExtractionMap() => SceneManager.GetActiveScene().buildIndex > shelterSceneIndex;
     
-    public bool IsShelter() => SceneManager.GetActiveScene().buildIndex == 2;
+    public bool IsShelter() => SceneManager.GetActiveScene().buildIndex == shelterSceneIndex;
     
     
     private bool IsStartScene(int sceneIndex)
     {
-        return sceneIndex == 0;
+        return sceneIndex == 1;
     }
 
-    public int GetSaveSceneIndex() => 2;
+    public int GetSaveSceneIndex() => shelterSceneIndex;
     public int GetCurSceneIndex() => SceneManager.GetActiveScene().buildIndex;
     public string GetSceneName() => SceneManager.GetActiveScene().name;
     
@@ -267,5 +447,11 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
         _canvasGroup.alpha = 0;
         _canvasGroup.interactable = false;
         _canvasGroup.blocksRaycasts = false;
+        
+        // Cross Fade를 사용하는 경우 페이드 인 효과 적용
+        if (useCrossFade)
+        {
+            StartCoroutine(FadeIn());
+        }
     }
 }

@@ -457,7 +457,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d906c091ff8fb854ba970209226cd22b, type: 2}
+  - {fileID: 2100000, guid: ee84646ef8e27804680c367d45ae2432, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -548,10 +548,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483a8c076bfbe6548b678bc831bbef33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exitDir: 0
+  entrancePos: 0
+  exitPos: 0
   attractionCapacity: 1
   attractionCycleTime: 1
   queueStartPoint: {fileID: 3580092039268810369}
   maxColumns: 1
+  incomeEventChannel: {fileID: 0}
 --- !u!1 &5318098180138098015
 GameObject:
   m_ObjectHideFlags: 0

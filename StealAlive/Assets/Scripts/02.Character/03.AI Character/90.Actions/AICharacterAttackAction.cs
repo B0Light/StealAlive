@@ -13,7 +13,7 @@ public class AICharacterAttackAction : ScriptableObject
     [SerializeField] private AttackType attackType;
     public int attackWeight = 50;
     
-    public float actionRecoverTime = 1.5f;
+    public float actionRecoverTime = 4f;
     public float minimumAttackAngle = -35;
     public float maximumAttackAngle = 35;
     public float minimumAttackDistance = 0;

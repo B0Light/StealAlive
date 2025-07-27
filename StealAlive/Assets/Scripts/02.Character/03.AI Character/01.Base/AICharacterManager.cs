@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,7 +27,9 @@ public class AICharacterManager : CharacterManager
     public PursueTargetState statePursueTarget;
     public CombatStanceState stateCombatStance;
     public AttackState stateAttack;
-    
+
+    private Coroutine actionRecoveryCoroutine;
+    [HideInInspector] public bool isActionRecover = true;
 
     protected override void Awake()
     {
@@ -51,7 +54,7 @@ public class AICharacterManager : CharacterManager
         stateAttack = Instantiate(stateAttack);
         SwitchToState(stateIdle);
 
-        if(characterUIManager && characterUIManager.hasFloatingHPBar)
+        if (characterUIManager && characterUIManager.hasFloatingHPBar)
             characterVariableManager.health.OnValueChanged +=
                 characterUIManager.OnHPChanged;
     }
@@ -73,12 +76,7 @@ public class AICharacterManager : CharacterManager
             currentState.OnEnterState(this); // 새로운 상태의 초기화 메서드 호출
         }
     }
-
-    protected override void Update()
-    {
-        base.Update();
-        aiCharacterCombatManager.HandleActionRecovery(this);
-    }
+    
     private void FixedUpdate()
     {
         if(isDead.Value) return; 
@@ -111,5 +109,30 @@ public class AICharacterManager : CharacterManager
         navMeshAgent.isStopped = true;
         AISpawnManager.Instance?.NotifyTermination(this);
         return base.ProcessDeathEvent();
+    }
+    
+    public void StartActionRecovery(float value)
+    {
+        if (actionRecoveryCoroutine == null)
+        {
+            isActionRecover = false;
+            actionRecoveryCoroutine = StartCoroutine(ActionRecoveryCoroutine(value));
+        }
+    }
+
+    private void StopActionRecovery()
+    {
+        if (actionRecoveryCoroutine != null)
+        {
+            StopCoroutine(actionRecoveryCoroutine);
+            actionRecoveryCoroutine = null;
+        }
+    }
+
+    private IEnumerator ActionRecoveryCoroutine(float value)
+    {
+        yield return new WaitForSeconds(value);
+        isActionRecover = true;
+        actionRecoveryCoroutine = null;
     }
 }

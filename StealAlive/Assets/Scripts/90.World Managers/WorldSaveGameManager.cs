@@ -10,8 +10,7 @@ public class WorldSaveGameManager : Singleton<WorldSaveGameManager>
     [SerializeField] bool saveGame;
     [SerializeField] bool loadGame;
 
-    [Header("World Scene Index")]
-    [SerializeField] int worldSceneIndex = 1;
+    private int _worldSceneIndex;
 
     [Header("Save Data Writer")]
     private SaveFileDataWriter saveFileDataWriter;
@@ -83,7 +82,7 @@ public class WorldSaveGameManager : Singleton<WorldSaveGameManager>
     private void NewGame(string playerName)
     {
         SetDefaultGameData(playerName);
-        worldSceneIndex = 1; // 1 : 튜토리얼 씬
+        _worldSceneIndex = WorldSceneChangeManager.Instance.GetSaveSceneIndex() -1;
         StartCoroutine(LoadWorldScene());
     }
 
@@ -127,7 +126,7 @@ public class WorldSaveGameManager : Singleton<WorldSaveGameManager>
         saveFileDataWriter.saveFileName = _saveFileName;
         
         currentGameData = saveFileDataWriter.LoadSaveFile();
-        worldSceneIndex = currentGameData.sceneIndex;
+        _worldSceneIndex = currentGameData.sceneIndex;
         
         Debug.LogWarning("LOAD GAME");
         PlayerManager player = GameManager.Instance.SpawnPlayer();
@@ -222,7 +221,7 @@ public class WorldSaveGameManager : Singleton<WorldSaveGameManager>
 
     private IEnumerator LoadWorldScene()
     {
-        WorldSceneChangeManager.Instance.LoadSceneAsync(worldSceneIndex);
+        WorldSceneChangeManager.Instance.LoadSceneAsync(_worldSceneIndex);
         
         yield return null;
     }

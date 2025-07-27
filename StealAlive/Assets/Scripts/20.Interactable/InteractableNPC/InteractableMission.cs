@@ -8,8 +8,9 @@ public class MissionDialogueStep
 {
     [Header("대화 내용")]
     public string dialogueText;
-    
-    [Header("버튼 설정")]
+
+    [Header("버튼 설정")] 
+    public bool haveButton = true;
     public string buttonText = "다음";
     public Sprite buttonIcon;
     
@@ -37,7 +38,6 @@ public class InteractableMission : InteractableNpc
     private void Start()
     {
         vCam.Priority = 0;
-        LoadMissionProgress();
     }
     
     public override void Interact(PlayerManager player)
@@ -78,7 +78,8 @@ public class InteractableMission : InteractableNpc
         step.onStepEnter?.Invoke();
         
         // 다음 단계 버튼 생성
-        CreateNextStepButton(step);
+        if(step.haveButton)
+            CreateNextStepButton(step);
     }
     
     private void CreateNextStepButton(MissionDialogueStep step)
@@ -117,7 +118,6 @@ public class InteractableMission : InteractableNpc
         
         // 다음 단계로 진행
         currentStepIndex++;
-        SaveMissionProgress();
         
         // UI 새로고침
         Invoke(nameof(RefreshMissionUI), 0.5f);
@@ -131,7 +131,6 @@ public class InteractableMission : InteractableNpc
     private void CompleteMission()
     {
         missionCompleted = true;
-        SaveMissionProgress();
         
         GUIController.Instance.dialogueGUIManager.SetDialogueText(completionMessage);
         GUIController.Instance.dialogueGUIManager.ClearButtons();
@@ -159,7 +158,6 @@ public class InteractableMission : InteractableNpc
     {
         currentStepIndex = 0;
         missionCompleted = false;
-        SaveMissionProgress();
         RefreshMissionUI();
     }
     
@@ -168,22 +166,6 @@ public class InteractableMission : InteractableNpc
         return index >= 0 && index < dialogueSteps.Count;
     }
     
-    private void SaveMissionProgress()
-    {
-        // 게임 저장 시스템에 미션 진행도 저장
-        string saveKey = $"Mission_{gameObject.name}_{GetInstanceID()}";
-        PlayerPrefs.SetInt($"{saveKey}_CurrentStep", currentStepIndex);
-        PlayerPrefs.SetInt($"{saveKey}_Completed", missionCompleted ? 1 : 0);
-        PlayerPrefs.Save();
-    }
-    
-    private void LoadMissionProgress()
-    {
-        // 저장된 미션 진행도 불러오기
-        string saveKey = $"Mission_{gameObject.name}_{GetInstanceID()}";
-        currentStepIndex = PlayerPrefs.GetInt($"{saveKey}_CurrentStep", 0);
-        missionCompleted = PlayerPrefs.GetInt($"{saveKey}_Completed", 0) == 1;
-    }
     
     public override void ResetInteraction()
     { 
@@ -201,7 +183,6 @@ public class InteractableMission : InteractableNpc
         if (IsValidStepIndex(stepIndex))
         {
             currentStepIndex = stepIndex;
-            SaveMissionProgress();
         }
     }
     
