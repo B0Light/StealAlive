@@ -245,6 +245,39 @@ MonoBehaviour:
   boxType: 3
   boxTier: 1
   itemIdList: 13050000
+  openType: 0
+  animationDuration: 1
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  slideDistance: 1
+  rotationAngle: 90
+  lidOpenAngle: -120
+  lidRotationAxis: 0
+  lid: {fileID: 0}
+  leftDoor: {fileID: 0}
+  rightDoor: {fileID: 0}
   _itemCount: 5
 --- !u!1 &7440678573777263698
 GameObject:

@@ -32,6 +32,6 @@ MonoBehaviour:
   - itemEffect: 3
     value: 80
   weight: 5
-  extraPhysicalAbsorption: 0
-  extraMagicalAbsorption: 0
+  extraPhysicalAbsorption: 80
+  extraMagicalAbsorption: 80
   extraActionPoint: 5

@@ -44,7 +44,6 @@ public class TakeDamageEffect : IInstantCharacterEffect
 
     public override void ProcessEffect(CharacterManager effectTarget)
     {
-        Debug.LogWarning("ProcessEffect : Damaged");
         // 무적 또는 죽은 상태면 데미지 처리 안함
         if (effectTarget.characterVariableManager.isInvulnerable.Value || effectTarget.isDead.Value) 
             return;
@@ -79,6 +78,8 @@ public class TakeDamageEffect : IInstantCharacterEffect
         {
             finalDamageDealt = 1;
         }
+        
+        Debug.LogWarning($"[DamageINFO] B : {physicalAbsorption} D : {magicalAbsorption} / A : {physicalDamage} C : {magicalDamage} / V : {finalDamageDealt}" );
     }
 
     protected virtual void ApplyDamage(CharacterManager hitTarget)

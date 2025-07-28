@@ -10,6 +10,7 @@ public class TitleScreenManager : Singleton<TitleScreenManager>
     [Header("Menus")]
     [SerializeField] private GameObject titleScreenMainMenu;
     [SerializeField] private GameObject titleScreenLoadMenu;
+    [SerializeField] private GameCredits titleScreenCredit;
 
     [Header("Pop Ups")] 
     [SerializeField] private GameObject noCharacterSlotsPopUp;
@@ -95,6 +96,23 @@ public class TitleScreenManager : Singleton<TitleScreenManager>
     {
         titleScreenLoadMenu.SetActive(false);
         titleScreenMainMenu.SetActive(true);
+    }
+
+    public void OpenCredit()
+    {
+        titleScreenLoadMenu.SetActive(false);
+        titleScreenCredit.ActivateCreditPanel();
+        
+        titleScreenCredit.StartCredits();
+    }
+    
+    public void CloseCredit()
+    {
+        titleScreenCredit.DeactivateCreditPanel();
+        
+        titleScreenMainMenu.SetActive(true);
+        titleScreenLoadMenu.SetActive(false);
+        
     }
     
     public void ExitGame()

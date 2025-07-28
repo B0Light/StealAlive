@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eae643ae265185e42834260e37f447ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: Open Box
+  interactableText: "\uC0C1\uC790\uB97C \uC5F0\uB2E4"
   boxWidth: 6
   boxHeight: 10
   boxType: 0

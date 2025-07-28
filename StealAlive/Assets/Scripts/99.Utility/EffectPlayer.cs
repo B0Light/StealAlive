@@ -16,7 +16,7 @@ public class EffectPlayer : MonoBehaviour
     
     public void PlayAllParticles()
     {
-        //Debug.Log("particleSystem : " + _particleSystems.Count);
+        Debug.Log("particleSystem : " + _particleSystems.Count);
         foreach (ParticleSystem particle in _particleSystems)
         {
             if (particle != null)

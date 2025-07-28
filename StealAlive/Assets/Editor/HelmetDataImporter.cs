@@ -45,11 +45,14 @@ public class HelmetDataImporter : MonoBehaviour
             string modelPath = "Assets/Data/Load/ItemModels/ID_01_Helmet/" + itemInfoPath + ".prefab";
             item.itemModel = AssetDatabase.LoadAssetAtPath<GameObject>(modelPath);
             item.itemType = ItemType.Helmet;
-            
-            ItemAbility ability1 = new ItemAbility(ItemEffect.PhysicalDefense, int.Parse(values[9]));
-            ItemAbility ability2 = new ItemAbility(ItemEffect.MagicalDefense, int.Parse(values[10]));
+            int physicalDefense = int.Parse(values[9]);
+            int magicalDefense = int.Parse(values[10]);
+            ItemAbility ability1 = new ItemAbility(ItemEffect.PhysicalDefense, physicalDefense);
+            ItemAbility ability2 = new ItemAbility(ItemEffect.MagicalDefense, magicalDefense);
             item.itemAbilities.Add(ability1); 
-            item.itemAbilities.Add(ability2); 
+            item.itemAbilities.Add(ability2);
+            item.extraPhysicalAbsorption = physicalDefense;
+            item.extraMagicalAbsorption = magicalDefense;
             item.extraActionPoint = int.Parse(values[11]); 
             item.itemName = values[12]; // 한국어 이름 으로 저장 
 

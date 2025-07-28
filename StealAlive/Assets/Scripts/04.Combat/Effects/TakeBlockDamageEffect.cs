@@ -11,40 +11,7 @@ public class TakeBlockDamageEffect : TakeDamageEffect
         magicalDamage *= (100 - hitTarget.characterStatsManager.blockingMagicalAbsorption) / 100;
         poiseDamage *= (100 - hitTarget.characterStatsManager.blockingStability) / 100;
 
-        finalDamageDealt = Mathf.RoundToInt(physicalDamage + magicalDamage + extraDamage);
-        finalPoiseDamage = poiseDamage * ((100 - hitTarget.characterStatsManager.passivePoise.Value) / 100);
-        
-
-        if (finalDamageDealt <= 0)
-        {
-            finalDamageDealt = 1;
-        }
-    }
-
-    // Override the ProcessEffect method to apply damage via IDamageable interface
-    public override void ProcessEffect(CharacterManager effectTarget)
-    {
-        if (effectTarget.characterVariableManager.isInvulnerable.Value) return;
-        if (effectTarget.isDead.Value) return;
-
-        // Apply damage using IDamageable
-        if (effectTarget is IDamageable damageableTarget)
-        {
-            DamageData damageData = new DamageData
-            {
-                attacker = attacker,
-                physicalDamage = finalDamageDealt,
-                magicalDamage = magicalDamage,
-                extraDamage = extraDamage,
-                poiseDamage = finalPoiseDamage,
-                contactPoint = contactPoint,
-                angleHitFrom = angleHitFrom
-            };
-
-            damageableTarget.TakeDamage(damageData);
-        }
-
-        HandlePostHitEffects(effectTarget);
+        base.CalculateDamage(hitTarget);
     }
 
     // Overridden method to play VFX when blocked damage occurs

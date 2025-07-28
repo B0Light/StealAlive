@@ -14,6 +14,7 @@ public enum MissionObjectType
     Barrier,        // 장벽 활성화/비활성화
     Person,         // 대화 애니메이션 
     Camera,         // vCam 활성화 
+    Object,
 }
 
 public enum DoorAnimationType
@@ -64,6 +65,9 @@ public class MissionObject : MonoBehaviour
 
     [Header("가상 카메라 설정 ")] 
     [SerializeField] private CinemachineVirtualCameraBase vCam;
+
+    [Header("오브젝트  설정 ")] 
+    [SerializeField] private GameObject targetObject;
     
     [Header("이벤트")]
     [SerializeField] private UnityEvent onActivated;
@@ -186,6 +190,9 @@ public class MissionObject : MonoBehaviour
                 break;
             case MissionObjectType.Camera:
                 ControlCamera(activate);
+                break;
+            case MissionObjectType.Object:
+                ControlObject(activate);
                 break;
         }
     }
@@ -544,6 +551,12 @@ public class MissionObject : MonoBehaviour
     }
 
     #endregion
+
+    private void ControlObject(bool activate)
+    {
+        if(targetObject != null)
+            targetObject.SetActive(activate);
+    }
     
     // 상태 확인 메서드들
     public bool IsActivated() => isActivated;

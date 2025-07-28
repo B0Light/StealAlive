@@ -64,12 +64,12 @@ public class InteractableDoor : Interactable
         if (keyItemCode != 0)
         {
             _isLock = true;
-            interactableText = "Unlock the door : Using " + WorldDatabase_Item.Instance.GetItemByID(keyItemCode).itemName;
+            interactableText = "[잠김] " + WorldDatabase_Item.Instance.GetItemByID(keyItemCode).itemName + " 필요";
         }
         else
         {
             _isLock = false;
-            interactableText = "Open the door";
+            interactableText = "문 열기";
         }
     }
     
@@ -120,7 +120,7 @@ public class InteractableDoor : Interactable
                 break;
         }
         
-        interactableText = _isOpen ? "Close the door" : "Open the door";
+        interactableText = _isOpen ? "문 닫기" : "문 열기";
     }
     
     // 가로 미닫이 문

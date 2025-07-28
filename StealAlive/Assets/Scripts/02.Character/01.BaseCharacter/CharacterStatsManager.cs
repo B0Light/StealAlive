@@ -24,8 +24,8 @@ public class CharacterStatsManager : MonoBehaviour
     [Range(0,10)] public float basePhysicalAbsorption = 0;
     [Range(0,10)] public float baseMagicalAbsorption = 0;
     
-    [Range(0,10)] public float extraPhysicalAbsorption = 0;
-    [Range(0,10)] public float extraMagicalAbsorption = 0;
+    public float extraPhysicalAbsorption = 0;
+    public float extraMagicalAbsorption = 0;
 
     [Header("Blocking Absorptions percent")] 
     // 가드시 피해 경감 

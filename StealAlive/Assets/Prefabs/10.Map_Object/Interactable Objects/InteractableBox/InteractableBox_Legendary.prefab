@@ -67,13 +67,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 624d20491194498419fd7e39a162384a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: Open Box
+  interactableText: "\uC0C1\uC790\uB97C \uC5F0\uB2E4"
   boxWidth: 6
   boxHeight: 6
-  boxType: 2
+  boxType: 3
   boxTier: 5
-  itemIdList: 
-  openType: 0
+  itemIdList: b0040000
+  openType: 1
   animationDuration: 1
   animationCurve:
     serializedVersion: 2
