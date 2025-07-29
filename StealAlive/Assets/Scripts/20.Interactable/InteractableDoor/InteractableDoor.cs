@@ -54,6 +54,8 @@ public class InteractableDoor : Interactable
             _rightDoorInitialPosition = rightDoor.localPosition;
             _rightDoorInitialRotation = rightDoor.localRotation;
         }
+        
+        effectPlayer?.SetResource();
     }
     
     protected virtual void Start()
@@ -292,7 +294,7 @@ public class InteractableDoor : Interactable
     {
         _isAnimating = true;
         
-        effectPlayer?.PlayAllParticles();
+        effectPlayer.PlayAllParticles();
         yield return new WaitForSeconds(1f);
         if (leftDoor != null)
         {

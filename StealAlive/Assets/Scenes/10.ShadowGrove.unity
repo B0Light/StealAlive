@@ -4442,7 +4442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6361329703f69824eb465a8d7204230f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnableCharacters: {fileID: 11400000, guid: 08c79c50577ed374caabe5211eefa5e0, type: 2}
+  spawnableCharacters: {fileID: 11400000, guid: 32c3f44d0618e61408be119ebcfe2a16, type: 2}
   aiCharacterSpawners: []
   desiredEnemyCount: 20
 --- !u!1 &1035118487

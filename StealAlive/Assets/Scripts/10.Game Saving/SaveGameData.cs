@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 public class SaveGameData
 {
     [Header("Scene Index")]
-    public int sceneIndex = 2;
+    public int sceneIndex = 3;
     
     [Header("Player")]
     

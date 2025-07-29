@@ -328,7 +328,6 @@ public class PhysicalProjectile : BaseProjectile
 
     private void ProcessEnvironmentHit(Collider hitCollider, Vector3 hitPoint)
     {
-        Debug.Log($"Projectile hit environment: {hitCollider.name} at {hitPoint}");
         CreateHitEffect(hitPoint, (hitPoint - transform.position).normalized, false);
     }
 

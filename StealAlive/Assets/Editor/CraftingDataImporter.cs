@@ -25,10 +25,10 @@ public class CraftingDataImporter : MonoBehaviour
         }
 
         // 기존 레시피 데이터 폴더 생성 (없으면)
-        string outputPath = "Assets/Data/Crafting";
+        string outputPath = "Assets/Resources/Crafting";
         if (!AssetDatabase.IsValidFolder(outputPath))
         {
-            AssetDatabase.CreateFolder("Assets/Data", "Crafting");
+            AssetDatabase.CreateFolder("Assets/Resources", "Crafting");
         }
 
         for (int i = 1; i < lines.Length; i++) // 1부터 시작해서 헤더를 건너뜁니다.
@@ -43,7 +43,6 @@ public class CraftingDataImporter : MonoBehaviour
             string recipeName = values[1].Trim();
             int resultItemID = int.Parse(values[2].Trim());
             int resultQuantity = int.Parse(values[3].Trim());
-            bool requiresExactPosition = (int.Parse(values[4].Trim()) == 1);
 
             // 결과 아이템 찾기
             ItemData resultItem = FindItemDataByID(resultItemID);
@@ -56,8 +55,8 @@ public class CraftingDataImporter : MonoBehaviour
             // 재료 리스트 생성
             List<RecipeIngredient> ingredients = new List<RecipeIngredient>();
             
-            // 재료 데이터 처리 (5번 인덱스부터 4개씩 묶어서 처리)
-            for (int j = 5; j < values.Length; j += 4)
+            // 재료 데이터 처리 (4번 인덱스부터 2개씩 묶어서 처리)
+            for (int j = 4; j < values.Length; j += 2)
             {
                 if (int.Parse(values[j]) == -1) break;
                 
@@ -85,7 +84,6 @@ public class CraftingDataImporter : MonoBehaviour
                 {
                     itemData = ingredientItem,
                     quantity = quantity,
-                    position = new Vector2Int(x, y)
                 };
                 
                 ingredients.Add(ingredient);
@@ -97,7 +95,6 @@ public class CraftingDataImporter : MonoBehaviour
                 ingredients = ingredients,
                 resultItem = resultItem,
                 resultQuantity = resultQuantity,
-                requiresExactPosition = requiresExactPosition
             };
 
             // CraftingRecipeData ScriptableObject 생성

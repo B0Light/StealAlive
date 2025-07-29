@@ -22,6 +22,7 @@ public class HUD_SelectedItemInfo : MonoBehaviour
     
     private List<HUD_SelectedItemAbility> abilityUIs = new List<HUD_SelectedItemAbility>();
 
+    private String _itemDescription;
     public void Init(ItemInfo itemInfo)
     {
         canvasGroup.alpha = 1;
@@ -35,6 +36,7 @@ public class HUD_SelectedItemInfo : MonoBehaviour
         backgroundImage02.color = WorldDatabase_Item.Instance.GetItemColorByTier(itemInfo.itemTier);
         itemName.text = itemInfo.itemName;
 
+        _itemDescription = itemInfo.itemDescription;
         itemWeight.text = itemInfo.weight.ToString("F1");
         itemGold.text = itemInfo.purchaseCost.ToString();
         
@@ -60,7 +62,14 @@ public class HUD_SelectedItemInfo : MonoBehaviour
         
         if (abilityComponent != null)
         {
+            // icon / value
             abilityComponent.Init_ability(ability);
+            
+            if (ability.itemEffect == ItemEffect.Resource)
+            {
+                abilityComponent.SetText(_itemDescription);
+            }
+            
             abilityUIs.Add(abilityComponent);
         }
     }

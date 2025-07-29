@@ -7,20 +7,32 @@ public class ForgeGUIManager : GUIComponent
     private int _girdWidth = 6;
     private int _gridHeight = 5;
     
-    [SerializeField] private CraftingRecipeDataList allRecipes;
+    private List<CraftingRecipeData> recipes;
     [SerializeField] private ItemGrid craftingGrid;
     [SerializeField] private ItemGrid previewGrid;
     
     private System.Action<int> onValueChangedHandler;
+    
     public void InitForge()
     {
         craftingGrid.SetGrid(_girdWidth, _gridHeight, null);
         previewGrid.SetGrid(6, 3, null);
-        
+        LoadRecipe();
         onValueChangedHandler = i => UpdateCraftingGridUI();
         craftingGrid.totalItemValue.OnValueChanged += onValueChangedHandler;
     }
+    
+    private void LoadRecipe()
+    {
+        recipes = new List<CraftingRecipeData>();
+        CraftingRecipeData[] recipeData = Resources.LoadAll<CraftingRecipeData>("Crafting");
 
+        foreach (var recipe in recipeData)
+        {
+            recipes.Add(recipe);
+        }
+    }
+    
     public override void CloseGUI()
     {
         if (onValueChangedHandler != null)
@@ -44,7 +56,7 @@ public class ForgeGUIManager : GUIComponent
     
     private CraftingRecipe FindMatchingRecipe(Dictionary<int,int> items)
     {
-        var sortedRecipes = allRecipes.recipes.OrderByDescending(r => r.recipe.ingredients.Count);
+        var sortedRecipes = recipes.OrderByDescending(r => r.recipe.ingredients.Count);
 
         foreach (var recipeData in sortedRecipes)
         {
