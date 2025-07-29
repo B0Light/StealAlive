@@ -30316,7 +30316,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7771503676918424287}
-  - {fileID: 1658643263017021106}
   - {fileID: 4306943804374006569}
   m_Father: {fileID: 2559781878207650473}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -40660,6 +40659,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1658643263017021106}
   - {fileID: 2552095362528608071}
   - {fileID: 21757072142075994}
   - {fileID: 3568338950549808236}
@@ -51848,12 +51848,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4466493396439062634}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.00000006714536, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1308634214050898098}
+  m_Father: {fileID: 3914297520438174041}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6447305893452336704
 MonoBehaviour:
@@ -51867,7 +51867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 385f93fcf0b494432a11791955c9f8b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: 'Open '
+  interactableText: "\uC870\uC0AC\uD55C\uB2E4"
   boxWidth: 5
   boxHeight: 5
   generatedItemIds: 
@@ -51890,8 +51890,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5, y: 1, z: 0.5}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Size: {x: 0.75, y: 1.2, z: 0.75}
+  m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!1 &4759820579048381469
 GameObject:
   m_ObjectHideFlags: 0

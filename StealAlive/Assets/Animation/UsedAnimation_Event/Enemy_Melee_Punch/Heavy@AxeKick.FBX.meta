@@ -425,7 +425,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.24954791
-        functionName: AttackAura01
+        functionName: ExecuteAuraAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

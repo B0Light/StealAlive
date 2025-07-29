@@ -97,12 +97,6 @@ public class AICharacterDeathInteractable : Interactable
     {
         base.Interact(player);
         
-        if (generatedItemIds.Count == 0)
-        {
-            Debug.Log("No items to loot");
-            return;
-        }
-        
         GUIController.Instance.WaitToInteraction(OpenLootBox);
     }
     
