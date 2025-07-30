@@ -203,7 +203,7 @@ public class ExtractionSummaryManager : GUIComponent
     {
         GUIController.Instance.HandleEscape();
         WorldSaveGameManager.Instance.SaveGame();
-        WorldSceneChangeManager.Instance.LoadSceneAsync(2);
+        WorldSceneChangeManager.Instance.LoadShelter();
     }
 
     #endregion

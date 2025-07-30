@@ -62,6 +62,11 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
     {
         StartCoroutine(LoadSceneCoroutine(sceneCode));
     }
+    
+    public void LoadShelter()
+    {
+        StartCoroutine(LoadSceneCoroutine(shelterIndex));
+    }
 
     private IEnumerator LoadSceneCoroutine(int sceneCode)
     {
@@ -223,7 +228,7 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
     }
 
     public bool IsMenuScene() =>
-        SceneManager.GetActiveScene().buildIndex == 0;
+        SceneManager.GetActiveScene().buildIndex == 1;
 
     public bool IsExtractionMap() => SceneManager.GetActiveScene().buildIndex > shelterIndex;
     
@@ -232,7 +237,7 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
     
     private bool IsStartScene(int sceneIndex)
     {
-        return sceneIndex == 0;
+        return sceneIndex == 1;
     }
 
     public int GetSaveSceneIndex() => shelterIndex;

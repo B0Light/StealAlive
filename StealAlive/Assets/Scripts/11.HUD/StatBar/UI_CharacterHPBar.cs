@@ -62,17 +62,6 @@ public class UI_CharacterHPBar : UI_StatBar
         }
     }
 
-    private void OnEnable()
-    {
-        // UI가 활성화될 때 현재 체력 상태를 동기화
-        if (character != null)
-        {
-            _currentHealthValue = character.characterVariableManager.health.Value;
-            _maxHealthValue = character.characterVariableManager.health.MaxValue;
-            UpdateHealthBar();
-        }
-    }
-
     private void OnDisable()
     {
         currentDamageTaken = 0;

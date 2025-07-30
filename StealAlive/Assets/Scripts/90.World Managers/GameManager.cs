@@ -28,7 +28,7 @@ public class GameManager : Singleton<GameManager>
 
     public void HandlePostDeath_Continue()
     {
-        if (WorldSceneChangeManager.Instance.GetCurSceneIndex() == 1) // tutorial
+        if (WorldSceneChangeManager.Instance.GetCurSceneIndex() == 2) // tutorial
         {
             string curPlayerName = WorldSaveGameManager.Instance.currentGameData.characterName;
             WorldSaveGameManager.Instance.DeleteCurrentGame();
@@ -36,18 +36,19 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
-            WorldSceneChangeManager.Instance.LoadSceneAsync(2); // shelter
+            _playerManager.playerItemConsumeManager.UseItem(300);
+            WorldSceneChangeManager.Instance.LoadShelter(); // shelter
         }
     }
 
     public void HandlePostDeath_BackToTitle()
     {
-        if (WorldSceneChangeManager.Instance.GetCurSceneIndex() == 1) // tutorial
+        if (WorldSceneChangeManager.Instance.GetCurSceneIndex() == 2) // tutorial
         {
             WorldSaveGameManager.Instance.DeleteCurrentGame();
         }
         
-        WorldSceneChangeManager.Instance.LoadSceneAsync(0);
+        WorldSceneChangeManager.Instance.LoadSceneAsync(1);
     }
     
 }

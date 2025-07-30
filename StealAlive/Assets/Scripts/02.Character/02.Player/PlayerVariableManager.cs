@@ -94,6 +94,7 @@ public class PlayerVariableManager : CharacterVariableManager
     // isDead = true
     public void OnPlayerDeath(bool newValue)
     {
+        Debug.LogWarning("PLAYER DEATH");
         if(!newValue) return; // 사망 -> 생존
         GUIController.Instance.CloseGUI();
         currentEquippedWeaponID.Value = 0;
@@ -107,7 +108,7 @@ public class PlayerVariableManager : CharacterVariableManager
         WorldPlayerInventory.Instance.GetInventory().ResetItemGrid();
 
         health.MaxValue = initialMaxHealth;
-        health.Value = 10;
+        health.Value = 5;
         actionPoint.MaxValue = initialActionPoint;
         WorldSaveGameManager.Instance.SaveGame();
     }

@@ -8,12 +8,9 @@ public class AICharacterCombatManager : CharacterCombatManager
         private readonly int _maxDetectionCount = 10;
         private Collider[] _colliderBuffer;
         
-        
-        
-        [Header("Target Information")]
-        public float distanceFromTarget;
-        public float viewableAngle;
-        public Vector3 targetDirection;
+        [HideInInspector] public float distanceFromTarget;
+        [HideInInspector] public float viewableAngle;
+        [HideInInspector] public Vector3 targetDirection;
 
         [Header("Detection")]
         [SerializeField] float detectionRadius = 15;

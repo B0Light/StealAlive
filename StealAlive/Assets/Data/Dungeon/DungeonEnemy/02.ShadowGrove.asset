@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: 02.ShadowGrove
   m_EditorClassIdentifier: 
   spawnData:
-  - characterPrefab: {fileID: 233800046579812756, guid: 52971af78006b02439ebbca197a0ac13, type: 3}
-    maxHealth: 50
+  - characterPrefab: {fileID: 8997648965784056106, guid: 125571159f6d048468610c2598f5dbf5, type: 3}
+    maxHealth: 200
+    spawnWeight: 6
+  - characterPrefab: {fileID: 4372513285709051510, guid: 8d066391bd5a75d4a81e0dd1f784511e, type: 3}
+    maxHealth: 150
     spawnWeight: 6
   stageBossData:
     characterPrefab: {fileID: 4429322039340291972, guid: e9e3e11792bd1594ea6c497ee80be852, type: 3}

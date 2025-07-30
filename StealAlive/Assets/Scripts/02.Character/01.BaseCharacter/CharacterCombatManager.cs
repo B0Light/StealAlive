@@ -9,24 +9,24 @@ public class CharacterCombatManager : MonoBehaviour
     protected CharacterManager character;
 
     [Header("Last Attack Anim Performed")]
-    [ReadOnly] public string lastAttackAnimationPerformed;
+    [HideInInspector]  public string lastAttackAnimationPerformed;
 
     [Header("Attack Target")]
-    [ReadOnly] public CharacterManager currentTarget;
+    [HideInInspector]  public CharacterManager currentTarget;
 
     [Header("Attack Type")]
-    [ReadOnly] public AttackType currentAttackType;
+    [HideInInspector]  public AttackType currentAttackType;
 
     [Header("Lock On Transform")]
-    [ReadOnly] public Transform lockOnTransform;
+    [HideInInspector]  public Transform lockOnTransform;
 
-    [ReadOnly] public CharacterManager criticalDamagedCharacter;
-    [ReadOnly] public bool canCriticalAttack = false;
+    [HideInInspector]  public CharacterManager criticalDamagedCharacter;
+    [HideInInspector]  public bool canCriticalAttack = false;
         
     [Header("Attack Flag")]
-    [ReadOnly] public bool canPerformRollingAttack = false;
-    [ReadOnly] public bool canPerformBackStepAttack = false;
-    [ReadOnly] public bool canPerformJumpingAttack = false;
+    [HideInInspector]  public bool canPerformRollingAttack = false;
+    [HideInInspector]  public bool canPerformBackStepAttack = false;
+    [HideInInspector]  public bool canPerformJumpingAttack = false;
     
     protected virtual void Awake()
     {

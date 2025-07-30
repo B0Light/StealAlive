@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 [System.Serializable]
@@ -11,8 +9,6 @@ public class SaveGameData
 {
     [Header("Scene Index")]
     public int sceneIndex = 3;
-    
-    [Header("Player")]
     
     [Header("Character Name")]
     public string characterName = "Gangdodan";
