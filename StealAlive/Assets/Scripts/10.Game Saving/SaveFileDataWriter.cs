@@ -12,12 +12,12 @@ public class SaveFileDataWriter
     {
         if(File.Exists(Path.Combine(saveDataDirectoryPath, saveFileName)))
         {
-            Debug.LogWarning("YES DATA");
+            //Debug.LogWarning("YES DATA");
             return true;
         }
         else
         {
-            Debug.LogWarning("NO DATA");
+            //Debug.LogWarning("NO DATA");
             return false;
         }
     }

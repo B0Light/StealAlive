@@ -11,7 +11,6 @@ public class ProjectileConfiguration
     public int initialPoolSize = 10;
 
     [Header("Physical Projectile Settings")]
-    public ParticleSystem particleSystemPrefab;
     public float projectileSpeed = 20f;
     public float maxRange = 100f;
     public LayerMask collisionMask = -1;
@@ -38,6 +37,10 @@ public class ProjectileConfiguration
     public StatusEffectType statusEffectType = StatusEffectType.None;
     public float statusEffectDuration = 3f;
     public float statusEffectIntensity = 1f;
+    
+    [Header("Impact Effects")]
+    public EffectPlayer impactParticlePrefab; // 충돌 시 생성할 파티클 프리팹
+    public EffectPlayer effectObjectPrefab; // 일반 이펙트 생성용 프리팹
     
     
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Pool;
 using Random = UnityEngine.Random;
@@ -8,51 +9,25 @@ using Random = UnityEngine.Random;
 public class PhysicalProjectile : BaseProjectile
 {
     private IObjectPool<PhysicalProjectile> _projectilePool;
-    private IObjectPool<ParticleSystem> _particlePool;
-    private ParticleSystem _currentParticleSystem;
+    private IObjectPool<EffectPlayer> _impactParticlePool;
+    private IObjectPool<EffectPlayer> _effectObjectPool;
     private Vector3 _velocity;
     private float _traveledDistance;
-    private int _pierceCount;
     private readonly int _maxDetectionCount = 50;
     
     [Header("Static Effect Settings")]
     [SerializeField] private bool isStaticEffect = false;
     [SerializeField] private float staticEffectDuration = 2f;
     
-    [Header("Visual Feedback")]
-    [SerializeField] private GameObject hitEffectPrefab;
-    [SerializeField] private AudioClip hitSound;
-    [SerializeField] private float hitEffectDuration = 2f;
-    
     [Header("Advanced Physics")]
     [SerializeField] private bool useGravity = false;
     [SerializeField] private float gravityMultiplier = 1f;
-    [SerializeField] private bool useRicochet = false;
-    [SerializeField] private int maxRicochets = 2;
-    [SerializeField] private float ricochetAngleThreshold = 45f;
-    
-    // 추가 상태 변수
-    private int _ricochetCount = 0;
-    private AudioSource _audioSource;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        // AudioSource 컴포넌트 추가 (없으면)
-        _audioSource = GetComponent<AudioSource>();
-        if (_audioSource == null)
-        {
-            _audioSource = gameObject.AddComponent<AudioSource>();
-            _audioSource.spatialBlend = 1f; // 3D 사운드
-            _audioSource.rolloffMode = AudioRolloffMode.Linear;
-            _audioSource.maxDistance = 30f;
-        }
-    }
-
-    public void SetPools(IObjectPool<PhysicalProjectile> projectilePool, IObjectPool<ParticleSystem> particlePool)
+    public void SetPools(IObjectPool<PhysicalProjectile> projectilePool, IObjectPool<EffectPlayer> impactParticlePool, IObjectPool<EffectPlayer> effectObjectPool)
     {
         _projectilePool = projectilePool;
-        _particlePool = particlePool;
+        _impactParticlePool = impactParticlePool;
+        _effectObjectPool = effectObjectPool;
     }
 
     public override void Fire(Vector3 position, Vector3 direction, Transform firePoint)
@@ -60,17 +35,12 @@ public class PhysicalProjectile : BaseProjectile
         // 초기화
         charactersDamaged.Clear();
         _isActive = true;
-        _ricochetCount = 0;
         
         transform.position = position;
         transform.rotation = Quaternion.LookRotation(direction);
         
         _velocity = direction * _config.projectileSpeed;
         _traveledDistance = 0f;
-        _pierceCount = 0;
-
-        // 파티클 시스템 설정
-        SetupParticleSystem(position);
 
         // 발사 모드에 따른 처리
         if (_config.projectileSpeed <= 0f || isStaticEffect)
@@ -83,16 +53,23 @@ public class PhysicalProjectile : BaseProjectile
         }
     }
 
-    private void SetupParticleSystem(Vector3 position)
+    private void SpawnImpactParticle(Vector3 position)
     {
-        if (_particlePool != null && _config.particleSystemPrefab != null)
+        if (_impactParticlePool != null && _config.impactParticlePrefab != null)
         {
-            _currentParticleSystem = _particlePool.Get();
-            if (_currentParticleSystem != null)
+            EffectPlayer impactParticle = _impactParticlePool.Get();
+            if (impactParticle != null)
             {
-                _currentParticleSystem.transform.position = position;
-                _currentParticleSystem.transform.rotation = transform.rotation;
-                _currentParticleSystem.Play();
+                impactParticle.transform.position = position;
+                impactParticle.transform.rotation = transform.rotation;
+                
+                // 파티클 시스템 자동 재생 및 자동 반환 설정
+                var particleSystem = impactParticle.GetComponent<ParticleSystem>();
+                if (particleSystem != null)
+                {
+                    particleSystem.Play();
+                    StartCoroutine(ReturnImpactParticleAfterPlay(impactParticle, particleSystem));
+                }
             }
         }
     }
@@ -113,18 +90,7 @@ public class PhysicalProjectile : BaseProjectile
 
     private float CalculateEffectDuration()
     {
-        float duration = staticEffectDuration;
-        
-        if (_currentParticleSystem != null)
-        {
-            var main = _currentParticleSystem.main;
-            if (main.duration > 0)
-            {
-                duration = Mathf.Max(duration, main.duration + main.startLifetime.constantMax);
-            }
-        }
-        
-        return duration;
+        return staticEffectDuration;
     }
     
     private IEnumerator PerformProgressiveAreaDamage()
@@ -191,7 +157,9 @@ public class PhysicalProjectile : BaseProjectile
         }
         else
         {
-            ProcessEnvironmentHit(hitCollider, hitPoint);
+            // 환경 충돌 시 파티클 생성
+            SpawnImpactParticle(hitPoint);
+            PlayEffect(hitPoint);
         }
     }
 
@@ -215,18 +183,16 @@ public class PhysicalProjectile : BaseProjectile
             {
                 // 충돌 지점으로 이동
                 transform.position = hit.point;
-                UpdateParticlePosition(hit.point);
 
                 // 충돌 처리
-                bool shouldContinue = HandleProjectileCollision(hit);
-                if (!shouldContinue) break;
+                HandleCollision(hit);
+                
             }
             else
             {
                 // 정상 이동
                 transform.position += movement;
                 _traveledDistance += movement.magnitude;
-                UpdateParticlePosition(transform.position);
                 
                 // 방향 업데이트 (중력 적용 시)
                 if (useGravity && _velocity.magnitude > 0.1f)
@@ -241,60 +207,26 @@ public class PhysicalProjectile : BaseProjectile
         ReturnToPool();
     }
 
-    private bool HandleProjectileCollision(RaycastHit hit)
+    protected override void OnHitEnvironment(RaycastHit hit)
     {
-        HandleCollision(hit);
-
-        // 도탄 처리
-        if (useRicochet && _ricochetCount < maxRicochets)
-        {
-            float angle = Vector3.Angle(-_velocity.normalized, hit.normal);
-            if (angle > ricochetAngleThreshold)
-            {
-                return HandleRicochet(hit);
-            }
-        }
-
-        // 관통 처리
-        if (_config.piercing && _pierceCount < _config.maxPierceCount)
-        {
-            return HandlePiercing();
-        }
-
-        return false; // 발사체 종료
+        base.OnHitEnvironment(hit);
+        PlayEffect(hit.point);
+        StartCoroutine(PerformExplosionDamage(hit.point));
     }
 
-    private bool HandleRicochet(RaycastHit hit)
+    private IEnumerator ReturnImpactParticleAfterPlay(EffectPlayer impactParticle, ParticleSystem particleSystem)
     {
-        _ricochetCount++;
-        
-        // 도탄 방향 계산
-        Vector3 ricochetDirection = Vector3.Reflect(_velocity.normalized, hit.normal);
-        _velocity = ricochetDirection * _velocity.magnitude * 0.8f; // 속도 감소
-        
-        // 위치 약간 오프셋
-        transform.position = hit.point + hit.normal * 0.1f;
-        transform.rotation = Quaternion.LookRotation(ricochetDirection);
-        
-        // 도탄 이펙트
-        CreateHitEffect(hit.point, hit.normal, true);
-        
-        return true; // 계속 진행
-    }
-
-    private bool HandlePiercing()
-    {
-        _pierceCount++;
-        transform.position += _velocity.normalized * 0.1f;
-        return true; // 계속 진행
-    }
-
-    private void UpdateParticlePosition(Vector3 position)
-    {
-        if (_currentParticleSystem != null)
+        // 파티클 시스템이 완전히 끝날 때까지 대기
+        while (particleSystem.isPlaying)
         {
-            _currentParticleSystem.transform.position = position;
+            yield return null;
         }
+        
+        // 추가적으로 모든 파티클이 사라질 때까지 대기
+        yield return new WaitForSeconds(particleSystem.main.startLifetime.constantMax);
+        
+        // 풀로 반환
+        _impactParticlePool?.Release(impactParticle);
     }
 
     private CharacterManager GetTargetCharacter(Collider hitCollider)
@@ -322,29 +254,83 @@ public class PhysicalProjectile : BaseProjectile
             ApplyStatusEffect(targetCharacter);
         }
         
-        // 히트 이펙트 생성
-        CreateHitEffect(hitPoint, (hitPoint - transform.position).normalized, false);
-    }
-
-    private void ProcessEnvironmentHit(Collider hitCollider, Vector3 hitPoint)
-    {
-        CreateHitEffect(hitPoint, (hitPoint - transform.position).normalized, false);
-    }
-
-    private void CreateHitEffect(Vector3 hitPoint, Vector3 normal, bool isRicochet = false)
-    {
-        // 파티클 이펙트
-        if (_particlePool != null && hitEffectPrefab != null)
-        {
-            GameObject effect = Instantiate(hitEffectPrefab, hitPoint, Quaternion.LookRotation(normal));
-            Destroy(effect, hitEffectDuration);
-        }
+        // 충돌 파티클 생성
+        SpawnImpactParticle(hitPoint);
         
-        // 사운드 이펙트
-        if (hitSound != null && _audioSource != null)
+        // 기존 히트 이펙트도 재생 (필요한 경우)
+        PlayEffect(hitPoint);
+    }
+
+    private void PlayEffect(Vector3 hitPoint)
+    {
+        if (_effectObjectPool != null)
         {
-            _audioSource.pitch = isRicochet ? 1.2f : 1f; // 도탄 시 높은 피치
-            _audioSource.PlayOneShot(hitSound);
+            EffectPlayer effectPlayer = _effectObjectPool.Get();
+            if (effectPlayer != null)
+            {
+                effectPlayer.transform.position = hitPoint;
+                effectPlayer.transform.rotation = quaternion.identity;
+                effectPlayer.SetResource();
+                effectPlayer.PlayAllParticles();
+                
+                // 이펙트 재생 후 자동으로 풀에 반환
+                StartCoroutine(ReturnEffectAfterPlay(effectPlayer));
+            }
+        }
+    }
+    
+    private IEnumerator ReturnEffectAfterPlay(EffectPlayer effectPlayer)
+    {
+        // 이펙트가 모두 재생될 때까지 기다림
+        yield return new WaitForSeconds(2f); // 기본 2초, 필요시 조정 가능
+        
+        // 풀로 반환
+        _effectObjectPool?.Release(effectPlayer);
+    }
+    
+    /// <summary>
+    /// 폭발 데미지를 즉시 처리
+    /// </summary>
+    private IEnumerator PerformExplosionDamage(Vector3 explosionCenter)
+    {
+        float radius = _config.areaOfEffect > 0 ? _config.areaOfEffect : 3f; // 기본 3m 반지름
+        // 범위 내 모든 콜라이더 찾기
+        Collider[] hitColliders = Physics.OverlapSphere(explosionCenter, radius, _config.collisionMask);
+        
+        foreach (Collider hitCollider in hitColliders)
+        {
+            if (hitCollider != null)
+            {
+                // 거리 기반 데미지 감소 계산
+                float distance = Vector3.Distance(explosionCenter, hitCollider.transform.position);
+                float damageMultiplier = Mathf.Clamp01(1f - (distance / radius)); // 거리에 따라 데미지 감소
+                
+                // 캐릭터인지 확인
+                CharacterManager targetCharacter = GetTargetCharacter(hitCollider);
+                if (targetCharacter != null && ShouldDamageTarget(targetCharacter))
+                {
+                    // 임시 데미지 저장
+                    float originalPhysicalDamage = physicalDamage;
+                    float originalMagicalDamage = magicalDamage;
+                    
+                    // 거리에 따른 데미지 적용
+                    physicalDamage *= damageMultiplier;
+                    magicalDamage *= damageMultiplier;
+                    // 폭발 지점에서 타겟으로의 가짜 히트 생성
+                    contactPoint = hitCollider.ClosestPoint(explosionCenter);
+                    
+                    // 기존 데미지 시스템 사용
+                    SetBlockingDotValues(targetCharacter);
+                    bool isBlocked = CheckForBlock(targetCharacter);
+                    DamageTarget(targetCharacter, isBlocked);
+                    
+                    // 원래 데미지 복구
+                    physicalDamage = originalPhysicalDamage;
+                    magicalDamage = originalMagicalDamage;
+                    
+                    yield return new WaitForSeconds(0.01f); // 약간의 딜레이
+                }
+            }
         }
     }
 
@@ -353,35 +339,7 @@ public class PhysicalProjectile : BaseProjectile
         _isActive = false;
         StopAllCoroutines();
 
-        // 파티클 정리
-        if (_currentParticleSystem != null)
-        {
-            _currentParticleSystem.Stop();
-            _particlePool?.Release(_currentParticleSystem);
-            _currentParticleSystem = null;
-        }
-
         // 풀로 반환
         _projectilePool?.Release(this);
-    }
-    
-    // 런타임 설정 메서드들
-    public void SetStaticEffectMode(bool isStatic, float duration = 2f)
-    {
-        isStaticEffect = isStatic;
-        staticEffectDuration = duration;
-    }
-    
-    public void SetPhysicsMode(bool gravity, float gravityMult = 1f)
-    {
-        useGravity = gravity;
-        gravityMultiplier = gravityMult;
-    }
-    
-    public void SetRicochetMode(bool ricochet, int maxRico = 2, float angleThreshold = 45f)
-    {
-        useRicochet = ricochet;
-        maxRicochets = maxRico;
-        ricochetAngleThreshold = angleThreshold;
     }
 }

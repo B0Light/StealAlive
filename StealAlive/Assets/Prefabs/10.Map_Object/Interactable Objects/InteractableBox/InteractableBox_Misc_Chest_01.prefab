@@ -70,9 +70,9 @@ MonoBehaviour:
   interactableText: "\uC0C1\uC790\uB97C \uC5F0\uB2E4"
   boxWidth: 6
   boxHeight: 7
-  boxType: 2
-  boxTier: 4
-  itemIdList: 
+  boxType: 3
+  boxTier: 2
+  itemIdList: 0a050000
   openType: 0
   animationDuration: 1
   animationCurve:

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7722eaf5f34afc144bb0a7b8b0ef9a87, type: 3}
-  m_Name: ID_1111_GalacticHorn
+  m_Name: ID_1111_StellaHorn
   m_EditorClassIdentifier: 
   itemCode: 1111
   itemName: "\uBE5B\uB098\uB294 \uC544\uB974\uB0E5\uC758 \uBFD4"
@@ -18,12 +18,12 @@ MonoBehaviour:
   itemTier: 4
   itemDescription: "\uC544\uB974\uB0E5\uC758 \uBFD4\uC5D0\uC11C \uC6B0\uC8FC\uC758
     \uAE30\uC6B4\uC774 \uB290\uAEF4\uC9C4\uB2E4. "
-  purchaseCost: 620000
+  purchaseCost: 124000
   costItemList: 
   width: 1
   height: 2
   itemType: 4
-  saleCost: 558000
+  saleCost: 111600
   purChaseWithItem: 0
   itemModel: {fileID: 0}
   itemAbilities:

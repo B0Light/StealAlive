@@ -110,9 +110,9 @@ ID_11_HuntingMaterials,1102,SuperiorLeather,2,희귀한 가죽이다. 단단해 다루기 어�
 ,1108,,,,,,,,
 ,1109,,,,,,,,
 ID_11_HuntingMaterials,1110,UniHorn,2,아르냥의 뿔이다. 나 뿔이 아파..,6200,1,2,5,아르냥의 뿔
-ID_11_HuntingMaterials,1111,GalacticHorn,4,아르냥의 뿔에서 우주의 기운이 느껴진다. ,620000,1,2,10,빛나는 아르냥의 뿔
-,1112,,,,,,,,
-,1113,,,,,,,,
+ID_11_HuntingMaterials,1111,StellaHorn,4,아르냥의 뿔에서 우주의 기운이 느껴진다. ,124000,1,2,10,빛나는 아르냥의 뿔
+ID_11_HuntingMaterials,1112,GoldenHorn,3,금빛으로 빛나는 아르냥의 뿔이다.,62000,1,2,10,아르냥의 금뿔
+ID_11_HuntingMaterials,1113,PureWhiteHorn,5,유니의 뿔이다. 탈부착이 가능해 보인다. ,620000,1,2,10,유니의 뿔
 ,1114,,,,,,,,
 ,1115,,,,,,,,
 ,1116,,,,,,,,

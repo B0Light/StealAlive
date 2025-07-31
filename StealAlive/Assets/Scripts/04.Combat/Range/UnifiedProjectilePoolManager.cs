@@ -15,8 +15,10 @@ public class UnifiedProjectilePoolManager : Singleton<UnifiedProjectilePoolManag
         new Dictionary<ProjectileType, IObjectPool<PhysicalProjectile>>();
     private readonly Dictionary<ProjectileType, IObjectPool<GuidedProjectile>> _guidedPools = 
         new Dictionary<ProjectileType, IObjectPool<GuidedProjectile>>();
-    private readonly Dictionary<ProjectileType, IObjectPool<ParticleSystem>> _particlePools = 
-        new Dictionary<ProjectileType, IObjectPool<ParticleSystem>>();
+    private readonly Dictionary<ProjectileType, IObjectPool<EffectPlayer>> _impactParticlePools = 
+        new Dictionary<ProjectileType, IObjectPool<EffectPlayer>>();
+    private readonly Dictionary<ProjectileType, IObjectPool<EffectPlayer>> _effectObjectPools = 
+        new Dictionary<ProjectileType, IObjectPool<EffectPlayer>>();
     private readonly Dictionary<ProjectileType, ProjectileConfiguration> _configLookup = 
         new Dictionary<ProjectileType, ProjectileConfiguration>();
 
@@ -51,6 +53,7 @@ public class UnifiedProjectilePoolManager : Singleton<UnifiedProjectilePoolManag
             _configLookup[config.projectileType] = config;
             CreateProjectilePool(config);
             CreateParticlePoolIfNeeded(config);
+            CreateEffectObjectPoolIfNeeded(config);
         }
     }
 
@@ -85,9 +88,17 @@ public class UnifiedProjectilePoolManager : Singleton<UnifiedProjectilePoolManag
 
     private void CreateParticlePoolIfNeeded(ProjectileConfiguration config)
     {
-        if (config.particleSystemPrefab != null)
+        if (config.impactParticlePrefab != null)
         {
-            CreateParticlePool(config);
+            CreateImpactParticlePool(config);
+        }
+    }
+    
+    private void CreateEffectObjectPoolIfNeeded(ProjectileConfiguration config)
+    {
+        if (config.effectObjectPrefab != null)
+        {
+            CreateEffectObjectPool(config);
         }
     }
 
@@ -122,13 +133,22 @@ public class UnifiedProjectilePoolManager : Singleton<UnifiedProjectilePoolManag
         _guidedPools.Add(config.projectileType, pool);
     }
 
-    private void CreateParticlePool(ProjectileConfiguration config)
+    private void CreateImpactParticlePool(ProjectileConfiguration config)
     {
-        var pool = CreateGenericPool<ParticleSystem>(
-            () => CreateParticleInstance(config.particleSystemPrefab),
+        var pool = CreateGenericPool<EffectPlayer>(
+            () => CreateImpactParticleInstance(config.impactParticlePrefab).GetComponent<EffectPlayer>(),
             config.initialPoolSize
         );
-        _particlePools.Add(config.projectileType, pool);
+        _impactParticlePools.Add(config.projectileType, pool);
+    }
+    
+    private void CreateEffectObjectPool(ProjectileConfiguration config)
+    {
+        var pool = CreateGenericPool<EffectPlayer>(
+            () => CreateEffectObjectInstance(config.effectObjectPrefab).GetComponent<EffectPlayer>(),
+            config.initialPoolSize
+        );
+        _effectObjectPools.Add(config.projectileType, pool);
     }
 
     // 제네릭 풀 생성 헬퍼
@@ -163,8 +183,9 @@ public class UnifiedProjectilePoolManager : Singleton<UnifiedProjectilePoolManag
     {
         var projectile = CreateProjectileInstance<PhysicalProjectile>(config);
         
-        _particlePools.TryGetValue(config.projectileType, out IObjectPool<ParticleSystem> particlePool);
-        projectile.SetPools(_physicalPools[config.projectileType], particlePool);
+        _impactParticlePools.TryGetValue(config.projectileType, out IObjectPool<EffectPlayer> impactParticlePool);
+        _effectObjectPools.TryGetValue(config.projectileType, out IObjectPool<EffectPlayer> effectObjectPool);
+        projectile.SetPools(_physicalPools[config.projectileType], impactParticlePool, effectObjectPool);
         
         return projectile;
     }
@@ -188,10 +209,17 @@ public class UnifiedProjectilePoolManager : Singleton<UnifiedProjectilePoolManag
         return projectile;
     }
 
-    private ParticleSystem CreateParticleInstance(ParticleSystem prefab)
+    private GameObject CreateImpactParticleInstance(EffectPlayer prefab)
     {
-        ParticleSystem instance = Instantiate(prefab, transform);
-        instance.gameObject.SetActive(false);
+        GameObject instance = Instantiate(prefab.gameObject, transform);
+        instance.SetActive(false);
+        return instance;
+    }
+    
+    private GameObject CreateEffectObjectInstance(EffectPlayer prefab)
+    {
+        GameObject instance = Instantiate(prefab.gameObject, transform);
+        instance.SetActive(false);
         return instance;
     }
 

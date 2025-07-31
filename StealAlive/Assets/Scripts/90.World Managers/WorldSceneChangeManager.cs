@@ -15,7 +15,7 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
     [SerializeField] private Slider loadingBar;
     [SerializeField] private TextMeshProUGUI loadingText;
     private CanvasGroup _canvasGroup;
-    
+    [SerializeField] private RandomTooltipSystem randomTooltipSystem;
     [Header("Loading Progress Control")]
     [SerializeField] private float maxProgressSpeed = 0.5f; // 초당 최대 진행 속도 (0.5 = 50%/초)
     [SerializeField] private float minProgressSpeed = 0.1f; // 초당 최소 진행 속도 (0.1 = 10%/초)
@@ -101,6 +101,7 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
         _currentDisplayProgress = 0f;
         
         bool sceneLoadingCompleted = false;
+        randomTooltipSystem?.StartTooltipSystem();
         
         while (!asyncOperation.isDone)
         {
@@ -135,7 +136,7 @@ public class WorldSceneChangeManager : Singleton<WorldSceneChangeManager>
             
             yield return null;
         }
-        
+        randomTooltipSystem?.StopTooltipSystem();
         PlayerInputManager.Instance.SetControlActive(!IsMenuScene());
     }
 

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1236738596003951330}
   - component: {fileID: 6766369290419714390}
   - component: {fileID: 5321975927577222291}
-  - component: {fileID: 7472724610600662198}
   m_Layer: 0
   m_Name: ParkGoer
   m_TagString: Untagged
@@ -62,26 +61,6 @@ MonoBehaviour:
   rotationSpeed: 5
   moveSpeed: 5
   numOfAttraction: 2
---- !u!114 &7472724610600662198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5889389195065629213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d854eff89406e1d49bcc2fed405ced29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meshList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1001 &8394002358262925325
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137,6 +116,10 @@ PrefabInstance:
     - target: {fileID: 5139424167235045719, guid: 377ea1de85c4d0d41a53a9e3f467dcc3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6851639855723057464, guid: 377ea1de85c4d0d41a53a9e3f467dcc3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

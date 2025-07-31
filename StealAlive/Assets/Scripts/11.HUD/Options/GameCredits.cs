@@ -73,28 +73,26 @@ public class GameCredits : MonoBehaviour
         creditsList.Clear();
         
         // 게임 제목
-        creditsList.Add(new CreditItem("", "My Awesome Game", true));
+        creditsList.Add(new CreditItem("", "STEAL ALIVE", true));
         creditsList.Add(new CreditItem("", "", false, true, 100f));
         
         // 개발팀
-        creditsList.Add(new CreditItem("", "개발팀", true));
-        creditsList.Add(new CreditItem("", "", false, true, 50f));
+        //creditsList.Add(new CreditItem("", "개발팀", true));
+        //creditsList.Add(new CreditItem("", "", false, true, 50f));
+        creditsList.Add(new CreditItem("기획 및 제작", "장보광"));
+        //creditsList.Add(new CreditItem("프로그래머", "장보광"));
+        //creditsList.Add(new CreditItem("", "", false, true, 30f));
         
-        creditsList.Add(new CreditItem("프로그래머", "김철수"));
-        creditsList.Add(new CreditItem("프로그래머", "이영희"));
-        creditsList.Add(new CreditItem("", "", false, true, 30f));
+        //creditsList.Add(new CreditItem("아티스트", "장보광"));
+        //creditsList.Add(new CreditItem("", "", false, true, 30f));
         
-        creditsList.Add(new CreditItem("아티스트", "박민수"));
-        creditsList.Add(new CreditItem("아티스트", "정수진"));
-        creditsList.Add(new CreditItem("", "", false, true, 30f));
-        
-        creditsList.Add(new CreditItem("사운드 디자이너", "최동훈"));
-        creditsList.Add(new CreditItem("", "", false, true, 50f));
+        //creditsList.Add(new CreditItem("사운드 디자이너", "장보광"));
+        //creditsList.Add(new CreditItem("", "", false, true, 50f));
         
         // 특별 감사
         creditsList.Add(new CreditItem("", "Special Thanks", true));
         creditsList.Add(new CreditItem("", "", false, true, 50f));
-        creditsList.Add(new CreditItem("베타 테스터", "게임 커뮤니티"));
+        creditsList.Add(new CreditItem("베타 테스터", "파스텔"));
         creditsList.Add(new CreditItem("", "", false, true, 100f));
         
         creditsList.Add(new CreditItem("", "Thank you for playing!", true));

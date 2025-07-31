@@ -1368,7 +1368,7 @@ SkinnedMeshRenderer:
   - {fileID: 2100000, guid: b8d852d5ce119034c8666f7bba5eb6d1, type: 2}
   - {fileID: 2100000, guid: 2ca21d60019dd3d48b7b2976356e106b, type: 2}
   - {fileID: -578427392802485302, guid: 8c06a092dc9cc4644ba985b7728f1d11, type: 3}
-  - {fileID: 2100000, guid: 1f49fd279c400ee45bba77caf1fb283f, type: 2}
+  - {fileID: 2100000, guid: b6812728f570c464b8948e25537047b9, type: 2}
   - {fileID: -8624587464375887283, guid: 8c06a092dc9cc4644ba985b7728f1d11, type: 3}
   - {fileID: -1556137440087518019, guid: 8c06a092dc9cc4644ba985b7728f1d11, type: 3}
   m_StaticBatchInfo:
@@ -1510,7 +1510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Priority:
     Enabled: 1
-    m_Value: 220
+    m_Value: 20
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -2287,8 +2287,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableText: "\uB300\uD654\uD55C\uB2E4"
   npcName: "\uCEA1\uD2F4 \uC57C\uBABD"
-  welcomeMessage: "\uBB34\uC2A8 \uC77C\uC774\uC9C0?"
-  vCam: {fileID: 4862760315730737071}
+  interactionMsg: "\uBB34\uC2A8 \uC77C\uC774\uC9C0? "
+  vCam: {fileID: 4391123672286719432}
   dungeons: {fileID: 11400000, guid: 5f45e2faf0a0f3a4898f20b8b13b71c6, type: 2}
   mode: 2
   targetDungeonIndex: 0

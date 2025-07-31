@@ -122,12 +122,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2037835378054313197}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000037658815, y: 1.7110963e-18, z: 5.820766e-11, w: 1}
+  m_LocalRotation: {x: -9.0132346e-11, y: 3.9083742e-18, z: 5.820766e-11, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7503992353504952056}
+  m_Father: {fileID: 2753611872595135284}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &947935110905753955
 MonoBehaviour:
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 385f93fcf0b494432a11791955c9f8b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: 'Open '
+  interactableText: "\uC870\uC0AC\uD55C\uB2E4"
   boxWidth: 5
   boxHeight: 5
   generatedItemIds: 
@@ -644,6 +644,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8373247322943691870}
+  - {fileID: 3743359228870468724}
   - {fileID: 824157395454959439}
   - {fileID: 7773648876225857187}
   - {fileID: 3104741156005474814}
@@ -1040,6 +1041,18 @@ MonoBehaviour:
   attackRotationSpeed: 25
   projectileType: 11
   firePoint: {fileID: 824157395454959439}
+  canThrowGrenades: 0
+  grenadeType: 16
+  grenadeThrowPoint: {fileID: 0}
+  grenadeThrowForce: 15
+  grenadeThrowAngle: 45
+  grenadeRange: 10
+  grenadeCooldown: 3
+  enableGrenadeDebug: 1
+  enableCollisionDebug: 1
+  useAdvancedTargeting: 1
+  targetPredictionFactor: 0.3
+  targetOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &1914159288858465428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6867,11 +6880,8 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4029608926018434329, guid: 01070b86b91a9ee4a8956891e59d87c8, type: 3}
-      insertIndex: 0
+      insertIndex: -1
       addedObject: {fileID: 4516359872463300645}
-    - targetCorrespondingSourceObject: {fileID: 4029608926018434329, guid: 01070b86b91a9ee4a8956891e59d87c8, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 3743359228870468724}
     - targetCorrespondingSourceObject: {fileID: 1087158595398589007, guid: 01070b86b91a9ee4a8956891e59d87c8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 336004720140539728}

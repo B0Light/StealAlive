@@ -24,7 +24,7 @@ public abstract class BaseProjectile : DamageLogic, IProjectile
     public abstract void Fire(Vector3 position, Vector3 direction, Transform firePoint);
     public abstract void ReturnToPool();
 
-    protected virtual void HandleCollision(RaycastHit hit)
+    protected void HandleCollision(RaycastHit hit)
     {
         // CharacterManager 컴포넌트 찾기
         CharacterManager targetCharacter = hit.collider.GetComponent<CharacterManager>();

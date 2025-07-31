@@ -827,6 +827,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3636331961143001057, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: m_Name
+      value: ToolTip
+      objectReference: {fileID: 0}
     - target: {fileID: 4089452080770393277, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -946,6 +950,94 @@ PrefabInstance:
     - target: {fileID: 4749457594190585587, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].damage
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].behavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].maxRange
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].piercing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].extraDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].poiseDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].areaOfEffect
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].damageModifier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].maxPierceCount
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].projectileType
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].staticDuration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].initialPoolSize
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].projectileSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].projectilePrefab
+      value: 
+      objectReference: {fileID: 3470295154542036375, guid: 5e577e76f35518f48bda6a0dc39558ca, type: 3}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].applyStatusEffect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].effectObjectPrefab
+      value: 
+      objectReference: {fileID: 3540399152327941507, guid: 8a798e255b069404682901e4ab680e7a, type: 3}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].magicalDamageRatio
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].physicalDamageRatio
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].collisionMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].impactParticlePrefab
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754230176747982673, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: projectileConfigurations.Array.data[8].particleSystemPrefab
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4864378958311106482, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1382,6 +1474,10 @@ PrefabInstance:
     - target: {fileID: 7153246667114911678, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7265581546382176497, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7317429974880671755, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
       propertyPath: m_AnchorMax.y

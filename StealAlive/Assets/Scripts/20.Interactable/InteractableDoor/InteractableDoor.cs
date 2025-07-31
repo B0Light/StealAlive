@@ -83,8 +83,8 @@ public class InteractableDoor : Interactable
         
         if (_isLock)
         {
-            if (WorldPlayerInventory.Instance.GetInventory().RemoveItem(keyItemCode) || 
-                WorldPlayerInventory.Instance.GetInventory().RemoveItem(_masterKeyCode))
+            if (WorldPlayerInventory.Instance.RemoveItemInInventory(keyItemCode) || 
+                WorldPlayerInventory.Instance.RemoveItemInInventory(_masterKeyCode))
             {
                 _isLock = false;
                 ToggleDoor();

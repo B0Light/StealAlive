@@ -20,6 +20,6 @@ MonoBehaviour:
     maxHealth: 150
     spawnWeight: 6
   stageBossData:
-    characterPrefab: {fileID: 4429322039340291972, guid: e9e3e11792bd1594ea6c497ee80be852, type: 3}
+    characterPrefab: {fileID: 1626937602931868227, guid: 720e6eb026db88442b26e6ec9e60d07b, type: 3}
     maxHealth: 100
     spawnWeight: 1

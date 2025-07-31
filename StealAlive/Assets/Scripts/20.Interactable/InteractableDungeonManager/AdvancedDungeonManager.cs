@@ -17,7 +17,7 @@ public class AdvancedDungeonManager : InteractableNpc
     [Header("NPC 대화 설정")] 
     private string insufficientItemsMessage = "아직은 그곳에 갈 수 없어";
     private string alreadyUnlockedMessage = "이미 모든 곳을 탐험할 수 있어";
-    private string unlockMessage = "이제 그곳에 갈 수 있어\n조심하게나 이곳의 고양이는 자네가 알던 고양이와는 다르네";
+    private string unlockMessage = "이제 그곳에 갈 수 있어\n조심하게나 이곳의 생물은 자네가 알던 생물과는 다르네";
     
     private enum InteractionMode
     {
@@ -138,7 +138,7 @@ public class AdvancedDungeonManager : InteractableNpc
         var dungeonButton = GUIController.Instance.dialogueGUIManager.CreateDialogueButton(dialogueComment, dialogueIcon);
 
 
-        if (CheckRequirements(dungeon))
+        if (requiredItem.itemCode == 0 || CheckRequirements(dungeon))
         {
             dungeonButton.button.interactable = true;
             dungeonButton.button.onClick.AddListener(() => OnDungeonButtonClick(dungeon));
@@ -163,7 +163,7 @@ public class AdvancedDungeonManager : InteractableNpc
             return;
         }
 
-        if (CheckRequirements(dungeonAvailable))
+        if (dungeonAvailable.dungeonKey == 0 || CheckRequirements(dungeonAvailable))
         {
             ConsumeRequirements(dungeonAvailable);
             UnlockDungeon(dungeonAvailable);

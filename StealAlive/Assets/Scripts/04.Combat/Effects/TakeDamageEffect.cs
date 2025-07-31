@@ -79,7 +79,7 @@ public class TakeDamageEffect : IInstantCharacterEffect
             finalDamageDealt = 1;
         }
         
-        Debug.LogWarning($"[DamageINFO] B : {physicalAbsorption} D : {magicalAbsorption} / A : {physicalDamage} C : {magicalDamage} / V : {finalDamageDealt}" );
+        //Debug.LogWarning($"[DamageINFO] B : {physicalAbsorption} D : {magicalAbsorption} / A : {physicalDamage} C : {magicalDamage} / V : {finalDamageDealt}" );
     }
 
     protected virtual void ApplyDamage(CharacterManager hitTarget)
