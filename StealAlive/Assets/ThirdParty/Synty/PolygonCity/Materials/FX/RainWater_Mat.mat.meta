@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9d0b8f7e1868fe94a8000fa08ada2061
+timeCreated: 1496961316
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95214
+  packageName: POLYGON City - Low Poly 3D Art by Synty
+  packageVersion: 1.11.4
+  assetPath: Assets/PolygonCity/Materials/FX/RainWater_Mat.mat
+  uploadId: 735876
