@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 56e91ddfff913b148a557bfdbd9613d0
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128568
+  packageName: 'Poly Art: Animal Forest Set'
+  packageVersion: 3.9
+  assetPath: Assets/Malbers Animations/Common/Shaders/Wind Shader.shader
+  uploadId: 625397

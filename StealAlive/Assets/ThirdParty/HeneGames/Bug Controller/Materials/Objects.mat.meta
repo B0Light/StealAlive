@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: dc757a4e7dd2f784390cc74ad06265d6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 230704
+  packageName: Bug Controller
+  packageVersion: 1.0.1
+  assetPath: Assets/HeneGames/Bug Controller/Materials/Objects.mat
+  uploadId: 540368

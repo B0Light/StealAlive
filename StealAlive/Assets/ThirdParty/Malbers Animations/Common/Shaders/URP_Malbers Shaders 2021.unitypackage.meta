@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 52748c438f56d2541be849f8f9e9d595
+labels:
+- AllCreature
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128568
+  packageName: 'Poly Art: Animal Forest Set'
+  packageVersion: 3.9
+  assetPath: Assets/Malbers Animations/Common/Shaders/URP_Malbers Shaders 2021.unitypackage
+  uploadId: 625397

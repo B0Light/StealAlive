@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: fbcad5a0bdf706248a03af1022c2820d
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 230704
+  packageName: Bug Controller
+  packageVersion: 1.0.1
+  assetPath: Assets/HeneGames/Bug Controller/Prefabs/Bugs/AI Bugs/Nav mesh ant.prefab
+  uploadId: 540368

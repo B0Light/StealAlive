@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9a7405b0e650de4438812d18632e544a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 23800000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 230704
+  packageName: Bug Controller
+  packageVersion: 1.0.1
+  assetPath: Assets/HeneGames/Bug Controller/Example scenes/Player controller example/NavMesh.asset
+  uploadId: 540368

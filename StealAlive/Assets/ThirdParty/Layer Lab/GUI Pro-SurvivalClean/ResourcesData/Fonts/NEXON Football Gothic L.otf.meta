@@ -1,0 +1,30 @@
+fileFormatVersion: 2
+guid: bb8df83ab4c42432eb3ada3f28c62baa
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: NEXON Football Gothic
+  fontNames:
+  - NEXON Football Gothic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 194741
+  packageName: GUI Pro - Survival Clean
+  packageVersion: 2.0.4
+  assetPath: Assets/Layer Lab/GUI Pro-SurvivalClean/ResourcesData/Fonts/NEXON Football
+    Gothic L.otf
+  uploadId: 706930

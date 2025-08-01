@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 97e8d6ae9e09c32488ed08991a5f09a6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 230704
+  packageName: Bug Controller
+  packageVersion: 1.0.1
+  assetPath: Assets/HeneGames/Bug Controller/Scripts/Scene/TimeController.cs
+  uploadId: 540368

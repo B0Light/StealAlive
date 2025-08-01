@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 5c19d44debdc2ba408ee3cecdadfbac0
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 230704
+  packageName: Bug Controller
+  packageVersion: 1.0.1
+  assetPath: Assets/HeneGames/Bug Controller/Prefabs/Effects/Walk dust.prefab
+  uploadId: 540368

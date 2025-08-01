@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 632fc863e2898d74c93397f01c132e39
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128568
+  packageName: 'Poly Art: Animal Forest Set'
+  packageVersion: 3.9
+  assetPath: Assets/Malbers Animations/Common/Shaders/Mask4Toon.shader
+  uploadId: 625397

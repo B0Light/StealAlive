@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: a585ea739537dc340acceaa41c77f52c
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128568
+  packageName: 'Poly Art: Animal Forest Set'
+  packageVersion: 3.9
+  assetPath: Assets/Malbers Animations/Common/Shaders/Fur.shader
+  uploadId: 625397

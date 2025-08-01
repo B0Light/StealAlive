@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e956cd3d62122f240b385d27ced90e5c
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 230704
+  packageName: Bug Controller
+  packageVersion: 1.0.1
+  assetPath: Assets/HeneGames/Bug Controller/Prefabs/Bugs/Controllers only/Ant Controller.prefab
+  uploadId: 540368

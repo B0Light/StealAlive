@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 9fe9ba9d26f6a544fbb02b1e945872f8
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128568
+  packageName: 'Poly Art: Animal Forest Set'
+  packageVersion: 3.9
+  assetPath: Assets/Malbers Animations/Common/Shaders/Mask8Realistic.shader
+  uploadId: 625397

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 31360de64f239e9449695927ce37c4b0
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 230704
+  packageName: Bug Controller
+  packageVersion: 1.0.1
+  assetPath: Assets/HeneGames/Bug Controller/Prefabs/Bugs/AI Bugs/Nav mesh spider.prefab
+  uploadId: 540368

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 27c5039bf7c12ad40a0fc4b1d951b045
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 230704
+  packageName: Bug Controller
+  packageVersion: 1.0.1
+  assetPath: Assets/HeneGames/Bug Controller/Prefabs/Bugs/Controllers only/Beetle
+    Controller.prefab
+  uploadId: 540368

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 3131e619168298747841cd69270725bc
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 284760
+  packageName: MK Edge Detection - Screen Space Lines Shader
+  packageVersion: 1.3.0
+  assetPath: Assets/ThirdParty/_MK/MKEdgeDetection/Examples/Shared/Shader/GradientSkybox.shader
+  uploadId: 740402

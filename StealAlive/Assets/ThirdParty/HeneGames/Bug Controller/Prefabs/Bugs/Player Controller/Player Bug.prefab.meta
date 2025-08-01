@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 28e23dfe43030ca4baa2fe237065436e
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 230704
+  packageName: Bug Controller
+  packageVersion: 1.0.1
+  assetPath: Assets/HeneGames/Bug Controller/Prefabs/Bugs/Player Controller/Player
+    Bug.prefab
+  uploadId: 540368
