@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+Assets/ThirdParty/** filter=git-crypt diff=git-crypt
+Assets/Audio/** filter=git-crypt diff=git-crypt
+Assets/Animation/Animations/** filter=git-crypt diff=git-crypt
