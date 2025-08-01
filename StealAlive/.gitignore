@@ -71,6 +71,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-/Assets/ThirdParty/Synty/
+/Assets/ThirdParty/Synty/01/
 /Assets/Animation/Animations/*
 /Assets/Audio/*
