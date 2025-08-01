@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 95f4bd136af6f55458463f30a19aaf9e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 225265
+  packageName: Werewolf Animation Set
+  packageVersion: 1.0
+  assetPath: Assets/Werewolf_Animation_Set/Art/AnimatorControllers/WW_SprintForward_Proxy.controller
+  uploadId: 511801

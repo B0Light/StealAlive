@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 953eacee7e554384bb672ceb115ab0db
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 225265
+  packageName: Werewolf Animation Set
+  packageVersion: 1.0
+  assetPath: Assets/Werewolf_Animation_Set/Art/AnimatorControllers/WW_Dodge_Right_Proxy.controller
+  uploadId: 511801

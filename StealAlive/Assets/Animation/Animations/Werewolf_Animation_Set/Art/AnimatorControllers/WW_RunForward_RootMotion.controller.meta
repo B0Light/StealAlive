@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: dc1d9ad11f16f244eb4ecc9174417600
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 225265
+  packageName: Werewolf Animation Set
+  packageVersion: 1.0
+  assetPath: Assets/Werewolf_Animation_Set/Art/AnimatorControllers/WW_RunForward_RootMotion.controller
+  uploadId: 511801

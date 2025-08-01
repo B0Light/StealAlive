@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d1622a24fa1c3854d8695acb679af26a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 225265
+  packageName: Werewolf Animation Set
+  packageVersion: 1.0
+  assetPath: Assets/Werewolf_Animation_Set/Art/AnimatorControllers/WW_Idle.controller
+  uploadId: 511801

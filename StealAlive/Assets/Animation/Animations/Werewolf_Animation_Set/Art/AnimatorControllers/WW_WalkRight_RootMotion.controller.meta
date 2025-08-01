@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7168ea7762ff1b44c946a3fe1afa8c92
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 225265
+  packageName: Werewolf Animation Set
+  packageVersion: 1.0
+  assetPath: Assets/Werewolf_Animation_Set/Art/AnimatorControllers/WW_WalkRight_RootMotion.controller
+  uploadId: 511801

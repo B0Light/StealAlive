@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 90003e72b660e974aa9312522ad2b952
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 225265
+  packageName: Werewolf Animation Set
+  packageVersion: 1.0
+  assetPath: Assets/Werewolf_Animation_Set/Art/AnimatorControllers/Paired_WW_Maul_Vic.controller
+  uploadId: 511801

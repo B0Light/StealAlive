@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 708887b8bd033c04a8fef5c3a41ea003
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 225265
+  packageName: Werewolf Animation Set
+  packageVersion: 1.0
+  assetPath: Assets/Werewolf_Animation_Set/Art/AnimatorControllers/WW_WalkBack_Proxy.controller
+  uploadId: 511801

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: de1c95c9ad5187242b105359a4d733d6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 225265
+  packageName: Werewolf Animation Set
+  packageVersion: 1.0
+  assetPath: Assets/Werewolf_Animation_Set/Art/AnimatorControllers/WW_Stagger_Large01_Proxy.controller
+  uploadId: 511801

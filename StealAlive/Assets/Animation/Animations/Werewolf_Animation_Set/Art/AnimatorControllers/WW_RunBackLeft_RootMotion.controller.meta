@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 709f71e8f2997854986387bb53ae40e6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 225265
+  packageName: Werewolf Animation Set
+  packageVersion: 1.0
+  assetPath: Assets/Werewolf_Animation_Set/Art/AnimatorControllers/WW_RunBackLeft_RootMotion.controller
+  uploadId: 511801

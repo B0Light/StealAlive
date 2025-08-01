@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8c687ca24ca387b4d8fb11922da2800e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 225265
+  packageName: Werewolf Animation Set
+  packageVersion: 1.0
+  assetPath: Assets/Werewolf_Animation_Set/Art/AnimatorControllers/Paired_WW_Maul_Att_Proxy.controller
+  uploadId: 511801

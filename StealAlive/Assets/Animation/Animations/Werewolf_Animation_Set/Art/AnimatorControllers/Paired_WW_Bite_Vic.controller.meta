@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1dd40d7040f2b884dbfeec7666ac8749
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 225265
+  packageName: Werewolf Animation Set
+  packageVersion: 1.0
+  assetPath: Assets/Werewolf_Animation_Set/Art/AnimatorControllers/Paired_WW_Bite_Vic.controller
+  uploadId: 511801
