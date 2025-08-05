@@ -58,7 +58,7 @@ MonoBehaviour:
     m_Value: 65472
   tint:
     m_OverrideState: 1
-    m_Value: {r: 1, g: 0.4509804, b: 0, a: 1}
+    m_Value: {r: 0.68436277, g: 0.8584906, b: 0.8331082, a: 1}
   highQualityFiltering:
     m_OverrideState: 1
     m_Value: 1
@@ -321,6 +321,39 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value:
       _value: 1
+  sketch:
+    m_OverrideState: 0
+    m_Value:
+      _value: 0
+  sketchIntensity:
+    m_OverrideState: 0
+    m_Value:
+      _value: 0.333
+      _minValue: 0
+      _maxValue: 1
+  sketchFrequency:
+    m_OverrideState: 0
+    m_Value:
+      _value: 4
+  sketchAdditionalNoiseMap:
+    m_OverrideState: 0
+    m_Value:
+      _value: {fileID: 0}
+  sketchFadeLimits:
+    m_OverrideState: 0
+    m_Value:
+      _minValue: 0
+      _maxValue: 1
+      _minLimit: 0
+      _maxLimit: 1
+  sketchNearFade:
+    m_OverrideState: 0
+    m_Value:
+      _value: 10
+  sketchFarFade:
+    m_OverrideState: 0
+    m_Value:
+      _value: 30
   workflow:
     m_OverrideState: 0
     m_Value:
