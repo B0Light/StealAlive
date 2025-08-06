@@ -84,7 +84,7 @@ public class HUDGridBuildToSelectInfo : MonoBehaviour
         int cost = buildData.baseFee;
         string description = buildData.itemDescription;
         
-        string text = $"[{tileType}]\n사용료 : {cost}\n{description}";
+        string text = $"[{tileType}]\n수익 : {cost}\n{description}";
 
         return text;
     }
