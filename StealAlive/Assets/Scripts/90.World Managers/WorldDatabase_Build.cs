@@ -7,15 +7,16 @@ public class WorldDatabase_Build : Singleton<WorldDatabase_Build>
     public bool IsDataLoaded { get; private set; }
     
     private readonly List<BuildObjData> _allBuildObjDataList = new List<BuildObjData>();
-    private readonly List<int> _buildingCodeList = new List<int>();
-    
+    private readonly Dictionary<ItemTier, List<BuildObjData>> _buildObjByLevel = new Dictionary<ItemTier, List<BuildObjData>>();
     private readonly List<Sprite> _defaultCategoryIcon = new List<Sprite>();
-    // 만약 다른 카테고리의 건축물이 추가 될 경우 고려 
+    
     protected override void Awake()
     {
         base.Awake();
         IsDataLoaded = false;
         LoadData();
+        ClassifyData();
+        IsDataLoaded = true;
     }
 
     private void LoadData()
@@ -25,7 +26,6 @@ public class WorldDatabase_Build : Singleton<WorldDatabase_Build>
         {
             if(unit.isForbidden) continue;
             _allBuildObjDataList.Add(unit);
-            _buildingCodeList.Add(unit.itemCode);
         }
         
         Sprite[] defaultIcons = Resources.LoadAll<Sprite>("Building/99_DefaultIcon");
@@ -33,13 +33,48 @@ public class WorldDatabase_Build : Singleton<WorldDatabase_Build>
         {
             _defaultCategoryIcon.Add(icon);
         }
-        IsDataLoaded = true;
+    }
+
+    private void ClassifyData()
+    {
+        foreach (var buildObj in _allBuildObjDataList)
+        {
+            var tier = buildObj.itemTier;
+        
+            if (!_buildObjByLevel.TryGetValue(tier, out List<BuildObjData> buildObjList))
+            {
+                buildObjList = new List<BuildObjData>();
+                _buildObjByLevel[tier] = buildObjList;
+            }
+        
+            buildObjList.Add(buildObj);
+        }
     }
     
     public BuildObjData GetBuildingByID(int id) => 
         _allBuildObjDataList.FirstOrDefault(buildObjData => buildObjData.itemCode == id);
 
-    public List<int> GetAllBuildObjData() => _buildingCodeList;
     public Sprite GetCategoryIcon(TileCategory id) => _defaultCategoryIcon[(int)id];
-
+    
+    public IReadOnlyList<BuildObjData> GetBuildingsByTierReadOnly(ItemTier tier)
+    {
+        return _buildObjByLevel.TryGetValue(tier, out List<BuildObjData> buildObjList) 
+            ? buildObjList.AsReadOnly() 
+            : new List<BuildObjData>().AsReadOnly();
+    }
+    
+    public IReadOnlyList<BuildObjData> GetBuildingsUpToTierReadOnly(ItemTier maxTier)
+    {
+        List<BuildObjData> result = new List<BuildObjData>();
+        
+        foreach (var kvp in _buildObjByLevel)
+        {
+            if (kvp.Key <= maxTier)
+            {
+                result.AddRange(kvp.Value);
+            }
+        }
+        
+        return result.AsReadOnly();
+    }
 }

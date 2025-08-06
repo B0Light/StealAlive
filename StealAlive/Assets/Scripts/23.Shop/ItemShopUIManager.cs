@@ -87,11 +87,12 @@ public class ItemShopUIManager : ShopUIManager
         if (selectItemInfo.purChaseWithItem)
         {
             DeleteAllChildren(costItemSpawnSlot);
-            foreach (int costItemID in selectItemInfo.costItemList)
+            
+            foreach (var costItemPair in selectItemInfo.GetCostDict())
             {
                 GameObject spawnedCostItem = Instantiate(costItemPrefab, costItemSpawnSlot);
                 
-                spawnedCostItem.GetComponent<ShopCostItem>()?.Init(costItemID);
+                spawnedCostItem.GetComponent<ShopCostItem>()?.Init(costItemPair.Key, costItemPair.Value);
             }
             itemBuyButton_Item.onClick.RemoveAllListeners();
             itemBuyButton_Item.onClick.AddListener(() => BuyWithItem(selectItemInfo));

@@ -159,9 +159,6 @@ public class WorldPlayerInventory : Singleton<WorldPlayerInventory>
         }
         
         // 필요한 아이템 목록 그룹화
-        var requiredItems = buyObject.costItemList
-            .GroupBy(x => x)
-            .ToDictionary(g => g.Key, g => g.Count());
         
         // 트랜잭션 기록 - 롤백용
         var transaction = new Dictionary<ItemGrid, Dictionary<int, int>>();
@@ -171,7 +168,7 @@ public class WorldPlayerInventory : Singleton<WorldPlayerInventory>
         try
         {
             // 각 필요 아이템에 대해 제거 수행
-            foreach (var (itemId, requiredCount) in requiredItems)
+            foreach (var (itemId, requiredCount) in buyObject.GetCostDict())
             {
                 int remainingToRemove = requiredCount;
                 
@@ -247,11 +244,7 @@ public class WorldPlayerInventory : Singleton<WorldPlayerInventory>
         ItemGrid inventory = GetInventory();
         ItemGrid backpack = GetBackpackInventory();
 
-        var requiredItems = buyObject.costItemList
-            .GroupBy(x => x)
-            .ToDictionary(g => g.Key, g => g.Count());
-
-        foreach (var (itemId, requiredCount) in requiredItems)
+        foreach (var (itemId, requiredCount) in buyObject.GetCostDict())
         {
             int countInInventory = inventory.GetItemCountById(itemId);
             int countInBackpack = backpack.GetItemCountById(itemId);

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ShopShelfItem : MonoBehaviour, IShopShelfItem
 {
-    private ItemData _itemData;
+    protected ItemData itemData;
     
     [Header("Item Info")] 
     [SerializeField] private int itemCode;
@@ -16,23 +16,18 @@ public class ShopShelfItem : MonoBehaviour, IShopShelfItem
     [SerializeField] private TextMeshProUGUI itemCost;
 
     [Header("BUY")] 
-    [SerializeField] private Button itemButton;
+    [SerializeField] protected Button itemButton;
     
-    private IShopUIManager _playerUIShopManager;
-    
-    public virtual void Init(ItemData itemData, IShopUIManager shopUIManager)
+    public virtual void Init(ItemData data)
     {
-        this._itemData = itemData;
-        itemCode = itemData.itemCode;
-        ChangeSprite(itemIcon, itemData.itemIcon);
-        itemName.text = itemData.itemName;
-        itemName.color = WorldDatabase_Item.Instance.GetItemColorByTier(itemData.itemTier);
-        itemTierBackground.color = WorldDatabase_Item.Instance.GetItemBackgroundColorByTier(itemData.itemTier);
+        this.itemData = data;
+        itemCode = data.itemCode;
+        ChangeSprite(itemIcon, data.itemIcon);
+        itemName.text = data.itemName;
+        itemName.color = WorldDatabase_Item.Instance.GetItemColorByTier(data.itemTier);
+        itemTierBackground.color = WorldDatabase_Item.Instance.GetItemBackgroundColorByTier(data.itemTier);
 
-        itemCost.text = itemData.purchaseCost.ToString();
-        
-        itemButton.onClick.AddListener(SelectThisItem);
-        _playerUIShopManager = shopUIManager;
+        itemCost.text = data.purchaseCost.ToString();
     }
 
     private void ChangeSprite(Image uiImage, Sprite newSprite)
@@ -60,11 +55,9 @@ public class ShopShelfItem : MonoBehaviour, IShopShelfItem
         uiImage.sprite = newSprite;
     }
     
-    private void SelectThisItem() => _playerUIShopManager.SelectItemToBuy(_itemData);
-    
     public int GetItemCode() => itemCode;
 
-    public ItemData GetItem() => _itemData;
+    public ItemData GetItem() => itemData;
 
     public virtual int GetItemCategory() => 0;
 }

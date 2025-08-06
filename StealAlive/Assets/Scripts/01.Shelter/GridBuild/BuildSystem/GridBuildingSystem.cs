@@ -18,6 +18,8 @@ public class GridBuildingSystem : MonoBehaviour
     private readonly int _gridLength = 40;
     private readonly int _cellSize = 5;
 
+    [SerializeField, Range(0,1f)] private float depreciation = 0.7f;
+
     [Space(10)] 
     [ReadOnly] private Vector2Int entracnePos = new Vector2Int(20, 0);
     [ReadOnly] private Vector2Int headquarterPos = new Vector2Int(21, 2);
@@ -34,7 +36,6 @@ public class GridBuildingSystem : MonoBehaviour
     private Vector2Int _lastPlacedPosition; // 마지막 배치 위치
     
     public List<SaveBuildingData> SaveBuildingDataList { get; private set; }
-    public Dictionary<int, int> SalvagedBuildingList { get; private set; }
 
     // Attraction Entrance Position List -> For NPC
     public List<Vector2Int> AttractionEntrancePosList { get; private set; }
@@ -142,7 +143,6 @@ public class GridBuildingSystem : MonoBehaviour
     private void LoadSaveBuildingData()
     {
         SaveBuildingDataList = new List<SaveBuildingData>();
-        SalvagedBuildingList = new Dictionary<int, int>();
         foreach (var saveData in WorldSaveGameManager.Instance.currentGameData.buildings)
         {
             int sX = saveData.x;
@@ -153,13 +153,6 @@ public class GridBuildingSystem : MonoBehaviour
             PlaceTile(sX,sZ, dir, saveData.level);
         }
         objectToPlace = null;
-
-        foreach (var building in WorldSaveGameManager.Instance.currentGameData.unlockedBuilding)
-        {
-            SalvagedBuildingList.Add(building.Key, building.Value);
-            
-            //Debug.LogWarning("KEY :" + building.Key + " / " + "Value : " + building.Value);
-        }
     }
 
     private void Update()
@@ -257,19 +250,7 @@ public class GridBuildingSystem : MonoBehaviour
 
         if (CheckCanBuildAtPos(x,z))
         {
-            // 취소해서 여분의 건물이 남아있다면 해당 건물 우선 배치 
-            if (SalvagedBuildingList.TryGetValue(objectToPlace.itemCode, out int value) && value > 0)
-            {
-                SalvagedBuildingList[objectToPlace.itemCode] -= 1;
-                if (SalvagedBuildingList[objectToPlace.itemCode] <= 0)
-                {
-                    SalvagedBuildingList.Remove(objectToPlace.itemCode);
-                }
-                
-                PlaceTile(x, z, _dir);
-                _lastPlacedPosition = currentGridPosition; // 마지막 배치 위치 갱신
-            }
-            else if (CheckItemInInventory(objectToPlace) && SpendItemInInventory(objectToPlace))
+            if (CheckItemInInventory(objectToPlace) && SpendItemInInventory(objectToPlace))
             {
                 PlaceTile(x, z, _dir);
                 _lastPlacedPosition = currentGridPosition; // 마지막 배치 위치 갱신
@@ -445,14 +426,8 @@ public class GridBuildingSystem : MonoBehaviour
             {
                 if (placedObject.GetLevel() > 0)
                 {
-                    WorldPlayerInventory.Instance.balance.Value += placedObject.GetTotalUpgradeCost();
+                    WorldPlayerInventory.Instance.balance.Value += Mathf.RoundToInt(placedObject.GetTotalUpgradeCost() * depreciation);
                 }
-            }
-            // 여분 건물에 추가
-            if (itemCode >= 100)
-            {
-                SalvagedBuildingList.TryAdd(itemCode, 0);
-                SalvagedBuildingList[itemCode] += 1;
             }
             
             if(itemCode >= 300)
@@ -575,14 +550,6 @@ public class GridBuildingSystem : MonoBehaviour
         } else {
             return Quaternion.identity;
         }
-    }
-    
-    public int GetPlacedObjectCount()
-    {
-        return objectToPlace != null && SalvagedBuildingList != null 
-            ? SalvagedBuildingList.GetValueOrDefault(objectToPlace.itemCode, 0) 
-            : 0;
-
     }
 
     public bool CanBuildObject()

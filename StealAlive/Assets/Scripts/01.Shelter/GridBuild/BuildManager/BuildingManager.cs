@@ -14,20 +14,13 @@ public class BuildingManager : MonoBehaviour
 
     public ShelterManager shelterManager;
 
-    public SerializableDictionary<int, int> unlockedBuilding;
-    public SerializableDictionary<TileCategory, List<int[]>> unlockedBuildingByCategory;
-
-    private List<int> _purchasedBuilding;
-    private List<int> _buildingsForSale;
+    public SerializableDictionary<TileCategory, List<BuildObjData>> unlockedBuildingByCategory;
 
     [SerializeField] private CanvasGroup constructionCanvasGroup;
     [SerializeField] private CanvasGroup buildingSelectionCanvasGroup;
-    [SerializeField] private CanvasGroup hudBuildingShop;
     [SerializeField] private CanvasGroup buildingPopupCanvasGroup;
     
-    
     [Space(10)]
-    [SerializeField] private GridBuildingShopUIManager gridBuildingShopUIManager;
     [SerializeField] private HUD_BuildInfo buildInfoHUD;
     
     [Header("BuildCam")] 
@@ -41,47 +34,16 @@ public class BuildingManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        LoadUnlockedBuildings();
-        InitBuildingCategory();
-    }
-    
-    private void LoadUnlockedBuildings()
-    {
-        unlockedBuilding = WorldSaveGameManager.Instance.currentGameData.unlockedBuilding;
-        _purchasedBuilding = new List<int>(unlockedBuilding.Keys);
-    }
-    
-    private void InitBuildingCategory()
-    {
-        foreach (TileCategory tileCategory in Enum.GetValues(typeof(TileCategory)))
-        {
-            if(tileCategory == TileCategory.None) return;
-            if(unlockedBuildingByCategory.ContainsKey(tileCategory) == false)
-                unlockedBuildingByCategory.Add(tileCategory, new List<int[]>());
-        }
-    }
-
-    private void Start()
-    {
-        ToggleMainBuildHUD(false);
-        ToggleShopHUD(false);
-        ToggleBuildPopUpHUD(false);
-        ToggleBuildSelectionHUD(false);
-        StartCoroutine(InitShop());
-    }
-    
-    private IEnumerator InitShop()
-    {
-        yield return StartCoroutine(WaitForDataLoad());
-        LoadUnlockedBuildings();
-        _buildingsForSale = new List<int>(WorldDatabase_Build.Instance.GetAllBuildObjData());
-        RemoveCommonElements(_buildingsForSale, _purchasedBuilding);
+        StartCoroutine(Init());
         
-        foreach (var code in unlockedBuilding.Keys)
-        {
-            UpdateCategory(WorldDatabase_Build.Instance.GetBuildingByID(code));
-        }
-        gridBuildCategorySelector.RefreshBuildingCategory();
+    }
+    
+    private IEnumerator Init()
+    {
+        yield return WaitForDataLoad();
+        
+        InitBuildingCategory();
+        UpdateAvailableBuildings();
     }
     
     private IEnumerator WaitForDataLoad()
@@ -91,6 +53,45 @@ public class BuildingManager : MonoBehaviour
         {
             yield return null; // 한 프레임 대기
         }
+    }
+    
+    private void InitBuildingCategory()
+    {
+        foreach (TileCategory tileCategory in Enum.GetValues(typeof(TileCategory)))
+        {
+            if(tileCategory == TileCategory.None) return;
+            if(unlockedBuildingByCategory.ContainsKey(tileCategory) == false)
+                unlockedBuildingByCategory.Add(tileCategory, new List<BuildObjData>());
+        }
+    }
+    
+    // 추후 shelter의 레벨업에 바인딩 할 계획 
+    public void UpdateAvailableBuildings()
+    {
+        int curShelterLevel = WorldSaveGameManager.Instance.currentGameData.shelterLevel;
+
+        foreach (var buildObjData in WorldDatabase_Build.Instance.GetBuildingsUpToTierReadOnly((ItemTier)curShelterLevel))
+        {
+            UpdateCategory(buildObjData);
+        }
+        gridBuildCategorySelector.RefreshBuildingCategory();
+    }
+    
+    private void UpdateCategory(BuildObjData buildObjData)
+    {
+        TileCategory tileCategory = buildObjData.GetTileCategory(); 
+        
+        if(unlockedBuildingByCategory.ContainsKey(tileCategory) == false)
+            unlockedBuildingByCategory.Add(tileCategory, new List<BuildObjData>());
+        
+        unlockedBuildingByCategory[tileCategory].Add(buildObjData);
+    }
+    
+    private void Start()
+    {
+        ToggleMainBuildHUD(false);
+        ToggleBuildPopUpHUD(false);
+        ToggleBuildSelectionHUD(false);
     }
 
     // Interactable Build Controller 와 상호작용해서 HUD를 열때 사용 
@@ -118,30 +119,12 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
-    public void OpenShop()
-    {
-        LoadUnlockedBuildings();
-        _buildingsForSale = new List<int>(WorldDatabase_Build.Instance.GetAllBuildObjData());
-        RemoveCommonElements(_buildingsForSale, _purchasedBuilding);
-        
-        gridBuildingShopUIManager.OpenShop(_buildingsForSale);
-        ToggleShopHUD(true);
-        ToggleConstructionHUD(false);
-    }
-
     public void ToggleBuildSelector()
     {
         bool isOpen = buildingSelectionCanvasGroup.interactable;
 
         gridBuildCategorySelector.RefreshBuildingCategory();
         ToggleBuildSelectionHUD(!isOpen);
-    }
-
-    public void ToggleShopHUD(bool isActive)
-    {
-        hudBuildingShop.alpha = isActive ? 1f : 0f;
-        hudBuildingShop.blocksRaycasts = isActive;
-        hudBuildingShop.interactable = isActive;
     }
 
     public void ToggleConstructionHUD(bool isActive)
@@ -172,7 +155,6 @@ public class BuildingManager : MonoBehaviour
         
         buildInfoHUD.Init(revenueFacilityTile);
         
-        ToggleShopHUD(false);
         ToggleConstructionHUD(false);
         ToggleBuildPopUpHUD(true);
     }
@@ -183,7 +165,6 @@ public class BuildingManager : MonoBehaviour
         _currentSelectTile.SelectObject(false);
         _currentSelectTile = null;
         
-        ToggleShopHUD(false);
         ToggleConstructionHUD(true);
         ToggleBuildPopUpHUD(false);
     }
@@ -199,13 +180,6 @@ public class BuildingManager : MonoBehaviour
         GridBuildingSystem.Instance.SelectToBuild(null);
         gridBuildingSelector.RefreshSlot();
     }
-    
-    private void RemoveCommonElements<T>(List<T> listA, List<T> listB)
-    {
-        HashSet<T> commonElements = new HashSet<T>(listA.Intersect(listB));
-
-        listA.RemoveAll(item => commonElements.Contains(item));
-    }
 
     private void TurnOnGridBuildCamera()
     {
@@ -217,26 +191,6 @@ public class BuildingManager : MonoBehaviour
     {
         _gridBuildCamera.gameObject.SetActive(false);
         PlayerCameraController.Instance.TurnOnCamera();
-    }
-
-    public void RegisterBuilding(BuildObjData buildObjData)
-    {
-        if(!buildObjData) return;
-        unlockedBuilding.TryAdd(buildObjData.itemCode, 0);
-        UpdateCategory(buildObjData);
-        gridBuildCategorySelector.RefreshBuildingCategory();
-        SaveGridData();
-        WorldSaveGameManager.Instance.SaveGame();
-    }
-
-    private void UpdateCategory(BuildObjData buildObjData)
-    {
-        TileCategory tileCategory = buildObjData.GetTileCategory(); 
-        
-        if(unlockedBuildingByCategory.ContainsKey(tileCategory) == false)
-            unlockedBuildingByCategory.Add(tileCategory, new List<int[]>());
-        
-        unlockedBuildingByCategory[tileCategory].Add(new int[]{buildObjData.itemCode, 0});
     }
 
     public void ExitBuildHUD()
@@ -261,16 +215,6 @@ public class BuildingManager : MonoBehaviour
                 WorldSaveGameManager.Instance.currentGameData.buildings.Add(building);
             }
         }
-        
-        foreach (var building in GridBuildingSystem.Instance.SalvagedBuildingList)
-        {
-            WorldSaveGameManager.Instance.currentGameData.unlockedBuilding.TryAdd(building.Key, 0);
-            if (building.Value > 0)
-            {
-                WorldSaveGameManager.Instance.currentGameData.unlockedBuilding[building.Key] = building.Value;
-            }
-        }
         WorldSaveGameManager.Instance.SaveGame();
     }
-
 }

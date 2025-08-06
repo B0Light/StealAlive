@@ -79,5 +79,7 @@ public class ShelterManager : MonoBehaviour
             return _shelterVisitorList.Count > 0;
         }
     }
+
+    
     
 } 

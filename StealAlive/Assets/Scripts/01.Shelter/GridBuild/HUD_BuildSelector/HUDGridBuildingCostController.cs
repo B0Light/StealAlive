@@ -40,11 +40,13 @@ public class HUDGridBuildingCostController : MonoBehaviour
         
         DeleteAllChildren(costItemSlot);
         if (item == null) return;
-        foreach (int costItemID in item.costItemList)
+        
+        
+        foreach (var costItemPair in item.GetCostDict())
         {
             GameObject spawnedCostItem = Instantiate(costPrefab, costItemSlot);
                 
-            spawnedCostItem.GetComponent<ShopCostItem>()?.Init(costItemID);
+            spawnedCostItem.GetComponent<ShopCostItem>()?.Init(costItemPair.Key, costItemPair.Value);
         }
     }
     

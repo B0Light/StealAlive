@@ -118,9 +118,6 @@ public class WorldDatabase_Item : Singleton<WorldDatabase_Item>
             if(1290 <= item.itemCode) // id 1290 이상은 구매 불가 아이템
             {
                 notSaleItem.Add(item);
-                
-                if(1310 <= item.itemCode && item.itemCode < 1320)
-                    item.costItemList.Add(item.itemCode);
             }
             else
             {

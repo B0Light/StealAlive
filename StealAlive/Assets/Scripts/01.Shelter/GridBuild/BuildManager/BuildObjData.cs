@@ -3,7 +3,7 @@ using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[CreateAssetMenu()]
+[SerializeField]
 public class BuildObjData : ItemData
 {
     [System.Serializable]

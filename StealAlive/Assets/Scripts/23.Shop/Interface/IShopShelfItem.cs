@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IShopShelfItem
 {
-    public void Init(ItemData itemData, IShopUIManager shopUIManager);
+    public void Init(ItemData data);
 
     int GetItemCategory();
 

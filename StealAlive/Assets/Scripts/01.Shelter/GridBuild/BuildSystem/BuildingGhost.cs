@@ -79,7 +79,7 @@ public class BuildingGhost : MonoBehaviour
             _visual.localEulerAngles = Vector3.zero;
             MeshRenderer[] mrs = _visual.GetComponentsInChildren<MeshRenderer>();
             
-            _curOriginMat = (GridBuildingSystem.Instance.GetPlacedObjectCount() > 0 || GridBuildingSystem.Instance.CanBuildObject())
+            _curOriginMat = (GridBuildingSystem.Instance.CanBuildObject())
                 ? ghostMaterialEnable
                 : ghostMaterialDisable;
             foreach (var mr in mrs)

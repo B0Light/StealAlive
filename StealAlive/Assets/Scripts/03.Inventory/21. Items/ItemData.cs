@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine.Serialization;
 
 public class ItemData : ScriptableObject
 {
@@ -11,7 +13,7 @@ public class ItemData : ScriptableObject
     [TextArea] public string itemDescription;
     
     public int purchaseCost = 0;
-    public List<int> costItemList;
+    public List<int> costItemList = new List<int>();
     
     public int width = 1;
     public int height = 1;
@@ -28,5 +30,13 @@ public class ItemData : ScriptableObject
     public override int GetHashCode()
     {
         return itemCode.GetHashCode();
+    }
+
+    public Dictionary<int,int> GetCostDict()
+    {
+        var requiredItems = costItemList
+            .GroupBy(x => x)
+            .ToDictionary(g => g.Key, g => g.Count());
+        return requiredItems;
     }
 }

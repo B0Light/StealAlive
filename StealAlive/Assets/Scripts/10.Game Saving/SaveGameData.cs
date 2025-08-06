@@ -48,11 +48,6 @@ public class SaveGameData
     [Header("Perk")] 
     public SerializableBitSet unlockPerkList;
     // 1xx : 카테고리 (손, 머리...) / 2.xx : 티어 / 3.xx 해당 인덱스 (0: 메인 1. 서브 1...)
-
-    [Header("GridWorld")]
-    public SerializableDictionary<int, int> unlockedBuilding; 
-    // dict key : building code, building Cnt
-    // buildingCnt를 유지하는 이유는 건물의 건설 취소시 해당 건물의 잔여수량을 증가시킴
     
     [SerializeReference]
     public List<SaveBuildingData> buildings; // 현재 Shelter에 건설된 건물 정보를 저장 
@@ -61,6 +56,7 @@ public class SaveGameData
     public SerializableDictionary<int, bool> availableDungeon;
 
     [Header("Shelter")] 
+    public int shelterLevel;
     public bool isVisitedToday;
     
     // default Value 
@@ -87,13 +83,8 @@ public class SaveGameData
 
         unlockPerkList = new SerializableBitSet(1000);
         unlockPerkList.Set(0, true);
-        unlockedBuilding = new SerializableDictionary<int, int>();
         
         // Default Building
-        unlockedBuilding.TryAdd(0,0);
-        unlockedBuilding.TryAdd(1,0);
-        unlockedBuilding.TryAdd(2,0);
-        unlockedBuilding.TryAdd(3,0);
         buildings = new List<SaveBuildingData>();
         
         availableDungeon = new SerializableDictionary<int, bool>();
@@ -108,6 +99,7 @@ public class SaveGameData
         availableDungeon.TryAdd(8, false);
         availableDungeon.TryAdd(9, false);
         
+        shelterLevel = 0;
         balance = 10000;
         secondsPlayed = 0;
         isVisitedToday = false;

@@ -10,18 +10,17 @@ public class HUDGridBuildingSelector : MonoBehaviour
     {
         RefreshSlot();
         yield return StartCoroutine(WaitForDataLoad());
-        
-        for (int i = 0; i < BuildingManager.Instance.unlockedBuildingByCategory[category].Count; i++)
+
+        foreach (var buildObjData in BuildingManager.Instance.unlockedBuildingByCategory[category])
         {
             GameObject instanceBtnObj = Instantiate(selectPrefab, selectButtonSlot);
-            HUDGridBuildingUnit btnUnit = instanceBtnObj.GetComponent<HUDGridBuildingUnit>();
-            int[] curBuilding = BuildingManager.Instance.unlockedBuildingByCategory[category][i];
-            btnUnit.InitButton(curBuilding[0], curBuilding[1]);
+            ShopShelfItem_Building btnUnit = instanceBtnObj.GetComponent<ShopShelfItem_Building>();
+            btnUnit.Init(buildObjData);
         }
         
-        GameObject instanceExitBtnObj = Instantiate(selectPrefab, selectButtonSlot);
-        HUDGridBuildingUnit exitBtnUnit = instanceExitBtnObj.GetComponent<HUDGridBuildingUnit>();
-        exitBtnUnit.InitExitButton();
+        //GameObject instanceExitBtnObj = Instantiate(selectPrefab, selectButtonSlot);
+        //HUDGridBuildingUnit exitBtnUnit = instanceExitBtnObj.GetComponent<HUDGridBuildingUnit>();
+        //exitBtnUnit.InitExitButton();
     }
     
     private IEnumerator WaitForDataLoad()
