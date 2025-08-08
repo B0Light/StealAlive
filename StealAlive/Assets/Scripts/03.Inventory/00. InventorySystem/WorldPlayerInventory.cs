@@ -148,56 +148,22 @@ public class WorldPlayerInventory : Singleton<WorldPlayerInventory>
     // buyObject에 대한 requireItem을 제거 
     public bool SpendItemInInventory(ItemData buyObject)
     {
-        // 인벤토리와 백팩 참조 가져오기
-        ItemGrid inventory = GetInventory();
-        ItemGrid backpack = GetBackpackInventory();
-        
-        // 먼저 필요한 모든 아이템이 있는지 확인
+        // 먼저 필요한 아이템이 충분한지 확인
         if (!CheckItemInInventoryToChangeItem(buyObject))
-        {
             return false;
-        }
-        
-        // 필요한 아이템 목록 그룹화
-        
-        // 트랜잭션 기록 - 롤백용
+
+        // 트랜잭션 생성
         var transaction = new Dictionary<ItemGrid, Dictionary<int, int>>();
-        transaction[inventory] = new Dictionary<int, int>();
-        transaction[backpack] = new Dictionary<int, int>();
-        
+
         try
         {
-            // 각 필요 아이템에 대해 제거 수행
+            // 각 아이템별로 Remove 수행 (트랜잭션 기록은 내부에서 처리)
             foreach (var (itemId, requiredCount) in buyObject.GetCostDict())
             {
-                int remainingToRemove = requiredCount;
-                
-                // 먼저 주 인벤토리에서 제거
-                int removedFromInventory = inventory.RemoveItemById(itemId, remainingToRemove);
-                if (removedFromInventory > 0)
-                {
-                    transaction[inventory][itemId] = removedFromInventory;
-                    remainingToRemove -= removedFromInventory;
-                }
-                
-                // 필요하다면 백팩에서 제거
-                if (remainingToRemove > 0)
-                {
-                    int removedFromBackpack = backpack.RemoveItemById(itemId, remainingToRemove);
-                    if (removedFromBackpack > 0)
-                    {
-                        transaction[backpack][itemId] = removedFromBackpack;
-                        remainingToRemove -= removedFromBackpack;
-                    }
-                }
-                
-                // 검증 단계에서는 충분하다고 판단했지만 실제 제거에서 문제가 발생한 경우 (경쟁 상태 등)
-                if (remainingToRemove > 0)
-                {
-                    throw new InsufficientItemsException(itemId, remainingToRemove);
-                }
+                RemoveItemInInventory(itemId, requiredCount, transaction);
             }
-            
+
+            // 전부 성공했으면 true
             return true;
         }
         catch (Exception ex)
@@ -209,50 +175,110 @@ public class WorldPlayerInventory : Singleton<WorldPlayerInventory>
     }
 
     // itemId에 해당하는 아이템을 requiredCount 만큼 제거
-    public bool RemoveItemInInventory(int itemId, int requiredCount = 1)
+    private bool RemoveItemInInventory(int itemId, int requiredCount, Dictionary<ItemGrid, Dictionary<int, int>> transaction)
     {
+        if (GetItemCountInAllInventory(itemId) < requiredCount)
+            return false;
+
+        ItemGrid share = GetShareInventory();
         ItemGrid inventory = GetInventory();
         ItemGrid backpack = GetBackpackInventory();
-        
-        // 아이템이 충분히 있는지 확인 
-        if (inventory.GetItemCountById(itemId) + backpack.GetItemCountById(itemId) < requiredCount) return false;
-        
-        int remainingToRemove = requiredCount;  
-        // 먼저 주 인벤토리에서 제거
-        int removedFromInventory = inventory.RemoveItemById(itemId, remainingToRemove);
-        if (removedFromInventory > 0)
+
+        int remainingToRemove = requiredCount;
+
+        int removedFromShare = share.RemoveItemById(itemId, remainingToRemove);
+        if (removedFromShare > 0)
         {
-            remainingToRemove -= removedFromInventory;
+            if (!transaction.ContainsKey(share))
+                transaction[share] = new Dictionary<int, int>();
+
+            if (!transaction[share].ContainsKey(itemId))
+                transaction[share][itemId] = 0;
+
+            transaction[share][itemId] += removedFromShare;
+            
+            remainingToRemove -= removedFromShare;
         }
-                
-        // 필요하다면 백팩에서 제거
+
+        // 인벤토리에서 제거
+        if (remainingToRemove > 0)
+        {
+            int removedFromInventory = inventory.RemoveItemById(itemId, remainingToRemove);
+            if (removedFromInventory > 0)
+            {
+                if (!transaction.ContainsKey(inventory))
+                    transaction[inventory] = new Dictionary<int, int>();
+
+                if (!transaction[inventory].ContainsKey(itemId))
+                    transaction[inventory][itemId] = 0;
+
+                transaction[inventory][itemId] += removedFromInventory;
+
+                remainingToRemove -= removedFromInventory;
+            }
+        }
+
+        // 백팩에서 제거
         if (remainingToRemove > 0)
         {
             int removedFromBackpack = backpack.RemoveItemById(itemId, remainingToRemove);
             if (removedFromBackpack > 0)
             {
+                if (!transaction.ContainsKey(backpack))
+                    transaction[backpack] = new Dictionary<int, int>();
+
+                if (!transaction[backpack].ContainsKey(itemId))
+                    transaction[backpack][itemId] = 0;
+
+                transaction[backpack][itemId] += removedFromBackpack;
+
                 remainingToRemove -= removedFromBackpack;
             }
+        }
+        
+        WorldSaveGameManager.Instance.currentGameData.shareInventoryItems.Clear();
+        foreach (var pair in GetShareInventory().GetCurItemDictById())
+        {
+            WorldSaveGameManager.Instance.currentGameData.shareInventoryItems.Add(pair.Key, pair.Value);
+        }
+        
+
+        if (remainingToRemove > 0)
+        {
+            throw new InsufficientItemsException(itemId, remainingToRemove);
         }
 
         return true;
     }
+    
+    // RemoveItemInInventory transaction ver
+    
+    public bool RemoveItemInInventory(int itemId, int requiredCount = 1)
+    {
+        var transaction = new Dictionary<ItemGrid, Dictionary<int, int>>();
+
+        try
+        {
+            return RemoveItemInInventory(itemId, requiredCount, transaction);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning($"자동 복구 수행 중: {ex.Message}");
+            RollbackTransaction(transaction);
+            return false;
+        }
+    }
+
 
     // 인벤토리와 백팩에 필요한 모든 아이템이 있는지 확인
     public bool CheckItemInInventoryToChangeItem(ItemData buyObject)
     {
-        ItemGrid inventory = GetInventory();
-        ItemGrid backpack = GetBackpackInventory();
-
         foreach (var (itemId, requiredCount) in buyObject.GetCostDict())
         {
-            int countInInventory = inventory.GetItemCountById(itemId);
-            int countInBackpack = backpack.GetItemCountById(itemId);
-            int totalCount = countInInventory + countInBackpack;
-
+            int totalCount = GetItemCountInAllInventory(itemId);
             if (totalCount < requiredCount)
             {
-                Debug.LogWarning($"아이템 부족: {itemId} / 필요: {requiredCount}, 보유: {totalCount} (인벤토리: {countInInventory}, 백팩: {countInBackpack})");
+                Debug.LogWarning($"아이템 부족: {itemId} / 필요: {requiredCount}, 보유: {totalCount}");
                 return false;
             }
         }
@@ -261,13 +287,19 @@ public class WorldPlayerInventory : Singleton<WorldPlayerInventory>
     
     public bool CheckItemInInventory(int itemCode)
     {
+        return GetItemCountInAllInventory(itemCode) > 0;
+    }
+    
+    public int GetItemCountInAllInventory(int itemCode)
+    {
         ItemGrid inventory = GetInventory();
         ItemGrid backpack = GetBackpackInventory();
+        ItemGrid shareInventory = GetShareInventory();
         
         int countInInventory = inventory.GetItemCountById(itemCode);
         int countInBackpack = backpack.GetItemCountById(itemCode);
-        
-        return countInInventory + countInBackpack > 0;
+        int countInShareInventory = shareInventory.GetItemCountById(itemCode);
+        return countInInventory + countInBackpack + countInShareInventory;
     }
 
     // 트랜잭션 롤백 헬퍼 메서드
@@ -341,6 +373,15 @@ public class WorldPlayerInventory : Singleton<WorldPlayerInventory>
 
     public bool AddItem(GameObject item) => 
          GetInventory().AddItem(item, false) || GetBackpackInventory().AddItem(item, false);
+    
+    public bool ReloadItemShareBox(ItemInfo itemInfoData)
+    {
+        GameObject item = Instantiate(WorldShopManager.Instance.inventoryItemRef);
+        InventoryItem inventoryItem = item.GetComponent<InventoryItem>();
+        inventoryItem.itemInfoData = itemInfoData;
+        inventoryItem.Set();
+        return GetShareInventory().AddItem(item);
+    }
     
     public bool ReloadItemInventory(ItemInfo itemInfoData)
     {

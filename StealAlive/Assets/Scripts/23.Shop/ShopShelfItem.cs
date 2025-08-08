@@ -13,7 +13,7 @@ public class ShopShelfItem : MonoBehaviour, IShopShelfItem
     [SerializeField] private Image itemTierBackground;
     
     [Header("Item Cost")]
-    [SerializeField] private TextMeshProUGUI itemCost;
+    [SerializeField] protected TextMeshProUGUI itemCost;
 
     [Header("BUY")] 
     [SerializeField] protected Button itemButton;

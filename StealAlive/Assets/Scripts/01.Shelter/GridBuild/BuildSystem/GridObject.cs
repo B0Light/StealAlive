@@ -51,6 +51,7 @@ public class GridObject
         _dir = BuildObjData.Dir.Down;
     }
 
+    // 현재 타일에 건설된 건물이 없거나 default(제거되거나)
     public bool CanBuild()
     { 
         return _placedObject == null || _placedObject.IsDefault();

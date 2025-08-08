@@ -20,6 +20,12 @@ public class ShopCostItem : MonoBehaviour
         if(itemNameText)
             itemNameText.text = itemInfoData.itemName;
         if(itemCntText)
-            itemCntText.text = " x " + itemCount;
+        {
+            int inventoryCnt = WorldPlayerInventory.Instance.GetItemCountInAllInventory(itemDataID);
+            itemCntText.text = itemCount + " / " + inventoryCnt;
+            itemCntText.color = itemCount > inventoryCnt 
+                ? new Color(1f, 0.6f, 0.6f)   // 파스텔 레드
+                : new Color(0.6f, 1f, 0.6f);  // 파스텔 그린
+        }
     }
 }

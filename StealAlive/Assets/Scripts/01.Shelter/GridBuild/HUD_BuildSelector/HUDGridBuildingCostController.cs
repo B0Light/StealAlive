@@ -27,11 +27,13 @@ public class HUDGridBuildingCostController : MonoBehaviour
     {
         yield return StartCoroutine(WaitForDataLoad());
         GridBuildingSystem.Instance.OnSelectedChanged += Instance_OnSelectedChanged;
+        GridBuildingSystem.Instance.OnObjectPlaced += Instance_OnSelectedChanged;
     }
 
     private void OnDisable()
     {
         GridBuildingSystem.Instance.OnSelectedChanged -= Instance_OnSelectedChanged;
+        GridBuildingSystem.Instance.OnObjectPlaced -= Instance_OnSelectedChanged;
     }
 
     private void Instance_OnSelectedChanged(object sender, System.EventArgs e)

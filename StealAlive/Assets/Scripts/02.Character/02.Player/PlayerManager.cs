@@ -219,6 +219,18 @@ public class PlayerManager : CharacterManager
         WorldPlayerInventory.Instance.balance.Value = currentGameData.balance;
         // 공유 인벤토리 
         WorldPlayerInventory.Instance.GetShareInventory().UpdateItemGridSize(currentGameData.shareBoxSize);
+        foreach (KeyValuePair<int,int> item in currentGameData.shareInventoryItems)
+        {
+            for (int i = 0; i < item.Value; i++)
+            {
+                ItemInfo itemInfoData = WorldDatabase_Item.Instance.GetItemByID(item.Key);
+                if (!WorldPlayerInventory.Instance.ReloadItemShareBox(itemInfoData))
+                {
+                    Debug.LogWarning("Reload Error");
+                }
+            }
+        }
+        
         // 일반 인벤토리 
         WorldPlayerInventory.Instance.GetInventory().UpdateItemGridSize(currentGameData.inventoryBoxSize);
         foreach (KeyValuePair<int,int> item in currentGameData.inventoryItems)
