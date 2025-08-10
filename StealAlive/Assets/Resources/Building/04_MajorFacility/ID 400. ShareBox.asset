@@ -15,7 +15,7 @@ MonoBehaviour:
   itemCode: 400
   itemName: "\uCEE8\uD14C\uC774\uB108"
   itemIcon: {fileID: 21300000, guid: a4b2f64db24a96546a59e2318e0d5e20, type: 3}
-  itemTier: 5
+  itemTier: 1
   itemDescription: "\uC544\uC774\uD15C\uC744 \uBCF4\uAD00\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n"
   purchaseCost: 1000
   costItemList: e8030000f2030000

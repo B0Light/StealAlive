@@ -1,44 +1,59 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ForgeGUIManager : GUIComponent
 {
-    private int _girdWidth = 6;
+    private int _girdWidth = 5;
     private int _gridHeight = 5;
     
-    private List<CraftingRecipeData> recipes;
+    private List<CraftingRecipeData> _recipes;
     [SerializeField] private ItemGrid craftingGrid;
     [SerializeField] private ItemGrid previewGrid;
+    [SerializeField] private Transform recipeBtnSlot;
+    [SerializeField] private GameObject recipeBtnPrefab;
+    private readonly List<RecipeButton> _recipeButtons = new List<RecipeButton>();
     
-    private System.Action<int> onValueChangedHandler;
+    private System.Action<int> _onValueChangedHandler;
     
     public void InitForge()
     {
         craftingGrid.SetGrid(_girdWidth, _gridHeight, null);
-        previewGrid.SetGrid(6, 3, null);
+        previewGrid.SetGrid(5, 3, null);
         LoadRecipe();
-        onValueChangedHandler = i => UpdateCraftingGridUI();
-        craftingGrid.totalItemValue.OnValueChanged += onValueChangedHandler;
+        _onValueChangedHandler = i => UpdateCraftingGridUI();
+        craftingGrid.totalItemValue.OnValueChanged += _onValueChangedHandler;
     }
     
     private void LoadRecipe()
     {
-        recipes = new List<CraftingRecipeData>();
+        _recipes = new List<CraftingRecipeData>();
         CraftingRecipeData[] recipeData = Resources.LoadAll<CraftingRecipeData>("Crafting");
 
         foreach (var recipe in recipeData)
         {
-            recipes.Add(recipe);
+            _recipes.Add(recipe);
         }
+        
+        recipeBtnSlot.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
+        _recipeButtons.Clear();
+        
+        foreach (var craftingRecipeData in _recipes)
+        {
+            RecipeButton recipeButton = Instantiate(recipeBtnPrefab, recipeBtnSlot).GetComponent<RecipeButton>();
+            recipeButton.Init(this, craftingRecipeData);
+            _recipeButtons.Add(recipeButton);
+        }
+        
     }
     
     public override void CloseGUI()
     {
-        if (onValueChangedHandler != null)
+        if (_onValueChangedHandler != null)
         {
-            craftingGrid.totalItemValue.OnValueChanged -= onValueChangedHandler;
-            onValueChangedHandler = null;
+            craftingGrid.totalItemValue.OnValueChanged -= _onValueChangedHandler;
+            _onValueChangedHandler = null;
         }
         base.CloseGUI();
     }
@@ -56,7 +71,7 @@ public class ForgeGUIManager : GUIComponent
     
     private CraftingRecipe FindMatchingRecipe(Dictionary<int,int> items)
     {
-        var sortedRecipes = recipes.OrderByDescending(r => r.recipe.ingredients.Count);
+        var sortedRecipes = _recipes.OrderByDescending(r => r.recipe.ingredients.Count);
 
         foreach (var recipeData in sortedRecipes)
         {
@@ -118,6 +133,11 @@ public class ForgeGUIManager : GUIComponent
         if (matchedRecipe != null)
         {
             previewGrid.AddItemById(matchedRecipe.resultItem.itemCode, matchedRecipe.resultQuantity);
+        }
+
+        foreach (var recipeButton in _recipeButtons)
+        {
+            recipeButton.CheckCanCreateItem();
         }
     }
     

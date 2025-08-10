@@ -371,8 +371,23 @@ public class WorldPlayerInventory : Singleton<WorldPlayerInventory>
             : _safeItemGrid;
     }
 
-    public bool AddItem(GameObject item) => 
-         GetInventory().AddItem(item, false) || GetBackpackInventory().AddItem(item, false);
+    public bool AddItem(GameObject item) =>
+        GetInventory().AddItem(item, false) ||
+        GetBackpackInventory().AddItem(item, false);
+    
+    public int AddItemById(int itemCode, int itemCnt)
+    {
+        int remaining = itemCnt; // 첫 번째 인벤토리에 넣을 목표 개수
+        remaining = GetInventory().AddItemById_FailCount(itemCode, remaining, false);
+
+        if (remaining > 0)
+            remaining = GetBackpackInventory().AddItemById_FailCount(itemCode, remaining, false);
+
+        if (remaining > 0)
+            remaining = GetShareInventory().AddItemById_FailCount(itemCode, remaining, false);
+
+        return remaining;
+    }
     
     public bool ReloadItemShareBox(ItemInfo itemInfoData)
     {

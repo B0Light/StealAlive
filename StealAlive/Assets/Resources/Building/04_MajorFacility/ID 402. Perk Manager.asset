@@ -15,7 +15,7 @@ MonoBehaviour:
   itemCode: 402
   itemName: "\uD2B9\uC804\uAD00\uB9AC\uC790"
   itemIcon: {fileID: 21300000, guid: 57c59ba38d07a0849b3eea96b3e1c783, type: 3}
-  itemTier: 3
+  itemTier: 1
   itemDescription: "\uD2B9\uC804\uC744 \uD65C\uC131\uD654 \uD558\uB294 \uAC74\uBB3C\uC785\uB2C8\uB2E4."
   purchaseCost: 50000
   costItemList: e8030000e9030000380400004204000043040000

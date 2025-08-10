@@ -15,7 +15,7 @@ MonoBehaviour:
   itemCode: 403
   itemName: "\uC870\uD569\uB300"
   itemIcon: {fileID: 21300000, guid: d25e2d45ff10f1b4e8b1161bb78fec5c, type: 3}
-  itemTier: 5
+  itemTier: 1
   itemDescription: "\uC544\uC774\uD15C\uC744 \uC870\uD569\uD574\uC11C \uC0C8\uB85C\uC6B4
     \uC544\uC774\uD15C\uC744 \uB9CC\uB4E4 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
   purchaseCost: 1000

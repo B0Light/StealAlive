@@ -127,11 +127,30 @@ public class ItemGrid : MonoBehaviour
                 break; // 또는 continue; // 실패한 이후에도 계속 시도하려면 continue 사용
             }
         }
-
         return allAdded;
     }
 
-    
+    public int AddItemById_FailCount(int itemCode, int count = 1, bool isLoad = true)
+    {
+        int failCount = 0; // 실패 개수 카운트
+
+        for (int i = 0; i < count; i++)
+        {
+            GameObject spawnItem = Instantiate(WorldShopManager.Instance.inventoryItemRef);
+            InventoryItem inventoryItem = spawnItem.GetComponent<InventoryItem>();
+            inventoryItem.itemInfoData = WorldDatabase_Item.Instance.GetItemByID(itemCode);
+
+            bool added = AddItem(spawnItem, isLoad);
+            if (!added)
+            {
+                failCount++; // 실패 개수 증가
+                Destroy(spawnItem); // 실패한 아이템은 제거
+            }
+        }
+
+        return failCount; // 실패한 개수 반환
+    }
+
     public bool AddItem(GameObject item, bool isLoad = true)
     {
         InventoryItem inventoryItem = item.GetComponent<InventoryItem>();
