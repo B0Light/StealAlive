@@ -10,6 +10,7 @@ public class PlayerEquipmentManger : CharacterEquipmentMangaer
     [SerializeField] private WeaponModelInstantiateSlot rightHandSlot;
     [SerializeField] private WeaponModelInstantiateSlot leftChainsawSlot;
     private IWeaponManager _weaponManager;
+    private bkTools.WeaponManager _bkWeaponManager;
 
     private GameObject _helmetModel;
     private GameObject _backpackModel;
@@ -18,6 +19,9 @@ public class PlayerEquipmentManger : CharacterEquipmentMangaer
     protected void Awake()
     {
         player = GetComponent<PlayerManager>();
+        // bkTools WeaponManager 준비
+        _bkWeaponManager = player.GetComponent<bkTools.WeaponManager>();
+        if (_bkWeaponManager == null) _bkWeaponManager = player.gameObject.AddComponent<bkTools.WeaponManager>();
         //InitializeWeaponSlots();
     }
 
@@ -60,6 +64,17 @@ public class PlayerEquipmentManger : CharacterEquipmentMangaer
         rightHandSlot.LoadModel(_weaponModel);
         _weaponManager = _weaponModel.GetComponent<IWeaponManager>();
         _weaponManager.SetWeapon(player, player.playerInventoryManager.currentEquippedInfoWeapon);
+
+        // bkTools 무기 장착: SimpleMeleeWeapon이 있으면 자동 장착
+        var simpleWeapon = _weaponModel.GetComponent<bkTools.SimpleMeleeWeapon>();
+        if (simpleWeapon == null) simpleWeapon = _weaponModel.AddComponent<bkTools.SimpleMeleeWeapon>();
+        simpleWeapon.Configure(
+            damage: player.playerInventoryManager.currentEquippedInfoWeapon.GetAbilityValue(ItemEffect.PhysicalAttack),
+            isCritical: false,
+            isRightHand: true
+        );
+        _bkWeaponManager.Equip(simpleWeapon);
+
         player.playerAnimatorManager.UpdateAnimatorController(player.playerInventoryManager.currentEquippedInfoWeapon.weaponAnimator);
     }
 
@@ -93,18 +108,31 @@ public class PlayerEquipmentManger : CharacterEquipmentMangaer
         leftChainsawSlot.LoadModel(_weaponModel);
         _weaponManager = _weaponModel.GetComponent<IWeaponManager>();
         _weaponManager.SetWeapon(player, player.playerInventoryManager.currentEquippedInfoWeapon);
+
+        // bkTools 무기 장착(왼손)
+        var simpleWeapon = _weaponModel.GetComponent<bkTools.SimpleMeleeWeapon>();
+        if (simpleWeapon == null) simpleWeapon = _weaponModel.AddComponent<bkTools.SimpleMeleeWeapon>();
+        simpleWeapon.Configure(
+            damage: player.playerInventoryManager.currentEquippedInfoWeapon.GetAbilityValue(ItemEffect.PhysicalAttack),
+            isCritical: false,
+            isRightHand: false
+        );
+        _bkWeaponManager.Equip(simpleWeapon);
+
         player.playerAnimatorManager.UpdateAnimatorController(player.playerInventoryManager.currentEquippedInfoWeapon.weaponAnimator);
     }
     
     public void OpenDamageCollider()
     {
-        _weaponManager.OpenDamageCollider();
+        // bkTools 공격 시작 신호 (애니메이션 이벤트에서 호출)
+        _bkWeaponManager.MainAttack(true);
         player.playerSoundFXManager.PlaySoundFX(WorldSoundFXManager.Instance.ChooseSwordSwingSfx());
     }
 
     public override void CloseDamageCollider()
     {
-        _weaponManager?.CloseDamageCollider();
+        // bkTools 공격 해제 신호
+        _bkWeaponManager.MainAttack(false);
     }
 
     public void OpenBlock()
