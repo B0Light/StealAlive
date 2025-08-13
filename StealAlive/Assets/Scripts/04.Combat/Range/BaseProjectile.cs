@@ -120,15 +120,13 @@ public abstract class BaseProjectile : DamageLogic, IProjectile
         Debug.Log($"Projectile hit environment: {hit.collider.name} at {hit.point}");
     }
 
-    // DamageLogic의 ModifyDamageEffect를 오버라이드하여 추가 효과 적용 가능
-    protected override void ModifyDamageEffect(TakeDamageEffect damageEffect)
+    // 단순 데미지 시스템에서는 보정 훅을 간단 계수로 반영
+    protected override void ModifySimpleDamage(ref bkTools.DamageInfo info, bool isBlock)
     {
-        base.ModifyDamageEffect(damageEffect);
-        
-        // 투사체별 추가 데미지 효과 적용
-        if (_config.damageModifier != 1f)
+        base.ModifySimpleDamage(ref info, isBlock);
+        if (_config != null && _config.damageModifier != 1f)
         {
-            damageEffect.ApplyAttackDamageModifiers(_config.damageModifier);
+            info.amount *= _config.damageModifier;
         }
     }
 }

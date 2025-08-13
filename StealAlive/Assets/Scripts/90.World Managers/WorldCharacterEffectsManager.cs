@@ -16,6 +16,7 @@ public class WorldCharacterEffectsManager : Singleton<WorldCharacterEffectsManag
     public List<GameObject> swordPickAura;
     public List<GameObject> leapingAttackAura;
     
+    // 레거시 이펙트: 단순 데미지 시스템으로 대체됨
     [HideInInspector] public TakeDamageEffect takeDamageEffect;
     [HideInInspector] public TakeBlockDamageEffect takeBlockDamageEffect;
     [HideInInspector] public RestoreHealthEffect restoreHealthEffect;
@@ -29,6 +30,7 @@ public class WorldCharacterEffectsManager : Singleton<WorldCharacterEffectsManag
     protected override void Awake()
     {
         base.Awake();
+        // 레거시 인스턴스는 남겨두되, 사용하지 않음
         takeDamageEffect = ScriptableObject.CreateInstance<TakeDamageEffect>();
         takeBlockDamageEffect = ScriptableObject.CreateInstance<TakeBlockDamageEffect>();
         restoreHealthEffect = ScriptableObject.CreateInstance<RestoreHealthEffect>();
