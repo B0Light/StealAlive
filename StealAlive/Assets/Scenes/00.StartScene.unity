@@ -1991,6 +1991,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5925665537645262485, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
+      propertyPath: swordSwingSfx.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5948141695910839032, guid: 377c9552c099bd741b7ec5f625e2e1ca, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
