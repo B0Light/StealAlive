@@ -8757,7 +8757,7 @@ GameObject:
   - component: {fileID: 1906159912}
   - component: {fileID: 1906159911}
   - component: {fileID: 1906159910}
-  - component: {fileID: 1906159909}
+  - component: {fileID: 1906159913}
   m_Layer: 0
   m_Name: FieldMapGenerator
   m_TagString: Untagged
@@ -8765,24 +8765,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1906159909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1906159908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e6c3d054219efc4b92a0ec326833314, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridSize: {x: 96, y: 96}
-  minRoomSize: 7
-  maxRoomSize: 8
-  cubeSize: {x: 2, y: 2, z: 2}
-  tileMappingDataSO: {fileID: 11400000, guid: 7646a5eabe211d1488763d5a55ed21e2, type: 2}
-  _floorList: []
 --- !u!114 &1906159910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8845,6 +8827,44 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1906159913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906159908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db15879ae0429f43acab88bc31e4842, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentGeneratorType: 0
+  autoGenerateOnStart: 0
+  gridSize: {x: 64, y: 64}
+  cubeSize: {x: 2, y: 2, z: 2}
+  seed: 0
+  slot: {fileID: 1906159912}
+  tileMappingDataSO: {fileID: 0}
+  isaacMaxRooms: 15
+  isaacSpecialRoomCount: 3
+  isaacHorizontalSize: 11
+  isaacVerticalSize: 11
+  isaacPathType: 2
+  isaacPathValue: 0.5
+  delaunayMinRoomSize: 9
+  delaunayMaxRoomSize: 12
+  delaunayPathValue: 0.5
+  delaunayPathType: 0
+  bspMinRoomSize: 6
+  bspMaxRoomSize: 20
+  bspMaxDepth: 5
+  bspPathType: 1
+  bspPathValue: 0.5
+  bspFullMinSplitSize: 6
+  bspFullMaxDepth: 5
+  bspFullPathType: 1
+  bspFullPathValue: 0.5
 --- !u!1001 &1916564407
 PrefabInstance:
   m_ObjectHideFlags: 0

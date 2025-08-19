@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104abc759d417fb488533d6b2f4b0307, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e9252d20c013704eaed6c5d586e8c6f, type: 3}
   m_Name: TestEXPath_Skyblue
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 1691581078342472967, guid: 7675fe3dc145d814a8080a7c25cde18c, type: 3}
+  tilePrefab: {fileID: 0}
   objectPercent: 0
   treePercent: 0
   grassPercent: 0

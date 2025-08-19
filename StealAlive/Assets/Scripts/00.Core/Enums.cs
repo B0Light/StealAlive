@@ -155,16 +155,6 @@ public enum TileType
     None,
 }
 
-public enum CellType
-{
-    Empty,
-    Floor,
-    FloorCenter,
-    Wall,
-    Path,
-    ExpandedPath,
-}
-
 public enum BoxType
 {
     WeaponBox,
