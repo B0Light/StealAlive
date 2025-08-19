@@ -184,7 +184,7 @@ public class IsaacMapGenerator : BaseMapGenerator
             {
                 if (x >= 0 && x < gridSize.x && y >= 0 && y < gridSize.y)
                 {
-                    if (x == gridX + width / 2 && y == gridY + height / 2)
+                    if (x == gridX + (width - 1) / 2 && y == gridY + (height - 1) / 2)
                         _grid[x, y] = CellType.FloorCenter;
                     else
                         _grid[x, y] = CellType.Floor;

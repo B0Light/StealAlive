@@ -135,6 +135,7 @@ public class BSPDungeonMapGenerator : BaseMapGenerator
 
             node.RoomRect = new RectInt(roomX, roomY, roomWidth, roomHeight);
             _leafNodes.Add(node);
+            _floorList.Add(node.RoomRect); // BaseMapGenerator의 _floorList에 방 추가
         }
     }
 
@@ -156,8 +157,8 @@ public class BSPDungeonMapGenerator : BaseMapGenerator
     private void PlaceRoomOnGrid(Vector2Int location, Vector2Int size)
     {
         Vector2Int center = new Vector2Int(
-            location.x + size.x / 2,
-            location.y + size.y / 2
+            location.x + (size.x - 1) / 2,
+            location.y + (size.y - 1) / 2
         );
         
         for (int x = location.x; x < location.x + size.x; x++)

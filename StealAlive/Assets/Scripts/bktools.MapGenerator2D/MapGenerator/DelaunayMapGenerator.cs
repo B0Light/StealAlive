@@ -15,8 +15,7 @@ public class DelaunayMapGenerator : BaseMapGenerator
     [SerializeField] protected int maxRoomSize = 12; // 최대 방 크기
     protected int roomCount; // 방의 개수
 
-    private int _startRoomIndex;
-    private int _exitRoomIndex;
+
     
     private List<WaypointData> _waypointDataList;
     
@@ -268,30 +267,5 @@ public class DelaunayMapGenerator : BaseMapGenerator
         return position;
     }
     
-    // 가장 멀리 떨어진 두 방을 찾는 메서드
-    private void FindFurthestRooms() 
-    {
-        float maxDistance = 0;
-        _startRoomIndex = 0;
-        _exitRoomIndex = 0;
-        
-        for (int i = 0; i < _floorList.Count; i++)
-        {
-            for (int j = i + 1; j < _floorList.Count; j++)
-            {
-                Vector2 center1 = _floorList[i].center;
-                Vector2 center2 = _floorList[j].center;
-                float distance = Vector2.Distance(center1, center2);
-                
-                if (distance > maxDistance)
-                {
-                    maxDistance = distance;
-                    _startRoomIndex = i;
-                    _exitRoomIndex = j;
-                }
-            }
-        }
-        
-        Debug.Log($"시작 방: {_startRoomIndex}, 끝 방: {_exitRoomIndex}, 거리: {maxDistance}");
-    }
+
 }

@@ -89,6 +89,7 @@ public class MapGeneratorFactory : MonoBehaviour
         }
         
         Debug.Log($"{currentGeneratorType} 맵 생성기를 사용하여 맵을 생성합니다.");
+        ClearMap();
         currentGenerator.GenerateMap();
     }
     

@@ -127,6 +127,7 @@ public class BSPDungeonMapGeneratorFull : BaseMapGenerator
             // 분할된 영역 전체를 방으로 사용
             node.RoomRect = node.NodeRect;
             _leafNodes.Add(node);
+            _floorList.Add(node.RoomRect); // BaseMapGenerator의 _floorList에 방 추가
         }
     }
 
@@ -152,6 +153,12 @@ public class BSPDungeonMapGeneratorFull : BaseMapGenerator
         int xMax = location.x + size.x;
         int yMax = location.y + size.y;
 
+        // 방의 중심 위치 계산 (정확한 중심 위치)
+        Vector2Int center = new Vector2Int(
+            location.x + (size.x - 1) / 2,
+            location.y + (size.y - 1) / 2
+        );
+
         for (int x = xMin; x < xMax; x++)
         {
             for (int y = yMin; y < yMax; y++)
@@ -159,9 +166,14 @@ public class BSPDungeonMapGeneratorFull : BaseMapGenerator
                 if (x >= 0 && x < gridSize.x && y >= 0 && y < gridSize.y)
                 {
                     bool isBorder = (x == xMin || x == xMax - 1 || y == yMin || y == yMax - 1);
-                    _grid[x, y] = isBorder ? 
-                        (_grid[x, y] == CellType.Path ? CellType.Path : CellType.Wall) : 
-                        CellType.Floor;
+                    Vector2Int pos = new Vector2Int(x, y);
+                    
+                    if (pos == center)
+                        _grid[x, y] = CellType.FloorCenter;
+                    else
+                        _grid[x, y] = isBorder ? 
+                            (_grid[x, y] == CellType.Path ? CellType.Path : CellType.Wall) : 
+                            CellType.Floor;
                 }
             }
         }

@@ -51,8 +51,8 @@ public abstract class BaseMapGenerator : IMapGenerator
     // 공통 그리드 데이터
     protected CellType[,] _grid;
     protected List<RectInt> _floorList;
-    private int _startRoomIndex;
-    private int _exitRoomIndex;
+    protected int _startRoomIndex;
+    protected int _exitRoomIndex;
 
     protected Transform _slot;
     
@@ -218,7 +218,8 @@ public abstract class BaseMapGenerator : IMapGenerator
             return;
         }
 
-        if (_floorList[_startRoomIndex] == room || _floorList[_exitRoomIndex] == room)
+        if ((_startRoomIndex >= 0 && _startRoomIndex < _floorList.Count && _floorList[_startRoomIndex] == room) || 
+            (_exitRoomIndex >= 0 && _exitRoomIndex < _floorList.Count && _floorList[_exitRoomIndex] == room))
         {
             Debug.LogWarning("Room SpawnPoint");
             tileData.SpawnTile(spawnPos, cubeSize, _slot, true);
@@ -237,28 +238,38 @@ public abstract class BaseMapGenerator : IMapGenerator
 
         foreach (var room in _floorList)
         {
-            // 버림 계산으로 변경
+            // 정확한 중심 위치 계산 (각 맵 생성기에서 사용하는 방식과 동일)
             Vector2Int center = new Vector2Int(
-                room.x + room.width / 2,
-                room.y + room.height / 2
+                room.x + (room.width - 1) / 2,
+                room.y + (room.height - 1) / 2
             );
             
             if (center.x == x && center.y == y)
             {
-                Debug.LogWarning("FIND ROOM!");
+                Debug.Log($"FIND ROOM! Position: ({x}, {y}), Room: {room}");
                 return room;
             }
         }
 
+        Debug.LogWarning($"Room not found at position ({x}, {y}). Available rooms:");
+        for (int i = 0; i < _floorList.Count; i++)
+        {
+            var room = _floorList[i];
+            Vector2Int center = new Vector2Int(
+                room.x + (room.width - 1) / 2,
+                room.y + (room.height - 1) / 2
+            );
+            Debug.LogWarning($"  Room {i}: {room}, Center: ({center.x}, {center.y})");
+        }
         return null;
     }
     
     public RoomInfo GetRoomInfo(RectInt room)
     {
-        // 버림 계산으로 변경
+        // 정확한 중심 위치 계산 (각 맵 생성기에서 사용하는 방식과 동일)
         Vector2Int center = new Vector2Int(
-            room.x + room.width / 2,
-            room.y + room.height / 2
+            room.x + (room.width - 1) / 2,
+            room.y + (room.height - 1) / 2
         );
         
         return new RoomInfo
@@ -292,10 +303,74 @@ public abstract class BaseMapGenerator : IMapGenerator
     }
     
     /// <summary>
+    /// 시작 방과 출구 방의 인덱스를 초기화합니다.
+    /// </summary>
+    protected virtual void InitializeRoomIndices()
+    {
+        if (_floorList == null || _floorList.Count == 0)
+        {
+            Debug.LogWarning("방 리스트가 비어있습니다. 방 인덱스를 초기화할 수 없습니다.");
+            _startRoomIndex = 0;
+            _exitRoomIndex = 0;
+            return;
+        }
+
+        if (_floorList.Count == 1)
+        {
+            // 방이 하나뿐인 경우
+            _startRoomIndex = 0;
+            _exitRoomIndex = 0;
+            Debug.LogWarning("방이 하나뿐입니다. 시작점과 출구가 같은 방에 설정됩니다.");
+            return;
+        }
+
+        // 가장 멀리 떨어진 두 방을 찾기
+        FindFurthestRooms();
+        
+        Debug.Log($"시작 방 인덱스: {_startRoomIndex}, 출구 방 인덱스: {_exitRoomIndex} (총 {_floorList.Count}개 방)");
+    }
+    
+    /// <summary>
+    /// 가장 멀리 떨어진 두 방을 찾습니다.
+    /// </summary>
+    protected virtual void FindFurthestRooms()
+    {
+        float maxDistance = 0;
+        _startRoomIndex = 0;
+        _exitRoomIndex = 0;
+        
+        for (int i = 0; i < _floorList.Count; i++)
+        {
+            for (int j = i + 1; j < _floorList.Count; j++)
+            {
+                Vector2Int centerA = new Vector2Int(
+                    _floorList[i].x + (_floorList[i].width - 1) / 2,
+                    _floorList[i].y + (_floorList[i].height - 1) / 2
+                );
+                Vector2Int centerB = new Vector2Int(
+                    _floorList[j].x + (_floorList[j].width - 1) / 2,
+                    _floorList[j].y + (_floorList[j].height - 1) / 2
+                );
+                
+                float distance = Vector2Int.Distance(centerA, centerB);
+                if (distance > maxDistance)
+                {
+                    maxDistance = distance;
+                    _startRoomIndex = i;
+                    _exitRoomIndex = j;
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// 맵 생성 완료를 표시합니다.
     /// </summary>
     protected virtual void OnMapGenerationComplete()
     {
+        // 방 인덱스 초기화
+        InitializeRoomIndices();
+        
         isMapGenerated = true;
         Debug.Log($"{GetType().Name}: 맵 생성 완료");
     }
@@ -383,21 +458,45 @@ public abstract class BaseMapGenerator : IMapGenerator
     
     public Vector2Int GetStartPos()
     {
-        // 버림 계산으로 변경
+        if (_floorList == null || _floorList.Count == 0)
+        {
+            Debug.LogError("방 리스트가 비어있습니다. 기본 위치 (0, 0)을 반환합니다.");
+            return Vector2Int.zero;
+        }
+        
+        if (_startRoomIndex < 0 || _startRoomIndex >= _floorList.Count)
+        {
+            Debug.LogError($"시작 방 인덱스가 유효하지 않습니다. 인덱스: {_startRoomIndex}, 방 개수: {_floorList.Count}");
+            _startRoomIndex = 0; // 안전한 기본값 설정
+        }
+        
+        // 정확한 중심 위치 계산 (각 맵 생성기에서 사용하는 방식과 동일)
         RectInt startRoom = _floorList[_startRoomIndex];
         return new Vector2Int(
-            startRoom.x + startRoom.width / 2,
-            startRoom.y + startRoom.height / 2
+            startRoom.x + (startRoom.width - 1) / 2,
+            startRoom.y + (startRoom.height - 1) / 2
         );
     }
     
     public Vector2Int GetExitPos()
     {
-        // 버림 계산으로 변경
+        if (_floorList == null || _floorList.Count == 0)
+        {
+            Debug.LogError("방 리스트가 비어있습니다. 기본 위치 (0, 0)을 반환합니다.");
+            return Vector2Int.zero;
+        }
+        
+        if (_exitRoomIndex < 0 || _exitRoomIndex >= _floorList.Count)
+        {
+            Debug.LogError($"출구 방 인덱스가 유효하지 않습니다. 인덱스: {_exitRoomIndex}, 방 개수: {_floorList.Count}");
+            _exitRoomIndex = 0; // 안전한 기본값 설정
+        }
+        
+        // 정확한 중심 위치 계산 (각 맵 생성기에서 사용하는 방식과 동일)
         RectInt exitRoom = _floorList[_exitRoomIndex];
         return new Vector2Int(
-            exitRoom.x + exitRoom.width / 2,
-            exitRoom.y + exitRoom.height / 2
+            exitRoom.x + (exitRoom.width - 1) / 2,
+            exitRoom.y + (exitRoom.height - 1) / 2
         );
     }
     

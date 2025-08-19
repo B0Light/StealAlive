@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileMappings:
   - cellType: 0
-    tileData: {fileID: 0}
+    tileData: {fileID: 11400000, guid: 7c8d2ead2788dd24eb5099ef59bc9a18, type: 2}
   - cellType: 1
-    tileData: {fileID: 0}
+    tileData: {fileID: 11400000, guid: cc9683f5964312b4ba225da68812fd8e, type: 2}
   - cellType: 2
-    tileData: {fileID: 0}
+    tileData: {fileID: 11400000, guid: 71f84d7471f6b43498146b5d6dea7c4b, type: 2}
   - cellType: 3
-    tileData: {fileID: 0}
+    tileData: {fileID: 11400000, guid: 554058a6fee4a9f41adbf9f09810385a, type: 2}
   - cellType: 4
-    tileData: {fileID: 0}
+    tileData: {fileID: 11400000, guid: 10c132dba51a1694cbfb15ea5a95d7c4, type: 2}
   - cellType: 5
-    tileData: {fileID: 0}
+    tileData: {fileID: 11400000, guid: d7f498c4bbd61dd42b4bcd9eaaea9fb3, type: 2}

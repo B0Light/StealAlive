@@ -8840,12 +8840,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGeneratorType: 0
-  autoGenerateOnStart: 0
-  gridSize: {x: 64, y: 64}
+  autoGenerateOnStart: 1
+  gridSize: {x: 86, y: 96}
   cubeSize: {x: 2, y: 2, z: 2}
   seed: 0
   slot: {fileID: 1906159912}
-  tileMappingDataSO: {fileID: 0}
+  tileMappingDataSO: {fileID: 11400000, guid: 7646a5eabe211d1488763d5a55ed21e2, type: 2}
   isaacMaxRooms: 15
   isaacSpecialRoomCount: 3
   isaacHorizontalSize: 11

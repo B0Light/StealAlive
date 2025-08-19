@@ -29,9 +29,9 @@ public class RoomNode
     public Vector2Int GetRoomCenter()
     {
         if (RoomRect.width > 0 && RoomRect.height > 0)
-            return new Vector2Int(RoomRect.x + RoomRect.width / 2, RoomRect.y + RoomRect.height / 2);
+            return new Vector2Int(RoomRect.x + (RoomRect.width - 1) / 2, RoomRect.y + (RoomRect.height - 1) / 2);
 
-        Vector2Int center = new Vector2Int(NodeRect.x + NodeRect.width / 2, NodeRect.y + NodeRect.height / 2);
+        Vector2Int center = new Vector2Int(NodeRect.x + (NodeRect.width - 1) / 2, NodeRect.y + (NodeRect.height - 1) / 2);
         if (Left != null) return Left.GetRoomCenter();
         if (Right != null) return Right.GetRoomCenter();
         return center;
