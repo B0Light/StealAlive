@@ -433,7 +433,8 @@ PrefabInstance:
       value: InteractableTree
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5355450149204687264, guid: fc7b59c845a90b24a92059ad1435340c, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6579305698606680914, guid: fc7b59c845a90b24a92059ad1435340c, type: 3}
       insertIndex: -1

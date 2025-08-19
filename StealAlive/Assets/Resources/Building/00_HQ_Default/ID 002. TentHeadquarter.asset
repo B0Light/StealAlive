@@ -19,7 +19,7 @@ MonoBehaviour:
   itemDescription: 'Build Control
 
 '
-  purchaseCost: 0
+  purchaseCost: 1000
   costItemList: 
   width: 2
   height: 2

@@ -5,8 +5,9 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 
-public class TitleScreenManager : Singleton<TitleScreenManager>
-{ 
+public class TitleScreenManager : MonoBehaviour
+{
+    public static TitleScreenManager Instance; 
     [Header("Menus")]
     [SerializeField] private GameObject titleScreenMainMenu;
     [SerializeField] private GameObject titleScreenLoadMenu;
@@ -48,6 +49,12 @@ public class TitleScreenManager : Singleton<TitleScreenManager>
     {
         OnSelectSlotChange -= _loadMenuInputManager.SetSlot;
     }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     public void ToggleInputPlayerNamePopUp(bool value)
     {
         inputPlayerNamePopUp.SetActive(value);

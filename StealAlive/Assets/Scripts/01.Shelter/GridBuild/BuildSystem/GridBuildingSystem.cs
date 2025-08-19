@@ -121,7 +121,8 @@ public class GridBuildingSystem : MonoBehaviour
     {
         objectToPlace = WorldDatabase_Build.Instance.GetBuildingByID(2);
         if(objectToPlace == null) return;
-        var placedObject = PlaceTile(headquarterPos.x,headquarterPos.y,BuildObjData.Dir.Left, 0,true);
+        var placedObject = PlaceTile(headquarterPos.x,headquarterPos.y,BuildObjData.Dir.Left,
+            WorldSaveGameManager.Instance.currentGameData.shelterLevel,true);
         AttractionEntrancePosList.Add(placedObject.GetEntrance());
         objectToPlace = null;
     }

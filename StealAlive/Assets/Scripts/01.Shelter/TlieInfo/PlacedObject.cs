@@ -76,12 +76,13 @@ public class PlacedObject : MonoBehaviour
 
     private void BuildProp(int buildLevel)
     {
-        if (buildObjData.upgradeStages.Count == 0) return;
+        int index = Mathf.Min(buildLevel, buildObjData.upgradeStages.Count - 1);
+        if (buildObjData.upgradeStages.Count == 0 || buildObjData.upgradeStages[index].prop == null) return;
 
         ClearChildren(_propsSlot);
 
         // 범위를 초과하면 마지막 단계의 프롭을 사용
-        int index = Mathf.Min(buildLevel, buildObjData.upgradeStages.Count - 1);
+        
         Instantiate(buildObjData.upgradeStages[index].prop, _propsSlot);
     }
 
@@ -94,7 +95,7 @@ public class PlacedObject : MonoBehaviour
         }
     }
 
-    public void UpgradeTile()
+    public virtual void UpgradeTile()
     {
         level++;
         _fee = GetFee();

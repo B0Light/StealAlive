@@ -894,7 +894,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1528818639043606945}
-  - component: {fileID: 6819355554405859476}
+  - component: {fileID: 6048981507889548139}
   m_Layer: 14
   m_Name: ID 002. TentHeadquarter
   m_TagString: Untagged
@@ -926,7 +926,7 @@ Transform:
   - {fileID: 6743131779246844996}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6819355554405859476
+--- !u!114 &6048981507889548139
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -935,16 +935,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4992911712181626642}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36f0de8abb7481042987ffc1c1fcc3a3, type: 3}
+  m_Script: {fileID: 11500000, guid: a909270d47adcbe40beb3a3b2625caf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   exitDir: 0
   entrancePos: 0
   exitPos: 0
-  attractionCapacity: 1
-  attractionCycleTime: 1
+  attractionCapacity: 12
+  attractionCycleTime: 10
   queueStartPoint: {fileID: 9210139824186471760}
-  maxColumns: 1
+  maxColumns: 8
   incomeEventChannel: {fileID: 11400000, guid: be0c8f8789cf88b459b4a23e998bfc44, type: 2}
   actionPoint: {fileID: 1063337070376941733}
 --- !u!1 &5307187844682490554

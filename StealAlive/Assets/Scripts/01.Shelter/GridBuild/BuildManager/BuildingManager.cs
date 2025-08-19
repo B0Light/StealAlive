@@ -14,7 +14,7 @@ public class BuildingManager : MonoBehaviour
 
     public ShelterManager shelterManager;
 
-    public SerializableDictionary<TileCategory, List<BuildObjData>> unlockedBuildingByCategory;
+    public SerializableDictionary<TileCategory, HashSet<BuildObjData>> unlockedBuildingByCategory;
 
     [SerializeField] private CanvasGroup constructionCanvasGroup;
     [SerializeField] private CanvasGroup buildingSelectionCanvasGroup;
@@ -61,11 +61,10 @@ public class BuildingManager : MonoBehaviour
         {
             if(tileCategory == TileCategory.None) return;
             if(unlockedBuildingByCategory.ContainsKey(tileCategory) == false)
-                unlockedBuildingByCategory.Add(tileCategory, new List<BuildObjData>());
+                unlockedBuildingByCategory.Add(tileCategory, new HashSet<BuildObjData>());
         }
     }
     
-    // 추후 shelter의 레벨업에 바인딩 할 계획 
     public void UpdateAvailableBuildings()
     {
         int curShelterLevel = WorldSaveGameManager.Instance.currentGameData.shelterLevel;
@@ -82,7 +81,7 @@ public class BuildingManager : MonoBehaviour
         TileCategory tileCategory = buildObjData.GetTileCategory(); 
         
         if(unlockedBuildingByCategory.ContainsKey(tileCategory) == false)
-            unlockedBuildingByCategory.Add(tileCategory, new List<BuildObjData>());
+            unlockedBuildingByCategory.Add(tileCategory, new HashSet<BuildObjData>());
         
         unlockedBuildingByCategory[tileCategory].Add(buildObjData);
     }

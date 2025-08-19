@@ -44,10 +44,7 @@ public class UI_CharacterSaveSlot : MonoBehaviour
 
     public void SelectCurrentSlot()
     {
-        //TitleScreenManager.Instance.SelectCharacterSlot(characterSlot);
-        
         TitleScreenManager.Instance.SelectCharacterSlot(characterSlot);
-        
     }
     
     private string ConvertPlayTime(string isoTime)
