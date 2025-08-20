@@ -2,15 +2,18 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// AI 캐릭터의 패트롤 행동을 관리하는 매니저 (AIPatrolManager 기능 통합)
+/// </summary>
 public class AICharacterPatrolManager : MonoBehaviour
 {
     private AICharacterManager aiCharacter;
 
-    [SerializeField]
-    private List<WaypointData> _waypointDataList;
-
-    private int currentWaypointDataIndex = 0;
-    private int currentWaypointIndex = 0;
+    // 신규 웨이포인트 시스템 사용
+    private WaypointSystemData _waypointSystemData;
+    private List<Vector3> _currentPatrolRoute;
+    private int _currentWaypointIndex = 0;
+    private string _assignedRouteName;
 
     private bool _isMapDataLoaded;
     
@@ -26,10 +29,32 @@ public class AICharacterPatrolManager : MonoBehaviour
     private Vector3 ambushPosition;
     private float ambushStartTime;
     
+    [Header("Patrol Management")]
+    [SerializeField] private bool autoAssignPatrolRoutes = true;
+    [SerializeField] private bool showWaypointsInScene = true;
+    [SerializeField] private float waypointGizmoSize = 0.5f;
+    
+    [Header("Debug")]
+    [SerializeField] private bool enableDebugLogs = true;
+    
+    // 패트롤 경로 할당 상태 (AIPatrolManager에서 통합)
+    private Dictionary<string, List<AICharacterPatrolManager>> routeAssignments = new Dictionary<string, List<AICharacterPatrolManager>>();
+    
     private void Start()
     {
         aiCharacter = GetComponent<AICharacterManager>();
         StartCoroutine(WaitForMapDataManager());
+        
+        // 자동 경로 할당이 활성화되어 있으면 즉시 할당
+        if (autoAssignPatrolRoutes)
+        {
+            StartCoroutine(WaitAndAssignRoute());
+        }
+    }
+    
+    private IEnumerator WaitAndAssignRoute()
+    {
+        yield return new WaitForSeconds(0.5f); // 맵 데이터 로딩 대기
         SelectWaypointData();
     }
     
@@ -46,25 +71,80 @@ public class AICharacterPatrolManager : MonoBehaviour
     
         if (MapDataManager.Instance != null)
         {
-            _waypointDataList = new List<WaypointData>(MapDataManager.Instance.WaypointDataList);
+            _waypointSystemData = MapDataManager.Instance.GetWaypointSystemData();
+            AssignRandomPatrolRoute();
         }
         else
         {
             Debug.LogWarning("MapDataManager.Instance를 5초 동안 기다렸지만 null입니다.");
-            // 필요에 따라 기본값 설정
-            _waypointDataList = new List<WaypointData>();
         }
 
         _isMapDataLoaded = true;
     }
 
-    public void SelectWaypointData()
+    /// <summary>
+    /// 랜덤 패트롤 경로 할당
+    /// </summary>
+    private void AssignRandomPatrolRoute()
     {
-        currentWaypointDataIndex = Random.Range(0, _waypointDataList.Count);
-        currentWaypointIndex = 0;
+        if (_waypointSystemData?.patrolRoutes == null || _waypointSystemData.patrolRoutes.Count == 0)
+        {
+            Debug.LogWarning($"{name}: 사용 가능한 패트롤 경로가 없습니다.");
+            return;
+        }
+
+        // 랜덤하게 패트롤 경로 선택
+        int randomRouteIndex = Random.Range(0, _waypointSystemData.patrolRoutes.Count);
+        PatrolRoute selectedRoute = _waypointSystemData.patrolRoutes[randomRouteIndex];
+        
+        AssignPatrolRoute(selectedRoute);
+    }
+    
+    /// <summary>
+    /// 특정 패트롤 경로 할당
+    /// </summary>
+    public void AssignPatrolRoute(PatrolRoute route)
+    {
+        if (route == null || route.waypointIndices.Count == 0)
+        {
+            Debug.LogWarning($"{name}: 유효하지 않은 패트롤 경로입니다.");
+            return;
+        }
+
+        // 기존 경로에서 제거
+        RemoveFromAllRoutes();
+
+        _assignedRouteName = route.routeName;
+        _currentPatrolRoute = new List<Vector3>();
+        
+        // 웨이포인트 인덱스를 실제 위치로 변환
+        foreach (int waypointIndex in route.waypointIndices)
+        {
+            if (waypointIndex < _waypointSystemData.waypoints.Count)
+            {
+                _currentPatrolRoute.Add(_waypointSystemData.waypoints[waypointIndex].position);
+            }
+        }
+        
+        _currentWaypointIndex = 0;
+        
+        // 새 경로에 추가
+        if (!routeAssignments.ContainsKey(route.routeName))
+            routeAssignments[route.routeName] = new List<AICharacterPatrolManager>();
+            
+        routeAssignments[route.routeName].Add(this);
+        
+        if (enableDebugLogs)
+            Debug.Log($"{name}: 패트롤 경로 '{route.routeName}' 할당됨 ({_currentPatrolRoute.Count}개 웨이포인트)");
         
         // 새로운 웨이포인트 데이터를 선택할 때 매복 모드 여부 결정
         CheckForAmbushMode();
+    }
+    
+    public void SelectWaypointData()
+    {
+        // 새로운 시스템에서는 패트롤 경로 재할당
+        AssignRandomPatrolRoute();
     }
     
     private void CheckForAmbushMode()
@@ -113,12 +193,12 @@ public class AICharacterPatrolManager : MonoBehaviour
 
     private bool IsWaypointCompleted()
     {
-        if (_waypointDataList.Count == 0 || _waypointDataList[currentWaypointDataIndex].waypoints.Length == 0)
+        if (_currentPatrolRoute == null || _currentPatrolRoute.Count == 0)
         {
             return false;
         }
 
-        Vector3 targetPosition = isInAmbushMode ? ambushPosition : _waypointDataList[currentWaypointDataIndex].waypoints[currentWaypointIndex];
+        Vector3 targetPosition = isInAmbushMode ? ambushPosition : _currentPatrolRoute[_currentWaypointIndex];
         
         float distance = Vector3.Distance(transform.position, targetPosition);
         return distance < 5.0f; 
@@ -139,7 +219,7 @@ public class AICharacterPatrolManager : MonoBehaviour
             return ambushPosition;
         }
     
-        if (_waypointDataList.Count == 0 || _waypointDataList[currentWaypointDataIndex].waypoints.Length == 0)
+        if (_currentPatrolRoute == null || _currentPatrolRoute.Count == 0)
         {
             Debug.LogWarning("NO Patrol Data");
             return null;
@@ -147,14 +227,21 @@ public class AICharacterPatrolManager : MonoBehaviour
 
         if (IsWaypointCompleted())
         {
-            currentWaypointIndex++;
+            _currentWaypointIndex++;
 
-            if (currentWaypointIndex >= _waypointDataList[currentWaypointDataIndex].waypoints.Length)
+            if (_currentWaypointIndex >= _currentPatrolRoute.Count)
             {
-                SelectWaypointData();
+                SelectWaypointData(); // 새로운 패트롤 경로 선택
             }
         }
-        return _waypointDataList[currentWaypointDataIndex].waypoints[currentWaypointIndex];
+        
+        // 인덱스 유효성 검사
+        if (_currentWaypointIndex >= 0 && _currentWaypointIndex < _currentPatrolRoute.Count)
+        {
+            return _currentPatrolRoute[_currentWaypointIndex];
+        }
+        
+        return null;
     }
     
     // 현재 AI가 매복 모드인지 확인하는 public 메서드
@@ -173,5 +260,262 @@ public class AICharacterPatrolManager : MonoBehaviour
     public void SetAmbushProbability(float probability)
     {
         ambushProbability = Mathf.Clamp01(probability);
+    }
+    
+    /// <summary>
+    /// 현재 할당된 패트롤 경로 이름 가져오기
+    /// </summary>
+    public string GetAssignedRouteName()
+    {
+        return _assignedRouteName;
+    }
+    
+    /// <summary>
+    /// 특정 패트롤 경로로 강제 변경
+    /// </summary>
+    public void SetPatrolRoute(string routeName)
+    {
+        if (_waypointSystemData?.patrolRoutes == null) return;
+        
+        foreach (var route in _waypointSystemData.patrolRoutes)
+        {
+            if (route.routeName == routeName)
+            {
+                AssignPatrolRoute(route);
+                return;
+            }
+        }
+        
+        Debug.LogWarning($"{name}: 패트롤 경로 '{routeName}'를 찾을 수 없습니다.");
+    }
+    
+    // ===== AIPatrolManager에서 통합된 기능들 =====
+    
+    /// <summary>
+    /// 모든 등록된 에이전트에게 자동으로 패트롤 경로 할당
+    /// </summary>
+    public static void AutoAssignPatrolRoutesToAll()
+    {
+        AICharacterPatrolManager[] allManagers = FindObjectsOfType<AICharacterPatrolManager>();
+        
+        foreach (var manager in allManagers)
+        {
+            if (manager.autoAssignPatrolRoutes)
+            {
+                manager.AssignRandomPatrolRoute();
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 모든 AICharacterPatrolManager를 찾아서 반환 (AIPatrolManager 대체)
+    /// </summary>
+    public static AICharacterPatrolManager[] GetAllPatrolManagers()
+    {
+        return FindObjectsOfType<AICharacterPatrolManager>();
+    }
+    
+    /// <summary>
+    /// 특정 경로에 할당된 모든 AICharacterPatrolManager 반환 (AIPatrolManager 대체)
+    /// </summary>
+    public static List<AICharacterPatrolManager> GetPatrolManagersOnRoute(string routeName)
+    {
+        List<AICharacterPatrolManager> managersOnRoute = new List<AICharacterPatrolManager>();
+        
+        AICharacterPatrolManager[] allManagers = FindObjectsOfType<AICharacterPatrolManager>();
+        foreach (var manager in allManagers)
+        {
+            if (manager._assignedRouteName == routeName)
+            {
+                managersOnRoute.Add(manager);
+            }
+        }
+        
+        return managersOnRoute;
+    }
+    
+    /// <summary>
+    /// 특정 에이전트에게 가장 적합한 패트롤 경로 할당
+    /// </summary>
+    public void AssignBestPatrolRoute()
+    {
+        if (_waypointSystemData == null) return;
+
+        Vector3 agentPosition = transform.position;
+        PatrolRoute bestRoute = null;
+        float shortestDistance = float.MaxValue;
+
+        // 에이전트 위치에서 가장 가까운 패트롤 경로 찾기
+        foreach (var route in _waypointSystemData.patrolRoutes)
+        {
+            if (route.waypointIndices.Count == 0) continue;
+
+            // 경로의 첫 번째 웨이포인트까지의 거리 계산
+            int firstWaypointIndex = route.waypointIndices[0];
+            if (firstWaypointIndex < _waypointSystemData.waypoints.Count)
+            {
+                Vector3 waypointPosition = _waypointSystemData.waypoints[firstWaypointIndex].position;
+                float distance = Vector3.Distance(agentPosition, waypointPosition);
+                
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    bestRoute = route;
+                }
+            }
+        }
+
+        if (bestRoute != null)
+        {
+            AssignPatrolRoute(bestRoute);
+        }
+    }
+    
+    /// <summary>
+    /// 에이전트를 모든 경로에서 제거
+    /// </summary>
+    private void RemoveFromAllRoutes()
+    {
+        foreach (var routeAssignment in routeAssignments)
+        {
+            routeAssignment.Value.Remove(this);
+        }
+    }
+    
+    /// <summary>
+    /// 패트롤 경로 가져오기
+    /// </summary>
+    public PatrolRoute GetPatrolRoute(string routeName)
+    {
+        if (_waypointSystemData?.patrolRoutes == null) return null;
+        
+        foreach (var route in _waypointSystemData.patrolRoutes)
+        {
+            if (route.routeName == routeName)
+                return route;
+        }
+        return null;
+    }
+    
+    /// <summary>
+    /// 모든 패트롤 경로 가져오기
+    /// </summary>
+    public List<PatrolRoute> GetAllPatrolRoutes()
+    {
+        return _waypointSystemData?.patrolRoutes ?? new List<PatrolRoute>();
+    }
+    
+    /// <summary>
+    /// 특정 위치에서 가장 가까운 웨이포인트 찾기
+    /// </summary>
+    public Vector3? FindNearestWaypointPosition(Vector3 position)
+    {
+        if (_waypointSystemData == null) return null;
+
+        int nearestIndex = _waypointSystemData.FindNearestWaypoint(position);
+        if (nearestIndex >= 0 && nearestIndex < _waypointSystemData.waypoints.Count)
+        {
+            return _waypointSystemData.waypoints[nearestIndex].position;
+        }
+
+        return null;
+    }
+    
+    /// <summary>
+    /// 경로별 할당된 에이전트 수 가져오기
+    /// </summary>
+    public int GetAssignedAgentCount(string routeName)
+    {
+        return routeAssignments.ContainsKey(routeName) ? routeAssignments[routeName].Count : 0;
+    }
+    
+    /// <summary>
+    /// 패트롤 상태 리셋
+    /// </summary>
+    public void ResetPatrolSystem()
+    {
+        RemoveFromAllRoutes();
+        _currentPatrolRoute = null;
+        _currentWaypointIndex = 0;
+        _assignedRouteName = null;
+        
+        if (enableDebugLogs)
+            Debug.Log($"{name}: 패트롤 시스템이 리셋되었습니다.");
+    }
+    
+    /// <summary>
+    /// 디버그 정보 출력
+    /// </summary>
+    [ContextMenu("Print Patrol System Info")]
+    public void PrintPatrolSystemInfo()
+    {
+        if (_waypointSystemData == null)
+        {
+            Debug.Log("웨이포인트 시스템 데이터가 없습니다.");
+            return;
+        }
+
+        Debug.Log($"=== {name} 패트롤 시스템 정보 ===");
+        Debug.Log($"웨이포인트 수: {_waypointSystemData.waypoints.Count}");
+        Debug.Log($"패트롤 경로 수: {_waypointSystemData.patrolRoutes.Count}");
+        Debug.Log($"할당된 경로: {_assignedRouteName ?? "없음"}");
+        Debug.Log($"현재 웨이포인트 인덱스: {_currentWaypointIndex}");
+        Debug.Log($"매복 모드: {isInAmbushMode}");
+    }
+    
+    // 에디터에서 웨이포인트 시각화
+    private void OnDrawGizmos()
+    {
+        if (!showWaypointsInScene || _waypointSystemData == null) return;
+
+        // 웨이포인트 그리기
+        for (int i = 0; i < _waypointSystemData.waypoints.Count; i++)
+        {
+            Waypoint waypoint = _waypointSystemData.waypoints[i];
+            
+            // 웨이포인트 타입별 색상 설정
+            switch (waypoint.type)
+            {
+                case WaypointType.Room:
+                    Gizmos.color = Color.green;
+                    break;
+                case WaypointType.Corridor:
+                    Gizmos.color = Color.blue;
+                    break;
+                case WaypointType.Intersection:
+                    Gizmos.color = Color.red;
+                    break;
+                default:
+                    Gizmos.color = Color.yellow;
+                    break;
+            }
+
+            Gizmos.DrawSphere(waypoint.position, waypointGizmoSize);
+
+            // 연결선 그리기
+            Gizmos.color = Color.white;
+            foreach (int connectedIndex in waypoint.connectedWaypoints)
+            {
+                if (connectedIndex < _waypointSystemData.waypoints.Count)
+                {
+                    Vector3 connectedPosition = _waypointSystemData.waypoints[connectedIndex].position;
+                    Gizmos.DrawLine(waypoint.position, connectedPosition);
+                }
+            }
+        }
+        
+        // 현재 할당된 경로 강조 표시
+        if (_assignedRouteName != null && _currentPatrolRoute != null)
+        {
+            Gizmos.color = Color.cyan;
+            for (int i = 0; i < _currentPatrolRoute.Count - 1; i++)
+            {
+                Gizmos.DrawLine(_currentPatrolRoute[i], _currentPatrolRoute[i + 1]);
+            }
+            if (_currentPatrolRoute.Count > 0)
+            {
+                Gizmos.DrawWireSphere(_currentPatrolRoute[_currentWaypointIndex], 1f);
+            }
+        }
     }
 }

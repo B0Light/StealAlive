@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
@@ -14,6 +15,16 @@ public enum MapGeneratorType
 }
 
 /// <summary>
+/// 자동 맵 생성 모드를 정의하는 열거형
+/// </summary>
+public enum AutoMapGenerationMode
+{
+    UseCurrentType,    // 현재 설정된 타입 사용
+    UseSpecificType,   // 특정 타입 사용
+    UseRandomType      // 랜덤 타입 사용
+}
+
+/// <summary>
 /// 맵 생성기를 생성하고 관리하는 팩토리 클래스
 /// </summary>
 public class MapGeneratorFactory : MonoBehaviour
@@ -21,6 +32,16 @@ public class MapGeneratorFactory : MonoBehaviour
     [Header("맵 생성기 설정")]
     [SerializeField] private MapGeneratorType currentGeneratorType = MapGeneratorType.BSP;
     [SerializeField] private bool autoGenerateOnStart = false;
+    
+    [Header("시작 시 자동 생성 설정")]
+    [Tooltip("시작 시 맵 생성 방식을 선택합니다")]
+    [SerializeField] private AutoMapGenerationMode autoMapGenerationMode = AutoMapGenerationMode.UseCurrentType;
+    
+    [Tooltip("특정 타입 모드에서 사용할 맵 생성기 타입")]
+    [SerializeField] private MapGeneratorType specificMapType = MapGeneratorType.BSP;
+    
+    [Tooltip("랜덤 모드에서 선택될 맵 생성기 타입들")]
+    [SerializeField] private MapGeneratorType[] randomMapTypes = { MapGeneratorType.BSP, MapGeneratorType.Isaac, MapGeneratorType.Delaunay };
     
     [Header("기본 설정")]
     [SerializeField] private Vector2Int gridSize = new Vector2Int(64, 64);
@@ -67,7 +88,60 @@ public class MapGeneratorFactory : MonoBehaviour
     {
         if (autoGenerateOnStart)
         {
+            GenerateAutoSelectedMap();
+        }
+    }
+    
+    /// <summary>
+    /// 자동 선택된 맵 타입으로 맵을 생성합니다.
+    /// </summary>
+    public void GenerateAutoSelectedMap()
+    {
+        MapGeneratorType targetType = DetermineAutoMapType();
+        
+        // 임시로 타입 변경
+        MapGeneratorType originalType = currentGeneratorType;
+        currentGeneratorType = targetType;
+        
+        try
+        {
             GenerateMap();
+            Debug.Log($"자동 생성: {targetType} 맵이 생성되었습니다. (모드: {autoMapGenerationMode})");
+        }
+        finally
+        {
+            // UseCurrentType이 아닌 경우에만 원래 타입으로 복원
+            if (autoMapGenerationMode != AutoMapGenerationMode.UseCurrentType)
+            {
+                currentGeneratorType = originalType;
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 자동 맵 생성 모드에 따라 맵 타입을 결정합니다.
+    /// </summary>
+    private MapGeneratorType DetermineAutoMapType()
+    {
+        switch (autoMapGenerationMode)
+        {
+            case AutoMapGenerationMode.UseCurrentType:
+                return currentGeneratorType;
+                
+            case AutoMapGenerationMode.UseSpecificType:
+                return specificMapType;
+                
+            case AutoMapGenerationMode.UseRandomType:
+                if (randomMapTypes == null || randomMapTypes.Length == 0)
+                {
+                    Debug.LogWarning("Random Map Types 배열이 비어있습니다. 현재 타입을 사용합니다.");
+                    return currentGeneratorType;
+                }
+                int randomIndex = UnityEngine.Random.Range(0, randomMapTypes.Length);
+                return randomMapTypes[randomIndex];
+                
+            default:
+                return currentGeneratorType;
         }
     }
     
@@ -278,6 +352,38 @@ public class MapGeneratorFactory : MonoBehaviour
     }
     
     /// <summary>
+    /// 현재 맵 생성기의 웨이포인트 시스템 데이터를 가져옵니다.
+    /// </summary>
+    public WaypointSystemData GetCurrentWaypointSystemData()
+    {
+        return currentGenerator?.GetWaypointSystemData();
+    }
+    
+    /// <summary>
+    /// 특정 패트롤 경로를 가져옵니다.
+    /// </summary>
+    public PatrolRoute GetPatrolRoute(string routeName)
+    {
+        return currentGenerator?.GetPatrolRoute(routeName);
+    }
+    
+    /// <summary>
+    /// 모든 패트롤 경로를 가져옵니다.
+    /// </summary>
+    public List<PatrolRoute> GetAllPatrolRoutes()
+    {
+        return currentGenerator?.GetAllPatrolRoutes() ?? new List<PatrolRoute>();
+    }
+    
+    /// <summary>
+    /// 특정 위치에서 가장 가까운 웨이포인트를 찾습니다.
+    /// </summary>
+    public int FindNearestWaypoint(Vector3 worldPosition)
+    {
+        return currentGenerator?.FindNearestWaypoint(worldPosition) ?? -1;
+    }
+    
+    /// <summary>
     /// 현재 생성된 맵을 제거합니다.
     /// </summary>
     [ContextMenu("Clear Map")]
@@ -360,6 +466,44 @@ public class MapGeneratorFactory : MonoBehaviour
     }
     
     /// <summary>
+    /// 자동 선택 모드로 맵을 재생성합니다.
+    /// </summary>
+    [ContextMenu("Generate Auto Selected Map")]
+    public void RegenerateAutoSelectedMap()
+    {
+        ClearMap();
+        GenerateAutoSelectedMap();
+    }
+    
+    /// <summary>
+    /// 랜덤 맵 타입으로 즉시 생성합니다.
+    /// </summary>
+    [ContextMenu("Generate Random Map")]
+    public void GenerateRandomMap()
+    {
+        if (randomMapTypes == null || randomMapTypes.Length == 0)
+        {
+            Debug.LogWarning("Random Map Types가 설정되지 않았습니다.");
+            return;
+        }
+        
+        MapGeneratorType randomType = randomMapTypes[UnityEngine.Random.Range(0, randomMapTypes.Length)];
+        MapGeneratorType originalType = currentGeneratorType;
+        
+        currentGeneratorType = randomType;
+        try
+        {
+            ClearMap();
+            GenerateMap();
+            Debug.Log($"랜덤 생성: {randomType} 맵이 생성되었습니다.");
+        }
+        finally
+        {
+            currentGeneratorType = originalType;
+        }
+    }
+    
+    /// <summary>
     /// 맵 생성기 설정을 검증합니다.
     /// </summary>
     private void OnValidate()
@@ -402,5 +546,48 @@ public class MapGeneratorFactory : MonoBehaviour
     public Vector3 GetCubeSize()
     {
         return cubeSize;
+    }
+    
+    /// <summary>
+    /// 자동 맵 생성 모드를 설정합니다.
+    /// </summary>
+    public void SetAutoMapGenerationMode(AutoMapGenerationMode mode)
+    {
+        autoMapGenerationMode = mode;
+        Debug.Log($"자동 맵 생성 모드가 {mode}로 변경되었습니다.");
+    }
+    
+    /// <summary>
+    /// 특정 맵 타입을 설정합니다.
+    /// </summary>
+    public void SetSpecificMapType(MapGeneratorType mapType)
+    {
+        specificMapType = mapType;
+        Debug.Log($"특정 맵 타입이 {mapType}로 설정되었습니다.");
+    }
+    
+    /// <summary>
+    /// 랜덤 맵 타입 배열을 설정합니다.
+    /// </summary>
+    public void SetRandomMapTypes(MapGeneratorType[] mapTypes)
+    {
+        randomMapTypes = mapTypes;
+        Debug.Log($"랜덤 맵 타입이 {mapTypes.Length}개로 설정되었습니다.");
+    }
+    
+    /// <summary>
+    /// 현재 자동 맵 생성 설정을 가져옵니다.
+    /// </summary>
+    public AutoMapGenerationMode GetAutoMapGenerationMode()
+    {
+        return autoMapGenerationMode;
+    }
+    
+    /// <summary>
+    /// 자동 생성에서 사용될 맵 타입을 미리 확인합니다.
+    /// </summary>
+    public MapGeneratorType GetNextAutoMapType()
+    {
+        return DetermineAutoMapType();
     }
 }

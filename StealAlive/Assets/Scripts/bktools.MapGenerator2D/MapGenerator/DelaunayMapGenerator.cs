@@ -14,10 +14,8 @@ public class DelaunayMapGenerator : BaseMapGenerator
     [SerializeField] protected int minRoomSize = 9; // 최소 방 크기
     [SerializeField] protected int maxRoomSize = 12; // 최대 방 크기
     protected int roomCount; // 방의 개수
-
-
     
-    private List<WaypointData> _waypointDataList;
+
     
     protected Delaunay2D _delaunay;
     
@@ -73,8 +71,6 @@ public class DelaunayMapGenerator : BaseMapGenerator
     
         Debug.Log($"방 개수: {roomCount}개");
         
-        _waypointDataList = new List<WaypointData>();
-        
         // Delaunay는 기본적으로 A* 경로 찾기를 사용
         pathType = PathType.AStar;
     }
@@ -89,11 +85,7 @@ public class DelaunayMapGenerator : BaseMapGenerator
         ExpandPath();
         BuildWalls();
         
-        CacheEscapePoints();
-        
         RenderGrid();
-        
-        SetMapData();
         
         // 맵 데이터 설정
         var mapData = GetMapData();
@@ -127,7 +119,6 @@ public class DelaunayMapGenerator : BaseMapGenerator
             {
                 _floorList.Add(newRoom);
                 PlaceRoomTiles(newRoom);
-                AddWaypoints(newRoom);
 
                 roomsPlaced++;
             }
@@ -197,29 +188,7 @@ public class DelaunayMapGenerator : BaseMapGenerator
         }
     }
 
-    private void AddWaypoints(RectInt room)
-    {
-        List<Vector2Int> roomTiles = new List<Vector2Int>();
 
-        for (int x = room.x; x < room.x + room.width; x++)
-        {
-            for (int y = room.y; y < room.y + room.height; y++)
-            {
-                roomTiles.Add(new Vector2Int(x, y));
-            }
-        }
-
-        Vector2Int[] randomPoints = roomTiles
-            .OrderBy(_ => Random.value)
-            .Take(4)
-            .ToArray();
-
-        Vector3[] worldPoints = randomPoints
-            .Select(pos => ConvertGridPos(pos))
-            .ToArray();
-
-        _waypointDataList.Add(new WaypointData(worldPoints));
-    }
 
     
     private void Triangulate()
@@ -242,24 +211,7 @@ public class DelaunayMapGenerator : BaseMapGenerator
     
 
     
-    private void CacheEscapePoints()
-    {
-        if (_floorList.Count == 0) return;
-        
-        // 시작점과 끝점을 웨이포인트로 저장
-        Vector3 startPoint = ConvertGridPos(_floorList[_startRoomIndex].center);
-        Vector3 endPoint = ConvertGridPos(_floorList[_exitRoomIndex].center);
-        
-        _waypointDataList.Add(new WaypointData(new Vector3[] { startPoint, endPoint }));
-    }
-    
-    private void SetMapData()
-    {
-        if (MapDataManager.Instance != null)
-        {
-            MapDataManager.Instance.WaypointDataList = _waypointDataList;
-        }
-    }
+
 
     private Vector3 ConvertGridPos(Vector2 pos)
     {

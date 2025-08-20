@@ -4393,7 +4393,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1020256076}
-  - component: {fileID: 1020256075}
   - component: {fileID: 1020256077}
   m_Layer: 0
   m_Name: MapData
@@ -4402,19 +4401,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1020256075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1020256074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33d4ace2d37eac8469efab5103011026, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _waypointDataList: []
 --- !u!4 &1020256076
 Transform:
   m_ObjectHideFlags: 0
@@ -8758,6 +8744,7 @@ GameObject:
   - component: {fileID: 1906159911}
   - component: {fileID: 1906159910}
   - component: {fileID: 1906159913}
+  - component: {fileID: 1906159914}
   m_Layer: 0
   m_Name: FieldMapGenerator
   m_TagString: Untagged
@@ -8794,9 +8781,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
   m_AgentTypeID: 0
-  m_CollectObjects: 2
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
+  m_CollectObjects: 1
+  m_Size: {x: 196, y: 30, z: 196}
+  m_Center: {x: 0, y: 10, z: 0}
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 1826295
@@ -8841,6 +8828,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGeneratorType: 0
   autoGenerateOnStart: 1
+  autoMapGenerationMode: 1
+  specificMapType: 3
+  randomMapTypes: 000000000200000003000000
   gridSize: {x: 86, y: 96}
   cubeSize: {x: 2, y: 2, z: 2}
   seed: 0
@@ -8865,6 +8855,19 @@ MonoBehaviour:
   bspFullMaxDepth: 5
   bspFullPathType: 1
   bspFullPathValue: 0.5
+--- !u!114 &1906159914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906159908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bddf9f1280d1dc45a5b9d595840d693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapGeneratorFactory: {fileID: 1906159913}
 --- !u!1001 &1916564407
 PrefabInstance:
   m_ObjectHideFlags: 0

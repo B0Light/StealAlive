@@ -56,6 +56,9 @@ public abstract class BaseMapGenerator : IMapGenerator
 
     protected Transform _slot;
     
+    // 웨이포인트 시스템
+    protected WaypointSystemData _waypointSystem;
+    
     // 프로퍼티
     public bool IsMapGenerated => isMapGenerated;
 
@@ -303,6 +306,64 @@ public abstract class BaseMapGenerator : IMapGenerator
     }
     
     /// <summary>
+    /// 웨이포인트 시스템을 생성합니다.
+    /// </summary>
+    protected virtual void GenerateWaypointSystem()
+    {
+        if (!isMapGenerated)
+        {
+            Debug.LogWarning("맵이 생성되지 않았습니다. 웨이포인트 시스템을 생성할 수 없습니다.");
+            return;
+        }
+
+        MapData mapData = GetMapData();
+        WaypointGenerator waypointGenerator = new WaypointGenerator(mapData, cubeSize);
+        _waypointSystem = waypointGenerator.GenerateWaypointSystem();
+        
+        Debug.Log($"웨이포인트 시스템 생성 완료: {_waypointSystem?.waypoints?.Count ?? 0}개 웨이포인트");
+    }
+    
+    /// <summary>
+    /// 웨이포인트 시스템 데이터를 가져옵니다.
+    /// </summary>
+    public virtual WaypointSystemData GetWaypointSystemData()
+    {
+        return _waypointSystem;
+    }
+    
+    /// <summary>
+    /// 특정 패트롤 경로를 가져옵니다.
+    /// </summary>
+    public virtual PatrolRoute GetPatrolRoute(string routeName)
+    {
+        if (_waypointSystem?.patrolRoutes == null) return null;
+        
+        foreach (var route in _waypointSystem.patrolRoutes)
+        {
+            if (route.routeName == routeName)
+                return route;
+        }
+        
+        return null;
+    }
+    
+    /// <summary>
+    /// 모든 패트롤 경로를 가져옵니다.
+    /// </summary>
+    public virtual List<PatrolRoute> GetAllPatrolRoutes()
+    {
+        return _waypointSystem?.patrolRoutes ?? new List<PatrolRoute>();
+    }
+    
+    /// <summary>
+    /// 특정 위치에서 가장 가까운 웨이포인트를 찾습니다.
+    /// </summary>
+    public virtual int FindNearestWaypoint(Vector3 worldPosition)
+    {
+        return _waypointSystem?.FindNearestWaypoint(worldPosition) ?? -1;
+    }
+    
+    /// <summary>
     /// 시작 방과 출구 방의 인덱스를 초기화합니다.
     /// </summary>
     protected virtual void InitializeRoomIndices()
@@ -372,6 +433,11 @@ public abstract class BaseMapGenerator : IMapGenerator
         InitializeRoomIndices();
         
         isMapGenerated = true;
+        
+        // 웨이포인트 시스템 생성
+        GenerateWaypointSystem();
+        
+        
         Debug.Log($"{GetType().Name}: 맵 생성 완료");
     }
     
