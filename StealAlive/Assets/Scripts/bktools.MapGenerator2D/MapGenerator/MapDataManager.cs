@@ -21,7 +21,7 @@ public class MapDataManager : MonoBehaviour
         
         // MapGeneratorFactory 자동 찾기
         if (mapGeneratorFactory == null)
-            mapGeneratorFactory = FindObjectOfType<MapGeneratorFactory>();
+            mapGeneratorFactory = FindFirstObjectByType<MapGeneratorFactory>();
     }
     
     private void Start()

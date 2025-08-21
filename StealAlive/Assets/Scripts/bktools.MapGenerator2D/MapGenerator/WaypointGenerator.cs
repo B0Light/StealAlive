@@ -43,7 +43,7 @@ public class WaypointGenerator
         GenerateCorridorMidpointWaypoints();
 
         // 4. 웨이포인트 연결 관계 설정
-        ConnectWaypoints();
+        ConnectWaypointsOptimized();
 
         // 5. 패트롤 경로 생성
         GeneratePatrolRoutes();
@@ -202,31 +202,71 @@ public class WaypointGenerator
     }
 
     /// <summary>
-    /// 웨이포인트들 간의 연결 관계 설정
+    /// 웨이포인트들 간의 연결 관계 설정 (최적화 버전)
     /// </summary>
-    private void ConnectWaypoints()
+    private void ConnectWaypointsOptimized()
     {
-        float maxConnectionDistance = cubeSize.x * 8f; // 최대 연결 거리
+        // 그리드 해시맵 (gridPos → waypoint index)
+        Dictionary<Vector2Int, int> waypointLookup = new Dictionary<Vector2Int, int>();
 
         for (int i = 0; i < waypointSystem.waypoints.Count; i++)
         {
-            for (int j = i + 1; j < waypointSystem.waypoints.Count; j++)
+            waypointLookup[waypointSystem.waypoints[i].gridPosition] = i;
+        }
+
+        // 상하좌우 및 대각선 오프셋
+        Vector2Int[] neighborOffsets = new Vector2Int[]
+        {
+            new Vector2Int(1, 0), new Vector2Int(-1, 0),
+            new Vector2Int(0, 1), new Vector2Int(0, -1),
+            new Vector2Int(1, 1), new Vector2Int(1, -1),
+            new Vector2Int(-1, 1), new Vector2Int(-1, -1),
+        };
+
+        // 각 웨이포인트 인접 연결
+        for (int i = 0; i < waypointSystem.waypoints.Count; i++)
+        {
+            Waypoint wp = waypointSystem.waypoints[i];
+            foreach (var offset in neighborOffsets)
             {
-                Waypoint waypoint1 = waypointSystem.waypoints[i];
-                Waypoint waypoint2 = waypointSystem.waypoints[j];
-
-                float distance = Vector3.Distance(waypoint1.position, waypoint2.position);
-
-                if (distance <= maxConnectionDistance)
+                Vector2Int neighborPos = wp.gridPosition + offset;
+                if (waypointLookup.TryGetValue(neighborPos, out int neighborIndex))
                 {
-                    // 경로가 존재하는지 확인
-                    if (HasClearPath(waypoint1.gridPosition, waypoint2.gridPosition))
+                    // 경로가 막혀있지 않은 경우만 연결
+                    if (HasClearPathFast(wp.gridPosition, waypointSystem.waypoints[neighborIndex].gridPosition))
                     {
-                        waypointSystem.ConnectWaypoints(i, j);
+                        waypointSystem.ConnectWaypoints(i, neighborIndex);
                     }
                 }
             }
         }
+    }
+    
+    /// <summary>
+    /// 두 지점 간에 명확한 경로가 있는지 확인 (빠른 버전)
+    /// </summary>
+    private bool HasClearPathFast(Vector2Int start, Vector2Int end)
+    {
+        // 단순 Bresenham 알고리즘으로 경로 검사
+        int x0 = start.x, y0 = start.y;
+        int x1 = end.x, y1 = end.y;
+
+        int dx = Mathf.Abs(x1 - x0);
+        int dy = Mathf.Abs(y1 - y0);
+        int sx = x0 < x1 ? 1 : -1;
+        int sy = y0 < y1 ? 1 : -1;
+        int err = dx - dy;
+
+        while (true)
+        {
+            if (!IsWalkableCell(x0, y0)) return false;
+            if (x0 == x1 && y0 == y1) break;
+
+            int e2 = 2 * err;
+            if (e2 > -dy) { err -= dy; x0 += sx; }
+            if (e2 < dx) { err += dx; y0 += sy; }
+        }
+        return true;
     }
 
     /// <summary>

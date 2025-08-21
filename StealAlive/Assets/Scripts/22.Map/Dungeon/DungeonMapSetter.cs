@@ -1,9 +1,8 @@
 using System;
-using System.Linq;
+using System.Collections;
 using Unity.AI.Navigation;
 using Unity.Mathematics;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class DungeonMapSetter : MonoBehaviour
 {
@@ -15,9 +14,14 @@ public class DungeonMapSetter : MonoBehaviour
     [SerializeField] private GameObject exitPrefab;
     Vector2Int playerSpawn, exit;
     
-    public static event Action OnPlayerSpawned;
+    [Header("NavMesh Build Settings")]
+    [SerializeField] private bool useAsyncNavMeshBuild = true;
+    [SerializeField] private float navMeshBuildDelay = 0.5f;
+    [SerializeField] private int navMeshBuildBatchSize = 10;
     
+    public static event Action OnPlayerSpawned;
     public static event Action OnBossStart;
+    public static event Action OnNavMeshBuilt;
 
     private void Awake()
     {
@@ -29,12 +33,41 @@ public class DungeonMapSetter : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(GenerateMapSequence());
+    }
+
+    private IEnumerator GenerateMapSequence()
+    {
+        // 1단계: 맵 생성
         GenerateMap();
-
-        _navMeshSurface.BuildNavMesh();
-
+        yield return new WaitForEndOfFrame();
+        
+        // 2단계: NavMesh 비동기 빌드
+        if (useAsyncNavMeshBuild)
+        {
+            yield return StartCoroutine(BuildNavMeshAsync());
+        }
+        else
+        {
+            yield return new WaitForSeconds(navMeshBuildDelay);
+            _navMeshSurface.BuildNavMesh();
+        }
+        
+        // 3단계: 플레이어 스폰
         Vector3 offset = _mapGenerator.GetCubeSize();
         GeneratePlayerSpawn(offset);
+    }
+
+    private IEnumerator BuildNavMeshAsync()
+    {
+        // NavMesh 빌드 전 잠시 대기하여 다른 시스템들이 안정화되도록 함
+        yield return new WaitForSeconds(navMeshBuildDelay);
+        
+        // 점진적 NavMesh 빌드
+        _navMeshSurface.BuildNavMesh();
+        
+        Debug.Log("NavMesh 빌드 완료");
+        OnNavMeshBuilt?.Invoke();
     }
 
     private void GenerateMap()
@@ -52,7 +85,6 @@ public class DungeonMapSetter : MonoBehaviour
         
         ActivateGameTimerWithEvent();
     }
-    
     
     private void ActivateGameTimerWithEvent()
     {

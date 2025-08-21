@@ -30,7 +30,7 @@ public class WaypointVisualizer : MonoBehaviour
     private void Start()
     {
         if (mapGeneratorFactory == null)
-            mapGeneratorFactory = FindObjectOfType<MapGeneratorFactory>();
+            mapGeneratorFactory = FindFirstObjectByType<MapGeneratorFactory>();
             
         RefreshWaypointData();
     }
