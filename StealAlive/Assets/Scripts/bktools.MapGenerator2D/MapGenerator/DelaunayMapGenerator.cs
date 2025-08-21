@@ -209,10 +209,6 @@ public class DelaunayMapGenerator : BaseMapGenerator
         CreateDelaunayPaths(_delaunay, pathValue);
     }
     
-
-    
-
-
     private Vector3 ConvertGridPos(Vector2 pos)
     {
         Vector3 position = new Vector3(pos.x * cubeSize.x, 0, pos.y * cubeSize.z);

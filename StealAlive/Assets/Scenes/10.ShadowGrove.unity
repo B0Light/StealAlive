@@ -8767,6 +8767,9 @@ MonoBehaviour:
   dungeonID: 1
   playerStartPrefab: {fileID: 750229577673184239, guid: 379fdc17289fb344db0cc2c98a4221b3, type: 3}
   exitPrefab: {fileID: 1611856645545742358, guid: e97d0442082092d4f89616c35f70d2f3, type: 3}
+  useAsyncNavMeshBuild: 1
+  navMeshBuildDelay: 0.5
+  navMeshBuildBatchSize: 10
 --- !u!114 &1906159911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8786,7 +8789,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 10, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 1826295
+    m_Bits: 1824823
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0

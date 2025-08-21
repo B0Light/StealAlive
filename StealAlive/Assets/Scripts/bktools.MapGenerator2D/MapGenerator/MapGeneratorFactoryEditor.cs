@@ -85,7 +85,7 @@ public class MapGeneratorFactoryEditor : UnityEditor.Editor
         GUILayout.Space(10);
         
         // 자동 생성 설정
-        showAutoGenerationSettings = EditorGUILayout.Foldout(showAutoGenerationSettings, "🎯 시작 시 자동 생성 설정", true);
+        showAutoGenerationSettings = EditorGUILayout.Foldout(showAutoGenerationSettings, "시작 시 자동 생성 설정", true);
         if (showAutoGenerationSettings)
         {
             EditorGUI.indentLevel++;
@@ -143,19 +143,19 @@ public class MapGeneratorFactoryEditor : UnityEditor.Editor
                 
                 // 미리보기 버튼
                 EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("🔮 다음 생성될 맵 타입 확인", GUILayout.Height(25)))
+                if (GUILayout.Button("다음 생성될 맵 타입 확인", GUILayout.Height(25)))
                 {
                     MapGeneratorType nextType = factory.GetNextAutoMapType();
                     EditorUtility.DisplayDialog("다음 맵 타입", $"다음에 생성될 맵 타입: {nextType}", "확인");
                 }
                 
-                if (GUILayout.Button("🎲 랜덤 맵 즉시 생성", GUILayout.Height(25)))
+                if (GUILayout.Button("랜덤 맵 즉시 생성", GUILayout.Height(25)))
                 {
                     factory.GenerateRandomMap();
                 }
                 EditorGUILayout.EndHorizontal();
                 
-                if (GUILayout.Button("🎯 자동 선택 맵 생성", GUILayout.Height(30)))
+                if (GUILayout.Button("자동 선택 맵 생성", GUILayout.Height(30)))
                 {
                     factory.GenerateAutoSelectedMap();
                 }
@@ -163,7 +163,7 @@ public class MapGeneratorFactoryEditor : UnityEditor.Editor
                 GUILayout.Space(5);
                 
                 // 빠른 설정 버튼들
-                EditorGUILayout.LabelField("🚀 빠른 설정", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("빠른 설정", EditorStyles.boldLabel);
                 
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("현재 타입 모드", GUILayout.Height(20)))
@@ -183,7 +183,7 @@ public class MapGeneratorFactoryEditor : UnityEditor.Editor
                 // 랜덤 타입 프리셋 버튼들
                 if (currentMode == AutoMapGenerationMode.UseRandomType)
                 {
-                    EditorGUILayout.LabelField("🎲 랜덤 타입 프리셋", EditorStyles.miniLabel);
+                    EditorGUILayout.LabelField("랜덤 타입 프리셋", EditorStyles.miniLabel);
                     
                     EditorGUILayout.BeginHorizontal();
                     if (GUILayout.Button("전체", GUILayout.Height(18)))
@@ -322,26 +322,26 @@ public class MapGeneratorFactoryEditor : UnityEditor.Editor
         GUILayout.Space(20);
         
         // 액션 버튼들
-        EditorGUILayout.LabelField("🎮 맵 생성 액션", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("맵 생성 액션", EditorStyles.boldLabel);
         
         // 메인 생성 버튼들
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("📋 현재 설정으로 생성", GUILayout.Height(30)))
+        if (GUILayout.Button("현재 설정으로 생성", GUILayout.Height(30)))
         {
             factory.GenerateMap();
         }
-        if (GUILayout.Button("🎯 자동 모드로 생성", GUILayout.Height(30)))
+        if (GUILayout.Button("자동 모드로 생성", GUILayout.Height(30)))
         {
             factory.GenerateAutoSelectedMap();
         }
         EditorGUILayout.EndHorizontal();
         
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("🎲 랜덤 생성", GUILayout.Height(30)))
+        if (GUILayout.Button("랜덤 생성", GUILayout.Height(30)))
         {
             factory.GenerateRandomMap();
         }
-        if (GUILayout.Button("🧹 생성기 정리", GUILayout.Height(30)))
+        if (GUILayout.Button("생성기 정리", GUILayout.Height(30)))
         {
             factory.ClearAllGenerators();
         }
@@ -351,25 +351,25 @@ public class MapGeneratorFactoryEditor : UnityEditor.Editor
         if (factory.IsMapGenerated())
         {
             GUILayout.Space(10);
-            EditorGUILayout.LabelField("🗺️ 맵 관리", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("맵 관리", EditorStyles.boldLabel);
             
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("🗑️ 맵 제거", GUILayout.Height(25)))
+            if (GUILayout.Button("맵 제거", GUILayout.Height(25)))
             {
                 factory.ClearMap();
             }
-            if (GUILayout.Button("🔄 맵 재생성", GUILayout.Height(25)))
+            if (GUILayout.Button("맵 재생성", GUILayout.Height(25)))
             {
                 factory.RegenerateMap();
             }
             EditorGUILayout.EndHorizontal();
             
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("🔄 자동 모드로 재생성", GUILayout.Height(25)))
+            if (GUILayout.Button("자동 모드로 재생성", GUILayout.Height(25)))
             {
                 factory.RegenerateAutoSelectedMap();
             }
-            if (GUILayout.Button("🎲 랜덤으로 재생성", GUILayout.Height(25)))
+            if (GUILayout.Button("랜덤으로 재생성", GUILayout.Height(25)))
             {
                 factory.GenerateRandomMap();
             }
@@ -379,11 +379,11 @@ public class MapGeneratorFactoryEditor : UnityEditor.Editor
         GUILayout.Space(10);
         
         // 상태 표시
-        EditorGUILayout.LabelField("📊 시스템 상태", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("시스템 상태", EditorStyles.boldLabel);
         
         // 현재 설정 표시
         EditorGUILayout.BeginVertical("box");
-        EditorGUILayout.LabelField("🎛️ 현재 설정", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("현재 설정", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
         EditorGUILayout.LabelField($"선택된 맵 타입: {factory.CurrentGeneratorType}");
         EditorGUILayout.LabelField($"자동 생성 모드: {factory.GetAutoMapGenerationMode()}");
@@ -400,16 +400,16 @@ public class MapGeneratorFactoryEditor : UnityEditor.Editor
         if (factory.IsMapGenerated())
         {
             EditorGUILayout.BeginVertical("box");
-            EditorGUILayout.HelpBox("✅ 맵이 생성되었습니다.", MessageType.Info);
+            EditorGUILayout.HelpBox("맵이 생성되었습니다.", MessageType.Info);
             
             // 맵 데이터 정보 표시
             var mapData = factory.GetCurrentMapData();
             if (mapData != null)
             {
                 EditorGUI.indentLevel++;
-                EditorGUILayout.LabelField($"🗺️ 그리드 크기: {mapData.gridSize.x} x {mapData.gridSize.y}");
-                EditorGUILayout.LabelField($"🏠 방 개수: {mapData.roomCount}");
-                EditorGUILayout.LabelField($"🎲 시드: {mapData.seed}");
+                EditorGUILayout.LabelField($"그리드 크기: {mapData.gridSize.x} x {mapData.gridSize.y}");
+                EditorGUILayout.LabelField($"방 개수: {mapData.roomCount}");
+                EditorGUILayout.LabelField($"시드: {mapData.seed}");
                 EditorGUI.indentLevel--;
                 
                 // 웨이포인트 정보
@@ -417,8 +417,8 @@ public class MapGeneratorFactoryEditor : UnityEditor.Editor
                 if (waypointData != null)
                 {
                     EditorGUI.indentLevel++;
-                    EditorGUILayout.LabelField($"🎯 웨이포인트: {waypointData.waypoints?.Count ?? 0}개");
-                    EditorGUILayout.LabelField($"🛣️ 패트롤 경로: {waypointData.patrolRoutes?.Count ?? 0}개");
+                    EditorGUILayout.LabelField($"웨이포인트: {waypointData.waypoints?.Count ?? 0}개");
+                    EditorGUILayout.LabelField($"패트롤 경로: {waypointData.patrolRoutes?.Count ?? 0}개");
                     EditorGUI.indentLevel--;
                 }
             }
@@ -433,7 +433,7 @@ public class MapGeneratorFactoryEditor : UnityEditor.Editor
         if (factory.CurrentGenerator != null)
         {
             EditorGUILayout.BeginVertical("box");
-            EditorGUILayout.LabelField("🔧 생성기 정보", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("생성기 정보", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             EditorGUILayout.LabelField($"타입: {factory.CurrentGenerator.GetType().Name}");
             

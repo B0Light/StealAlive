@@ -95,8 +95,24 @@ public class BSPDungeonMapGenerator : BaseMapGenerator
     {
         if (depth >= _maxDepth) return false;
 
-        bool splitHorizontally = Random.value < 0.5f;
+        bool splitHorizontally;
 
+        // 가로/세로 길이에 따라 분할 방향 결정
+        if (node.NodeRect.width > node.NodeRect.height)
+        {
+            splitHorizontally = false; // 세로 분할
+        }
+        else if (node.NodeRect.height > node.NodeRect.width)
+        {
+            splitHorizontally = true;  // 가로 분할
+        }
+        else
+        {
+            // 길이가 같으면 랜덤
+            splitHorizontally = Random.value < 0.5f;
+        }
+
+        // 분할 가능한 크기인지 확인
         if (splitHorizontally && node.NodeRect.height < _minRoomSize * 2) return false;
         if (!splitHorizontally && node.NodeRect.width < _minRoomSize * 2) return false;
 
@@ -117,6 +133,7 @@ public class BSPDungeonMapGenerator : BaseMapGenerator
         SplitNode(node.Right, depth + 1);
         return true;
     }
+
 
     void PlaceRooms(RoomNode node)
     {
